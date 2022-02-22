@@ -17,16 +17,12 @@
  */
 package com.valantic.intellij.plugin.mutation.services.impl;
 
-import com.intellij.execution.configurations.JavaRunConfigurationModule;
 import com.intellij.openapi.components.Service;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.module.ModuleManager;
 import com.intellij.openapi.module.ModuleUtil;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiFile;
-import com.valantic.intellij.plugin.mutation.configuration.MutationConfiguration;
-import com.valantic.intellij.plugin.mutation.configuration.MutationConfigurationFactory;
-import com.valantic.intellij.plugin.mutation.configuration.MutationConfigurationType;
 import com.valantic.intellij.plugin.mutation.services.Services;
 
 import java.util.Arrays;
@@ -52,10 +48,4 @@ public final class ModuleService {
         return ModuleManager.getInstance(project);
     }
 
-    public JavaRunConfigurationModule createConfigurationModule() {
-        MutationConfigurationType mutationConfigurationType = new MutationConfigurationType();
-        MutationConfigurationFactory mutationConfigurationFactory = new MutationConfigurationFactory(mutationConfigurationType);
-        MutationConfiguration mutationConfiguration = new MutationConfiguration(projectService.getCurrentProject(), mutationConfigurationFactory, "name");
-        return mutationConfiguration.getConfigurationModule();
-    }
 }

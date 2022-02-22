@@ -87,7 +87,7 @@ public class MutationCommandLineState extends JavaCommandLineState {
     private JavaRunConfigurationModule getConfigurationModule(MutationConfiguration mutationConfiguration) {
         return Optional.ofNullable(mutationConfiguration)
                 .map(MutationConfiguration::getConfigurationModule)
-                .orElseGet(moduleService::createConfigurationModule);
+                .orElse(null);
     }
 
     @NotNull
