@@ -79,7 +79,7 @@ public class MutationCommandLineState extends JavaCommandLineState {
                 .ifPresent(mutationConfiguration -> {
                     this.creationTime = new SimpleDateFormat(DATE_FORMAT).format(new Date());
                     this.module = getConfigurationModule(mutationConfiguration);
-                    this.options = mutationConfiguration.getPitRunConfigurationOptions();
+                    this.options = mutationConfiguration.getMutationConfigurationOptions();
                     psiService.updateModule(mutationConfiguration.getProject(), this.options.getTargetTests(), this.module);
                 });
     }

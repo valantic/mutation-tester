@@ -36,6 +36,7 @@ import com.valantic.intellij.plugin.mutation.services.Services;
 import com.valantic.intellij.plugin.mutation.services.impl.ModuleService;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.TestOnly;
 
 import java.util.Collection;
 import java.util.Map;
@@ -61,7 +62,7 @@ public class MutationConfiguration extends JavaRunConfigurationBase {
         super(name, new JavaRunConfigurationModule(project, Boolean.TRUE), factory);
     }
 
-    public MutationConfigurationOptions getPitRunConfigurationOptions() {
+    public MutationConfigurationOptions getMutationConfigurationOptions() {
         return Optional.of(getOptions())
                 .filter(MutationConfigurationOptions.class::isInstance)
                 .map(MutationConfigurationOptions.class::cast)

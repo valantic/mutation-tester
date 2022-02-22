@@ -82,7 +82,7 @@ public class MutationSettingsEditor extends SettingsEditor<MutationConfiguration
 	protected void resetEditorFrom(MutationConfiguration mutationConfiguration)
 	{
 		Optional.of(mutationConfiguration)
-				.map(MutationConfiguration::getPitRunConfigurationOptions)
+				.map(MutationConfiguration::getMutationConfigurationOptions)
 				.ifPresent(this::resetFields);
 	}
 
@@ -90,7 +90,7 @@ public class MutationSettingsEditor extends SettingsEditor<MutationConfiguration
 	protected void applyEditorTo(@NotNull MutationConfiguration mutationConfiguration)
 	{
 		Optional.of(mutationConfiguration)
-				.map(MutationConfiguration::getPitRunConfigurationOptions)
+				.map(MutationConfiguration::getMutationConfigurationOptions)
 				.ifPresent(this::applyValuesToOptions);
 	}
 
