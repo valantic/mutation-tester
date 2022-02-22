@@ -1,0 +1,75 @@
+<!--
+Copyright [2022] [valantic CEC Schweiz AG]
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+Written by Fabian Hüsig <fabian.huesig@cec.valantic.com>, February, 2022
+ -->
+<idea-plugin>
+    <!-- Unique id for this plugin. Must stay constant for the life of the plugin. -->
+    <id>com.valantic.intellij.plugin.mutation</id>
+
+    <!-- Text to display as name on Preferences/Settings | Plugin page -->
+    <name>Mutation Tester</name>
+
+    <!-- Product and plugin compatibility requirements -->
+    <depends>com.intellij.modules.platform</depends>
+    <depends>com.intellij.modules.java</depends>
+    <depends>JUnit</depends>
+
+    <!-- Text to display as description on Preferences/Settings | Plugin page -->
+    <description>
+        <![CDATA[
+          Plugin to mutate tests for single classes in IntelliJ IDE based on <a href="https://pitest.org">pitest.org</a> commandline.
+		  This Plugin lets you run single classes for mutation testing and provides you with the ability to configure everything in the IDE based on pitest-commandline configurations.
+		  <br/>
+		  More information are provided in the README.md with screenshots or here on our <a href="https://github.com/valantic/mutation-tester">github</a>.
+		  <br/>
+		  You can report any Issues in our <a href="https://github.com/valantic/mutation-tester/issues">github</a>
+		  <br/>
+		  Mutation Testing is a type of software testing in which certain statements of
+		  the source code are changed/mutated to check if the test cases are able to
+		  find errors in source code. The goal of Mutation Testing is ensuring the
+		  quality of test cases in terms of robustness that it should fail the mutated
+		  source code.
+		  <br/>
+		  See <a href="https://pitest.org">pitest.org</a>
+		  for more information about mutation testing.
+		  <br/>
+		  created by valantic CEC Schweiz AG (<a href="https://valantic.com">valantic.com</a>)
+		]]>
+    </description>
+    <change-notes>
+        <![CDATA[
+		  <ul>
+			<li><b>0.1.0</b> 2022-02: Published Closed Beta Version with primary focused on SAP Commerce</li>
+		  </ul>
+		]]>
+    </change-notes>
+
+    <!-- Text to display as company information on Preferences/Settings | Plugin page -->
+    <vendor url="https://github.com/valantic/mutation-tester">valantic - github</vendor>
+
+    <resource-bundle>messages.MessageBundle</resource-bundle>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <configurationType implementation="com.valantic.intellij.plugin.mutation.configuration.MutationConfigurationType"/>
+        <runLineMarkerContributor language="JAVA" implementationClass="com.valantic.intellij.plugin.mutation.linemarker.MutationTestRunLineMarkerContributor"/>
+    </extensions>
+    <actions>
+        <action id="com.valantic.intellij.plugin.mutation.action.MutationAction"
+                class="com.valantic.intellij.plugin.mutation.action.MutationAction">
+            <add-to-group group-id="RunContextGroupInner" anchor="after" relative-to-action="RunContextGroupMore"/>
+        </action>
+    </actions>
+</idea-plugin>
