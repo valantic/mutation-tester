@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Written by Fabian Hüsig <fabian.huesig@cec.valantic.com>, February, 2022
+ * Written by Fabian Hüsig, February, 2022
  */
 package com.valantic.intellij.plugin.mutation.linemarker;
 
