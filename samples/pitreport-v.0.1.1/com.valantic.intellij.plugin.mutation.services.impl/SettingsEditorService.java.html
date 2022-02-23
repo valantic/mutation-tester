@@ -1,0 +1,3768 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="../style.css">
+</head>
+<body>
+
+
+<h1>SettingsEditorService.java</h1>
+
+<table class="src">
+
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_1'/>
+1
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_1'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>package com.valantic.intellij.plugin.mutation.services.impl;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_2'/>
+2
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_2'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_3'/>
+3
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_3'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import com.intellij.openapi.components.Service;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_4'/>
+4
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_4'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import com.intellij.openapi.fileChooser.FileChooserDescriptor;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_5'/>
+5
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_5'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import com.intellij.openapi.ui.ComboBox;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_6'/>
+6
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_6'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import com.intellij.openapi.ui.LabeledComponent;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_7'/>
+7
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_7'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import com.intellij.openapi.ui.TextFieldWithBrowseButton;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_8'/>
+8
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_8'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import com.intellij.ui.EditorTextField;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_9'/>
+9
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_9'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import com.intellij.ui.InsertPathAction;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_10'/>
+10
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_10'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import com.valantic.intellij.plugin.mutation.configuration.MutationConfiguration;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_11'/>
+11
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_11'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import com.valantic.intellij.plugin.mutation.configuration.option.MutationConfigurationOptions;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_12'/>
+12
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_12'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import com.valantic.intellij.plugin.mutation.editor.MutationSettingsEditor;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_13'/>
+13
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_13'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import com.valantic.intellij.plugin.mutation.enums.Mutations;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_14'/>
+14
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_14'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_15'/>
+15
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_15'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import java.util.Optional;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_16'/>
+16
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_16'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_17'/>
+17
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_17'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>@Service</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_18'/>
+18
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_18'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>public final class SettingsEditorService {</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_19'/>
+19
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_19'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_20'/>
+20
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_20'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    /**</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_21'/>
+21
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_21'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * reset field values to the values from the provided options.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_22'/>
+22
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_22'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     *</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_23'/>
+23
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_23'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @param mutationSettingsEditor</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_24'/>
+24
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_24'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @param mutationConfiguration</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_25'/>
+25
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_25'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     */</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_26'/>
+26
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_26'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    public void resetEditorFrom(final MutationSettingsEditor mutationSettingsEditor, MutationConfiguration mutationConfiguration) {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_27'/>
+27
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_27'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        Optional.of(mutationConfiguration)</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_28'/>
+28
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_28'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>                .map(MutationConfiguration::getMutationConfigurationOptions)</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_29'/>
+29
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_29'>2</a>
+<span>
+1. lambda$resetEditorFrom$0 : removed call to com/valantic/intellij/plugin/mutation/services/impl/SettingsEditorService::resetFields &rarr; KILLED<br/>
+2. resetEditorFrom : removed call to java/util/Optional::ifPresent &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>                .ifPresent(mutationConfigurationOptions -&#62; resetFields(mutationSettingsEditor, mutationConfigurationOptions));</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_30'/>
+30
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_30'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>    }</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_31'/>
+31
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_31'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_32'/>
+32
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_32'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    /**</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_33'/>
+33
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_33'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * apply configuration options from mutationConfigurationOptions</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_34'/>
+34
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_34'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     *</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_35'/>
+35
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_35'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @param mutationSettingsEditor</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_36'/>
+36
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_36'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @param mutationConfiguration</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_37'/>
+37
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_37'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     */</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_38'/>
+38
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_38'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    public void applyEditorTo(final MutationSettingsEditor mutationSettingsEditor, MutationConfiguration mutationConfiguration) {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_39'/>
+39
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_39'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        Optional.of(mutationConfiguration)</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_40'/>
+40
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_40'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>                .map(MutationConfiguration::getMutationConfigurationOptions)</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_41'/>
+41
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_41'>2</a>
+<span>
+1. applyEditorTo : removed call to java/util/Optional::ifPresent &rarr; KILLED<br/>
+2. lambda$applyEditorTo$1 : removed call to com/valantic/intellij/plugin/mutation/services/impl/SettingsEditorService::applyValuesToOptions &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>                .ifPresent(mutationConfigurationOptions -&#62; applyValuesToOptions(mutationSettingsEditor, mutationConfigurationOptions));</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_42'/>
+42
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_42'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>    }</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_43'/>
+43
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_43'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_44'/>
+44
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_44'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    /**</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_45'/>
+45
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_45'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * reset the editor fields to the values from the provided options.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_46'/>
+46
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_46'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     *</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_47'/>
+47
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_47'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @param options</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_48'/>
+48
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_48'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     */</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_49'/>
+49
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_49'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    private void resetFields(final MutationSettingsEditor mutationSettingsEditor, final MutationConfigurationOptions options) {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_50'/>
+50
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_50'>1</a>
+<span>
+1. resetFields : removed call to com/valantic/intellij/plugin/mutation/services/impl/SettingsEditorService::resetTextFieldWithBrowseButton &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        resetTextFieldWithBrowseButton(mutationSettingsEditor.reportDir, options.getReportDir());</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_51'/>
+51
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_51'>1</a>
+<span>
+1. resetFields : removed call to com/valantic/intellij/plugin/mutation/services/impl/SettingsEditorService::resetTextFieldWithBrowseButton &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        resetTextFieldWithBrowseButton(mutationSettingsEditor.sourceDirs, options.getSourceDirs());</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_52'/>
+52
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_52'>1</a>
+<span>
+1. resetFields : removed call to com/valantic/intellij/plugin/mutation/services/impl/SettingsEditorService::resetTextField &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        resetTextField(mutationSettingsEditor.targetClasses, options.getTargetClasses());</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_53'/>
+53
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_53'>1</a>
+<span>
+1. resetFields : removed call to com/valantic/intellij/plugin/mutation/services/impl/SettingsEditorService::resetTextField &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        resetTextField(mutationSettingsEditor.targetTests, options.getTargetTests());</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_54'/>
+54
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_54'>1</a>
+<span>
+1. resetFields : removed call to com/valantic/intellij/plugin/mutation/services/impl/SettingsEditorService::resetTextField &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        resetTextField(mutationSettingsEditor.timeoutConst, options.getTimeoutConst());</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_55'/>
+55
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_55'>1</a>
+<span>
+1. resetFields : removed call to com/valantic/intellij/plugin/mutation/services/impl/SettingsEditorService::resetTextField &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        resetTextField(mutationSettingsEditor.outputFormats, options.getOutputFormats());</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_56'/>
+56
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_56'>1</a>
+<span>
+1. resetFields : removed call to com/valantic/intellij/plugin/mutation/services/impl/SettingsEditorService::resetTextField &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        resetTextField(mutationSettingsEditor.dependencyDistance, options.getDependencyDistance());</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_57'/>
+57
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_57'>1</a>
+<span>
+1. resetFields : removed call to com/valantic/intellij/plugin/mutation/services/impl/SettingsEditorService::resetTextField &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        resetTextField(mutationSettingsEditor.threads, options.getThreads());</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_58'/>
+58
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_58'>1</a>
+<span>
+1. resetFields : removed call to com/valantic/intellij/plugin/mutation/services/impl/SettingsEditorService::resetTextField &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        resetTextField(mutationSettingsEditor.excludedMethods, options.getExcludedMethods());</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_59'/>
+59
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_59'>1</a>
+<span>
+1. resetFields : removed call to com/valantic/intellij/plugin/mutation/services/impl/SettingsEditorService::resetTextField &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        resetTextField(mutationSettingsEditor.excludedClasses, options.getExcludedClasses());</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_60'/>
+60
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_60'>1</a>
+<span>
+1. resetFields : removed call to com/valantic/intellij/plugin/mutation/services/impl/SettingsEditorService::resetTextField &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        resetTextField(mutationSettingsEditor.excludedTests, options.getExcludedTests());</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_61'/>
+61
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_61'>1</a>
+<span>
+1. resetFields : removed call to com/valantic/intellij/plugin/mutation/services/impl/SettingsEditorService::resetTextField &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        resetTextField(mutationSettingsEditor.avoidCallsTo, options.getAvoidCallsTo());</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_62'/>
+62
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_62'>1</a>
+<span>
+1. resetFields : removed call to com/valantic/intellij/plugin/mutation/services/impl/SettingsEditorService::resetTextField &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        resetTextField(mutationSettingsEditor.timeoutFactor, options.getTimeoutFactor());</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_63'/>
+63
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_63'>1</a>
+<span>
+1. resetFields : removed call to com/valantic/intellij/plugin/mutation/services/impl/SettingsEditorService::resetTextField &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        resetTextField(mutationSettingsEditor.maxMutationsPerClass, options.getMaxMutationsPerClass());</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_64'/>
+64
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_64'>1</a>
+<span>
+1. resetFields : removed call to com/valantic/intellij/plugin/mutation/services/impl/SettingsEditorService::resetTextField &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        resetTextField(mutationSettingsEditor.jvmArgs, options.getJvmArgs());</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_65'/>
+65
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_65'>1</a>
+<span>
+1. resetFields : removed call to com/valantic/intellij/plugin/mutation/services/impl/SettingsEditorService::resetTextField &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        resetTextField(mutationSettingsEditor.jvmPath, options.getJvmPath());</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_66'/>
+66
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_66'>1</a>
+<span>
+1. resetFields : removed call to com/valantic/intellij/plugin/mutation/services/impl/SettingsEditorService::resetTextField &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        resetTextField(mutationSettingsEditor.classPath, options.getClassPath());</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_67'/>
+67
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_67'>1</a>
+<span>
+1. resetFields : removed call to com/valantic/intellij/plugin/mutation/services/impl/SettingsEditorService::resetTextField &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        resetTextField(mutationSettingsEditor.mutableCodePaths, options.getMutableCodePaths());</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_68'/>
+68
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_68'>1</a>
+<span>
+1. resetFields : removed call to com/valantic/intellij/plugin/mutation/services/impl/SettingsEditorService::resetTextField &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        resetTextField(mutationSettingsEditor.testPlugin, options.getTestPlugin());</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_69'/>
+69
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_69'>1</a>
+<span>
+1. resetFields : removed call to com/valantic/intellij/plugin/mutation/services/impl/SettingsEditorService::resetTextField &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        resetTextField(mutationSettingsEditor.includedGroups, options.getIncludedGroups());</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_70'/>
+70
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_70'>1</a>
+<span>
+1. resetFields : removed call to com/valantic/intellij/plugin/mutation/services/impl/SettingsEditorService::resetTextField &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        resetTextField(mutationSettingsEditor.excludedGroups, options.getExcludedGroups());</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_71'/>
+71
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_71'>1</a>
+<span>
+1. resetFields : removed call to com/valantic/intellij/plugin/mutation/services/impl/SettingsEditorService::resetTextField &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        resetTextField(mutationSettingsEditor.detectInlinedCode, options.getDetectInlinedCode());</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_72'/>
+72
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_72'>1</a>
+<span>
+1. resetFields : removed call to com/valantic/intellij/plugin/mutation/services/impl/SettingsEditorService::resetTextField &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        resetTextField(mutationSettingsEditor.mutationThreshold, options.getMutationThreshold());</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_73'/>
+73
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_73'>1</a>
+<span>
+1. resetFields : removed call to com/valantic/intellij/plugin/mutation/services/impl/SettingsEditorService::resetTextField &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        resetTextField(mutationSettingsEditor.coverageThreshold, options.getCoverageThreshold());</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_74'/>
+74
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_74'>1</a>
+<span>
+1. resetFields : removed call to com/valantic/intellij/plugin/mutation/services/impl/SettingsEditorService::resetTextField &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        resetTextField(mutationSettingsEditor.historyInputLocation, options.getHistoryInputLocation());</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_75'/>
+75
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_75'>1</a>
+<span>
+1. resetFields : removed call to com/valantic/intellij/plugin/mutation/services/impl/SettingsEditorService::resetTextField &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        resetTextField(mutationSettingsEditor.historyOutputLocation, options.getHistoryOutputLocation());</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_76'/>
+76
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_76'>1</a>
+<span>
+1. resetFields : removed call to com/valantic/intellij/plugin/mutation/services/impl/SettingsEditorService::resetBooleanComboBox &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        resetBooleanComboBox(mutationSettingsEditor.timestampedReports, options.getTimestampedReports());</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_77'/>
+77
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_77'>1</a>
+<span>
+1. resetFields : removed call to com/valantic/intellij/plugin/mutation/services/impl/SettingsEditorService::resetBooleanComboBox &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        resetBooleanComboBox(mutationSettingsEditor.includeLaunchClasspath, options.getIncludeLaunchClasspath());</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_78'/>
+78
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_78'>1</a>
+<span>
+1. resetFields : removed call to com/valantic/intellij/plugin/mutation/services/impl/SettingsEditorService::resetBooleanComboBox &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        resetBooleanComboBox(mutationSettingsEditor.verbose, options.getVerbose());</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_79'/>
+79
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_79'>1</a>
+<span>
+1. resetFields : removed call to com/valantic/intellij/plugin/mutation/services/impl/SettingsEditorService::resetBooleanComboBox &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        resetBooleanComboBox(mutationSettingsEditor.failWhenNoMutations, options.getFailWhenNoMutations());</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_80'/>
+80
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_80'>1</a>
+<span>
+1. resetFields : removed call to java/util/Optional::ifPresent &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        Optional.of(mutationSettingsEditor.mutators).map(LabeledComponent::getComponent).ifPresent(component -&#62; {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_81'/>
+81
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_81'>1</a>
+<span>
+1. lambda$resetFields$2 : removed call to com/intellij/openapi/ui/ComboBox::setEditable &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            component.setEditable(Boolean.TRUE);</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_82'/>
+82
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_82'>1</a>
+<span>
+1. lambda$resetFields$2 : removed call to com/intellij/openapi/ui/ComboBox::setSelectedItem &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            component.setSelectedItem(options.getMutators());</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_83'/>
+83
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_83'>1</a>
+<span>
+1. lambda$resetFields$2 : removed call to com/intellij/openapi/ui/ComboBox::addItem &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            component.addItem(Mutations.DEFAULTS.getValue());</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_84'/>
+84
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_84'>1</a>
+<span>
+1. lambda$resetFields$2 : removed call to com/intellij/openapi/ui/ComboBox::addItem &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            component.addItem(Mutations.ALL.getValue());</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_85'/>
+85
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_85'>1</a>
+<span>
+1. lambda$resetFields$2 : removed call to com/intellij/openapi/ui/ComboBox::addItem &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            component.addItem(Mutations.STRONGER.getValue());</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_86'/>
+86
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_86'>1</a>
+<span>
+1. lambda$resetFields$2 : removed call to com/intellij/openapi/ui/ComboBox::addItem &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            component.addItem(Mutations.OLD_DEFAULTS.getValue());</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_87'/>
+87
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_87'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        });</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_88'/>
+88
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_88'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>    }</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_89'/>
+89
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_89'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_90'/>
+90
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_90'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_91'/>
+91
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_91'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    /**</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_92'/>
+92
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_92'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * reset the editor combobox fields to the values from the provided options. Is only applicable for boolean values</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_93'/>
+93
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_93'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     *</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_94'/>
+94
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_94'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @param comboBoxField</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_95'/>
+95
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_95'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @param value</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_96'/>
+96
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_96'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     */</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_97'/>
+97
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_97'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    private void resetBooleanComboBox(final LabeledComponent&#60;ComboBox&#60;String&#62;&#62; comboBoxField, final String value) {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_98'/>
+98
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_98'>1</a>
+<span>
+1. resetBooleanComboBox : removed call to java/util/Optional::ifPresent &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        Optional.of(comboBoxField).map(LabeledComponent::getComponent).ifPresent(component -&#62; {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_99'/>
+99
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_99'>1</a>
+<span>
+1. lambda$resetBooleanComboBox$3 : removed call to com/intellij/openapi/ui/ComboBox::addItem &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            component.addItem(Boolean.FALSE.toString());</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_100'/>
+100
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_100'>1</a>
+<span>
+1. lambda$resetBooleanComboBox$3 : removed call to com/intellij/openapi/ui/ComboBox::addItem &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            component.addItem(Boolean.TRUE.toString());</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_101'/>
+101
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_101'>1</a>
+<span>
+1. lambda$resetBooleanComboBox$3 : removed call to com/intellij/openapi/ui/ComboBox::setSelectedItem &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            component.setSelectedItem(value);</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_102'/>
+102
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_102'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        });</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_103'/>
+103
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_103'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>    }</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_104'/>
+104
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_104'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_105'/>
+105
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_105'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    /**</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_106'/>
+106
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_106'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * reset the editor text field with browse button to the values from the provided options.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_107'/>
+107
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_107'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     *</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_108'/>
+108
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_108'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @param textFieldWithBrowseButton</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_109'/>
+109
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_109'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @param text</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_110'/>
+110
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_110'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     */</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_111'/>
+111
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_111'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    private void resetTextFieldWithBrowseButton(final LabeledComponent&#60;TextFieldWithBrowseButton&#62; textFieldWithBrowseButton, final String text) {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_112'/>
+112
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_112'>1</a>
+<span>
+1. resetTextFieldWithBrowseButton : removed call to java/util/Optional::ifPresent &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        Optional.of(textFieldWithBrowseButton).map(LabeledComponent::getComponent).ifPresent(component -&#62; {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_113'/>
+113
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_113'>1</a>
+<span>
+1. lambda$resetTextFieldWithBrowseButton$4 : removed call to com/intellij/openapi/ui/TextFieldWithBrowseButton::setText &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            component.setText(text);</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_114'/>
+114
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_114'>1</a>
+<span>
+1. lambda$resetTextFieldWithBrowseButton$4 : removed call to com/valantic/intellij/plugin/mutation/services/impl/SettingsEditorService::addPathListener &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            addPathListener(component);</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_115'/>
+115
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_115'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        });</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_116'/>
+116
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_116'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>    }</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_117'/>
+117
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_117'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_118'/>
+118
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_118'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    /**</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_119'/>
+119
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_119'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * reset the editor text fields to the values from the provided options.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_120'/>
+120
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_120'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     *</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_121'/>
+121
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_121'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @param textField</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_122'/>
+122
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_122'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @param text</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_123'/>
+123
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_123'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     */</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_124'/>
+124
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_124'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    private void resetTextField(final LabeledComponent&#60;EditorTextField&#62; textField, final String text) {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_125'/>
+125
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_125'>1</a>
+<span>
+1. resetTextField : removed call to java/util/Optional::ifPresent &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        Optional.of(textField).map(LabeledComponent::getComponent).ifPresent(component -&#62; {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_126'/>
+126
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_126'>1</a>
+<span>
+1. lambda$resetTextField$5 : removed call to com/intellij/ui/EditorTextField::setText &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            component.setText(text);</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_127'/>
+127
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_127'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        });</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_128'/>
+128
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_128'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>    }</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_129'/>
+129
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_129'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_130'/>
+130
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_130'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    /**</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_131'/>
+131
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_131'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * adds path listener to textFieldWithBrowseButton.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_132'/>
+132
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_132'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * Only directories are allowed.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_133'/>
+133
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_133'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     *</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_134'/>
+134
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_134'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @param textFieldWithBrowseButton</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_135'/>
+135
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_135'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     */</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_136'/>
+136
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_136'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    private void addPathListener(final TextFieldWithBrowseButton textFieldWithBrowseButton) {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_137'/>
+137
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_137'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        FileChooserDescriptor fileChooserDescriptor = new FileChooserDescriptor(Boolean.FALSE, Boolean.TRUE, Boolean.FALSE, Boolean.FALSE, Boolean.FALSE, Boolean.FALSE);</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_138'/>
+138
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_138'>1</a>
+<span>
+1. addPathListener : removed call to com/intellij/openapi/ui/TextFieldWithBrowseButton::addBrowseFolderListener &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        textFieldWithBrowseButton.addBrowseFolderListener(null, null, null, fileChooserDescriptor);</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_139'/>
+139
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_139'>1</a>
+<span>
+1. addPathListener : removed call to com/intellij/ui/InsertPathAction::addTo &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        InsertPathAction.addTo(textFieldWithBrowseButton.getTextField(), fileChooserDescriptor);</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_140'/>
+140
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_140'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>    }</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_141'/>
+141
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_141'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_142'/>
+142
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_142'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_143'/>
+143
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_143'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    /**</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_144'/>
+144
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_144'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * applies the values submitted by the form to the options</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_145'/>
+145
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_145'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     *</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_146'/>
+146
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_146'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @param options</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_147'/>
+147
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_147'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     */</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_148'/>
+148
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_148'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    private void applyValuesToOptions(final MutationSettingsEditor mutationSettingsEditor, final MutationConfigurationOptions options) {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_149'/>
+149
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_149'>1</a>
+<span>
+1. applyValuesToOptions : removed call to com/valantic/intellij/plugin/mutation/configuration/option/MutationConfigurationOptions::setTargetClasses &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        options.setTargetClasses(mutationSettingsEditor.targetClasses.getComponent().getText());</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_150'/>
+150
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_150'>1</a>
+<span>
+1. applyValuesToOptions : removed call to com/valantic/intellij/plugin/mutation/configuration/option/MutationConfigurationOptions::setTargetTests &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        options.setTargetTests(mutationSettingsEditor.targetTests.getComponent().getText());</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_151'/>
+151
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_151'>1</a>
+<span>
+1. applyValuesToOptions : removed call to com/valantic/intellij/plugin/mutation/configuration/option/MutationConfigurationOptions::setReportDir &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        options.setReportDir(mutationSettingsEditor.reportDir.getComponent().getText());</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_152'/>
+152
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_152'>1</a>
+<span>
+1. applyValuesToOptions : removed call to com/valantic/intellij/plugin/mutation/configuration/option/MutationConfigurationOptions::setSourceDirs &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        options.setSourceDirs(mutationSettingsEditor.sourceDirs.getComponent().getText());</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_153'/>
+153
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_153'>1</a>
+<span>
+1. applyValuesToOptions : removed call to com/valantic/intellij/plugin/mutation/configuration/option/MutationConfigurationOptions::setMutators &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        options.setMutators(mutationSettingsEditor.mutators.getComponent().getSelectedItem().toString());</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_154'/>
+154
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_154'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_155'/>
+155
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_155'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        // advanced</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_156'/>
+156
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_156'>1</a>
+<span>
+1. applyValuesToOptions : removed call to com/valantic/intellij/plugin/mutation/configuration/option/MutationConfigurationOptions::setTimeoutConst &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        options.setTimeoutConst(mutationSettingsEditor.timeoutConst.getComponent().getText());</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_157'/>
+157
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_157'>1</a>
+<span>
+1. applyValuesToOptions : removed call to com/valantic/intellij/plugin/mutation/configuration/option/MutationConfigurationOptions::setOutputFormats &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        options.setOutputFormats(mutationSettingsEditor.outputFormats.getComponent().getText());</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_158'/>
+158
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_158'>1</a>
+<span>
+1. applyValuesToOptions : removed call to com/valantic/intellij/plugin/mutation/configuration/option/MutationConfigurationOptions::setTimestampedReports &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        options.setTimestampedReports(mutationSettingsEditor.timestampedReports.getComponent().getSelectedItem().toString());</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_159'/>
+159
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_159'>1</a>
+<span>
+1. applyValuesToOptions : removed call to com/valantic/intellij/plugin/mutation/configuration/option/MutationConfigurationOptions::setIncludeLaunchClasspath &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        options.setIncludeLaunchClasspath(mutationSettingsEditor.includeLaunchClasspath.getComponent().getSelectedItem().toString());</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_160'/>
+160
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_160'>1</a>
+<span>
+1. applyValuesToOptions : removed call to com/valantic/intellij/plugin/mutation/configuration/option/MutationConfigurationOptions::setDependencyDistance &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        options.setDependencyDistance(mutationSettingsEditor.dependencyDistance.getComponent().getText());</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_161'/>
+161
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_161'>1</a>
+<span>
+1. applyValuesToOptions : removed call to com/valantic/intellij/plugin/mutation/configuration/option/MutationConfigurationOptions::setThreads &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        options.setThreads(mutationSettingsEditor.threads.getComponent().getText());</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_162'/>
+162
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_162'>1</a>
+<span>
+1. applyValuesToOptions : removed call to com/valantic/intellij/plugin/mutation/configuration/option/MutationConfigurationOptions::setExcludedMethods &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        options.setExcludedMethods(mutationSettingsEditor.excludedMethods.getComponent().getText());</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_163'/>
+163
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_163'>1</a>
+<span>
+1. applyValuesToOptions : removed call to com/valantic/intellij/plugin/mutation/configuration/option/MutationConfigurationOptions::setExcludedClasses &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        options.setExcludedClasses(mutationSettingsEditor.excludedClasses.getComponent().getText());</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_164'/>
+164
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_164'>1</a>
+<span>
+1. applyValuesToOptions : removed call to com/valantic/intellij/plugin/mutation/configuration/option/MutationConfigurationOptions::setExcludedTests &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        options.setExcludedTests(mutationSettingsEditor.excludedTests.getComponent().getText());</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_165'/>
+165
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_165'>1</a>
+<span>
+1. applyValuesToOptions : removed call to com/valantic/intellij/plugin/mutation/configuration/option/MutationConfigurationOptions::setAvoidCallsTo &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        options.setAvoidCallsTo(mutationSettingsEditor.avoidCallsTo.getComponent().getText());</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_166'/>
+166
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_166'>1</a>
+<span>
+1. applyValuesToOptions : removed call to com/valantic/intellij/plugin/mutation/configuration/option/MutationConfigurationOptions::setVerbose &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        options.setVerbose(mutationSettingsEditor.verbose.getComponent().getSelectedItem().toString());</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_167'/>
+167
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_167'>1</a>
+<span>
+1. applyValuesToOptions : removed call to com/valantic/intellij/plugin/mutation/configuration/option/MutationConfigurationOptions::setTimeoutFactor &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        options.setTimeoutFactor(mutationSettingsEditor.timeoutFactor.getComponent().getText());</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_168'/>
+168
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_168'>1</a>
+<span>
+1. applyValuesToOptions : removed call to com/valantic/intellij/plugin/mutation/configuration/option/MutationConfigurationOptions::setMaxMutationsPerClass &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        options.setMaxMutationsPerClass(mutationSettingsEditor.maxMutationsPerClass.getComponent().getText());</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_169'/>
+169
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_169'>1</a>
+<span>
+1. applyValuesToOptions : removed call to com/valantic/intellij/plugin/mutation/configuration/option/MutationConfigurationOptions::setJvmArgs &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        options.setJvmArgs(mutationSettingsEditor.jvmArgs.getComponent().getText());</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_170'/>
+170
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_170'>1</a>
+<span>
+1. applyValuesToOptions : removed call to com/valantic/intellij/plugin/mutation/configuration/option/MutationConfigurationOptions::setJvmPath &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        options.setJvmPath(mutationSettingsEditor.jvmPath.getComponent().getText());</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_171'/>
+171
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_171'>1</a>
+<span>
+1. applyValuesToOptions : removed call to com/valantic/intellij/plugin/mutation/configuration/option/MutationConfigurationOptions::setFailWhenNoMutations &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        options.setFailWhenNoMutations(mutationSettingsEditor.failWhenNoMutations.getComponent().getSelectedItem().toString());</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_172'/>
+172
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_172'>1</a>
+<span>
+1. applyValuesToOptions : removed call to com/valantic/intellij/plugin/mutation/configuration/option/MutationConfigurationOptions::setClassPath &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        options.setClassPath(mutationSettingsEditor.classPath.getComponent().getText());</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_173'/>
+173
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_173'>1</a>
+<span>
+1. applyValuesToOptions : removed call to com/valantic/intellij/plugin/mutation/configuration/option/MutationConfigurationOptions::setMutableCodePaths &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        options.setMutableCodePaths(mutationSettingsEditor.mutableCodePaths.getComponent().getText());</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_174'/>
+174
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_174'>1</a>
+<span>
+1. applyValuesToOptions : removed call to com/valantic/intellij/plugin/mutation/configuration/option/MutationConfigurationOptions::setTestPlugin &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        options.setTestPlugin(mutationSettingsEditor.testPlugin.getComponent().getText());</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_175'/>
+175
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_175'>1</a>
+<span>
+1. applyValuesToOptions : removed call to com/valantic/intellij/plugin/mutation/configuration/option/MutationConfigurationOptions::setIncludedGroups &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        options.setIncludedGroups(mutationSettingsEditor.includedGroups.getComponent().getText());</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_176'/>
+176
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_176'>1</a>
+<span>
+1. applyValuesToOptions : removed call to com/valantic/intellij/plugin/mutation/configuration/option/MutationConfigurationOptions::setExcludedGroups &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        options.setExcludedGroups(mutationSettingsEditor.excludedGroups.getComponent().getText());</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_177'/>
+177
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_177'>1</a>
+<span>
+1. applyValuesToOptions : removed call to com/valantic/intellij/plugin/mutation/configuration/option/MutationConfigurationOptions::setDetectInlinedCode &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        options.setDetectInlinedCode(mutationSettingsEditor.detectInlinedCode.getComponent().getText());</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_178'/>
+178
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_178'>1</a>
+<span>
+1. applyValuesToOptions : removed call to com/valantic/intellij/plugin/mutation/configuration/option/MutationConfigurationOptions::setMutationThreshold &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        options.setMutationThreshold(mutationSettingsEditor.mutationThreshold.getComponent().getText());</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_179'/>
+179
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_179'>1</a>
+<span>
+1. applyValuesToOptions : removed call to com/valantic/intellij/plugin/mutation/configuration/option/MutationConfigurationOptions::setCoverageThreshold &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        options.setCoverageThreshold(mutationSettingsEditor.coverageThreshold.getComponent().getText());</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_180'/>
+180
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_180'>1</a>
+<span>
+1. applyValuesToOptions : removed call to com/valantic/intellij/plugin/mutation/configuration/option/MutationConfigurationOptions::setHistoryInputLocation &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        options.setHistoryInputLocation(mutationSettingsEditor.historyInputLocation.getComponent().getText());</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_181'/>
+181
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_181'>1</a>
+<span>
+1. applyValuesToOptions : removed call to com/valantic/intellij/plugin/mutation/configuration/option/MutationConfigurationOptions::setHistoryOutputLocation &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        options.setHistoryOutputLocation(mutationSettingsEditor.historyOutputLocation.getComponent().getText());</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_182'/>
+182
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_182'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>    }</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4d634127_183'/>
+183
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_183'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>}</span></pre></td></tr>
+
+
+
+<tr><td></td><td></td><td><h2>Mutations</h2></td></tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@4d634127_29'>29</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_29'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>lambda$resetEditorFrom$0<br/><b>Killed by : </b>com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest.testResetEditorFrom(com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest)</span></span> removed call to com/valantic/intellij/plugin/mutation/services/impl/SettingsEditorService::resetFields &rarr; KILLED</p> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>resetEditorFrom<br/><b>Killed by : </b>com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest.testResetEditorFrom(com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest)</span></span> removed call to java/util/Optional::ifPresent &rarr; KILLED</p> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@4d634127_41'>41</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_41'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>applyEditorTo<br/><b>Killed by : </b>com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest.testApplyEditorTo(com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest)</span></span> removed call to java/util/Optional::ifPresent &rarr; KILLED</p> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>lambda$applyEditorTo$1<br/><b>Killed by : </b>com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest.testApplyEditorTo(com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest)</span></span> removed call to com/valantic/intellij/plugin/mutation/services/impl/SettingsEditorService::applyValuesToOptions &rarr; KILLED</p> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@4d634127_50'>50</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_50'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>resetFields<br/><b>Killed by : </b>com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest.testResetEditorFrom(com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest)</span></span> removed call to com/valantic/intellij/plugin/mutation/services/impl/SettingsEditorService::resetTextFieldWithBrowseButton &rarr; KILLED</p> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@4d634127_51'>51</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_51'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>resetFields<br/><b>Killed by : </b>com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest.testResetEditorFrom(com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest)</span></span> removed call to com/valantic/intellij/plugin/mutation/services/impl/SettingsEditorService::resetTextFieldWithBrowseButton &rarr; KILLED</p> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@4d634127_52'>52</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_52'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>resetFields<br/><b>Killed by : </b>com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest.testResetEditorFrom(com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest)</span></span> removed call to com/valantic/intellij/plugin/mutation/services/impl/SettingsEditorService::resetTextField &rarr; KILLED</p> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@4d634127_53'>53</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_53'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>resetFields<br/><b>Killed by : </b>com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest.testResetEditorFrom(com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest)</span></span> removed call to com/valantic/intellij/plugin/mutation/services/impl/SettingsEditorService::resetTextField &rarr; KILLED</p> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@4d634127_54'>54</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_54'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>resetFields<br/><b>Killed by : </b>com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest.testResetEditorFrom(com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest)</span></span> removed call to com/valantic/intellij/plugin/mutation/services/impl/SettingsEditorService::resetTextField &rarr; KILLED</p> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@4d634127_55'>55</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_55'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>resetFields<br/><b>Killed by : </b>com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest.testResetEditorFrom(com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest)</span></span> removed call to com/valantic/intellij/plugin/mutation/services/impl/SettingsEditorService::resetTextField &rarr; KILLED</p> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@4d634127_56'>56</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_56'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>resetFields<br/><b>Killed by : </b>com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest.testResetEditorFrom(com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest)</span></span> removed call to com/valantic/intellij/plugin/mutation/services/impl/SettingsEditorService::resetTextField &rarr; KILLED</p> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@4d634127_57'>57</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_57'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>resetFields<br/><b>Killed by : </b>com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest.testResetEditorFrom(com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest)</span></span> removed call to com/valantic/intellij/plugin/mutation/services/impl/SettingsEditorService::resetTextField &rarr; KILLED</p> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@4d634127_58'>58</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_58'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>resetFields<br/><b>Killed by : </b>com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest.testResetEditorFrom(com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest)</span></span> removed call to com/valantic/intellij/plugin/mutation/services/impl/SettingsEditorService::resetTextField &rarr; KILLED</p> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@4d634127_59'>59</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_59'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>resetFields<br/><b>Killed by : </b>com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest.testResetEditorFrom(com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest)</span></span> removed call to com/valantic/intellij/plugin/mutation/services/impl/SettingsEditorService::resetTextField &rarr; KILLED</p> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@4d634127_60'>60</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_60'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>resetFields<br/><b>Killed by : </b>com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest.testResetEditorFrom(com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest)</span></span> removed call to com/valantic/intellij/plugin/mutation/services/impl/SettingsEditorService::resetTextField &rarr; KILLED</p> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@4d634127_61'>61</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_61'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>resetFields<br/><b>Killed by : </b>com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest.testResetEditorFrom(com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest)</span></span> removed call to com/valantic/intellij/plugin/mutation/services/impl/SettingsEditorService::resetTextField &rarr; KILLED</p> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@4d634127_62'>62</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_62'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>resetFields<br/><b>Killed by : </b>com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest.testResetEditorFrom(com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest)</span></span> removed call to com/valantic/intellij/plugin/mutation/services/impl/SettingsEditorService::resetTextField &rarr; KILLED</p> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@4d634127_63'>63</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_63'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>resetFields<br/><b>Killed by : </b>com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest.testResetEditorFrom(com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest)</span></span> removed call to com/valantic/intellij/plugin/mutation/services/impl/SettingsEditorService::resetTextField &rarr; KILLED</p> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@4d634127_64'>64</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_64'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>resetFields<br/><b>Killed by : </b>com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest.testResetEditorFrom(com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest)</span></span> removed call to com/valantic/intellij/plugin/mutation/services/impl/SettingsEditorService::resetTextField &rarr; KILLED</p> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@4d634127_65'>65</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_65'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>resetFields<br/><b>Killed by : </b>com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest.testResetEditorFrom(com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest)</span></span> removed call to com/valantic/intellij/plugin/mutation/services/impl/SettingsEditorService::resetTextField &rarr; KILLED</p> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@4d634127_66'>66</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_66'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>resetFields<br/><b>Killed by : </b>com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest.testResetEditorFrom(com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest)</span></span> removed call to com/valantic/intellij/plugin/mutation/services/impl/SettingsEditorService::resetTextField &rarr; KILLED</p> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@4d634127_67'>67</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_67'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>resetFields<br/><b>Killed by : </b>com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest.testResetEditorFrom(com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest)</span></span> removed call to com/valantic/intellij/plugin/mutation/services/impl/SettingsEditorService::resetTextField &rarr; KILLED</p> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@4d634127_68'>68</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_68'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>resetFields<br/><b>Killed by : </b>com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest.testResetEditorFrom(com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest)</span></span> removed call to com/valantic/intellij/plugin/mutation/services/impl/SettingsEditorService::resetTextField &rarr; KILLED</p> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@4d634127_69'>69</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_69'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>resetFields<br/><b>Killed by : </b>com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest.testResetEditorFrom(com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest)</span></span> removed call to com/valantic/intellij/plugin/mutation/services/impl/SettingsEditorService::resetTextField &rarr; KILLED</p> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@4d634127_70'>70</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_70'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>resetFields<br/><b>Killed by : </b>com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest.testResetEditorFrom(com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest)</span></span> removed call to com/valantic/intellij/plugin/mutation/services/impl/SettingsEditorService::resetTextField &rarr; KILLED</p> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@4d634127_71'>71</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_71'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>resetFields<br/><b>Killed by : </b>com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest.testResetEditorFrom(com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest)</span></span> removed call to com/valantic/intellij/plugin/mutation/services/impl/SettingsEditorService::resetTextField &rarr; KILLED</p> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@4d634127_72'>72</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_72'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>resetFields<br/><b>Killed by : </b>com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest.testResetEditorFrom(com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest)</span></span> removed call to com/valantic/intellij/plugin/mutation/services/impl/SettingsEditorService::resetTextField &rarr; KILLED</p> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@4d634127_73'>73</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_73'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>resetFields<br/><b>Killed by : </b>com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest.testResetEditorFrom(com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest)</span></span> removed call to com/valantic/intellij/plugin/mutation/services/impl/SettingsEditorService::resetTextField &rarr; KILLED</p> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@4d634127_74'>74</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_74'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>resetFields<br/><b>Killed by : </b>com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest.testResetEditorFrom(com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest)</span></span> removed call to com/valantic/intellij/plugin/mutation/services/impl/SettingsEditorService::resetTextField &rarr; KILLED</p> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@4d634127_75'>75</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_75'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>resetFields<br/><b>Killed by : </b>com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest.testResetEditorFrom(com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest)</span></span> removed call to com/valantic/intellij/plugin/mutation/services/impl/SettingsEditorService::resetTextField &rarr; KILLED</p> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@4d634127_76'>76</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_76'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>resetFields<br/><b>Killed by : </b>com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest.testResetEditorFrom(com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest)</span></span> removed call to com/valantic/intellij/plugin/mutation/services/impl/SettingsEditorService::resetBooleanComboBox &rarr; KILLED</p> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@4d634127_77'>77</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_77'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>resetFields<br/><b>Killed by : </b>com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest.testResetEditorFrom(com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest)</span></span> removed call to com/valantic/intellij/plugin/mutation/services/impl/SettingsEditorService::resetBooleanComboBox &rarr; KILLED</p> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@4d634127_78'>78</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_78'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>resetFields<br/><b>Killed by : </b>com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest.testResetEditorFrom(com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest)</span></span> removed call to com/valantic/intellij/plugin/mutation/services/impl/SettingsEditorService::resetBooleanComboBox &rarr; KILLED</p> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@4d634127_79'>79</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_79'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>resetFields<br/><b>Killed by : </b>com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest.testResetEditorFrom(com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest)</span></span> removed call to com/valantic/intellij/plugin/mutation/services/impl/SettingsEditorService::resetBooleanComboBox &rarr; KILLED</p> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@4d634127_80'>80</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_80'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>resetFields<br/><b>Killed by : </b>com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest.testResetEditorFrom(com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest)</span></span> removed call to java/util/Optional::ifPresent &rarr; KILLED</p> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@4d634127_81'>81</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_81'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>lambda$resetFields$2<br/><b>Killed by : </b>com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest.testResetEditorFrom(com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest)</span></span> removed call to com/intellij/openapi/ui/ComboBox::setEditable &rarr; KILLED</p> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@4d634127_82'>82</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_82'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>lambda$resetFields$2<br/><b>Killed by : </b>com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest.testResetEditorFrom(com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest)</span></span> removed call to com/intellij/openapi/ui/ComboBox::setSelectedItem &rarr; KILLED</p> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@4d634127_83'>83</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_83'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>lambda$resetFields$2<br/><b>Killed by : </b>com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest.testResetEditorFrom(com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest)</span></span> removed call to com/intellij/openapi/ui/ComboBox::addItem &rarr; KILLED</p> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@4d634127_84'>84</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_84'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>lambda$resetFields$2<br/><b>Killed by : </b>com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest.testResetEditorFrom(com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest)</span></span> removed call to com/intellij/openapi/ui/ComboBox::addItem &rarr; KILLED</p> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@4d634127_85'>85</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_85'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>lambda$resetFields$2<br/><b>Killed by : </b>com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest.testResetEditorFrom(com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest)</span></span> removed call to com/intellij/openapi/ui/ComboBox::addItem &rarr; KILLED</p> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@4d634127_86'>86</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_86'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>lambda$resetFields$2<br/><b>Killed by : </b>com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest.testResetEditorFrom(com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest)</span></span> removed call to com/intellij/openapi/ui/ComboBox::addItem &rarr; KILLED</p> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@4d634127_98'>98</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_98'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>resetBooleanComboBox<br/><b>Killed by : </b>com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest.testResetEditorFrom(com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest)</span></span> removed call to java/util/Optional::ifPresent &rarr; KILLED</p> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@4d634127_99'>99</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_99'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>lambda$resetBooleanComboBox$3<br/><b>Killed by : </b>com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest.testResetEditorFrom(com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest)</span></span> removed call to com/intellij/openapi/ui/ComboBox::addItem &rarr; KILLED</p> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@4d634127_100'>100</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_100'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>lambda$resetBooleanComboBox$3<br/><b>Killed by : </b>com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest.testResetEditorFrom(com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest)</span></span> removed call to com/intellij/openapi/ui/ComboBox::addItem &rarr; KILLED</p> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@4d634127_101'>101</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_101'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>lambda$resetBooleanComboBox$3<br/><b>Killed by : </b>com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest.testResetEditorFrom(com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest)</span></span> removed call to com/intellij/openapi/ui/ComboBox::setSelectedItem &rarr; KILLED</p> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@4d634127_112'>112</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_112'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>resetTextFieldWithBrowseButton<br/><b>Killed by : </b>com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest.testResetEditorFrom(com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest)</span></span> removed call to java/util/Optional::ifPresent &rarr; KILLED</p> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@4d634127_113'>113</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_113'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>lambda$resetTextFieldWithBrowseButton$4<br/><b>Killed by : </b>com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest.testResetEditorFrom(com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest)</span></span> removed call to com/intellij/openapi/ui/TextFieldWithBrowseButton::setText &rarr; KILLED</p> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@4d634127_114'>114</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_114'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>lambda$resetTextFieldWithBrowseButton$4<br/><b>Killed by : </b>com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest.testResetEditorFrom(com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest)</span></span> removed call to com/valantic/intellij/plugin/mutation/services/impl/SettingsEditorService::addPathListener &rarr; KILLED</p> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@4d634127_125'>125</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_125'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>resetTextField<br/><b>Killed by : </b>com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest.testResetEditorFrom(com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest)</span></span> removed call to java/util/Optional::ifPresent &rarr; KILLED</p> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@4d634127_126'>126</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_126'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>lambda$resetTextField$5<br/><b>Killed by : </b>com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest.testResetEditorFrom(com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest)</span></span> removed call to com/intellij/ui/EditorTextField::setText &rarr; KILLED</p> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@4d634127_138'>138</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_138'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>addPathListener<br/><b>Killed by : </b>com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest.testResetEditorFrom(com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest)</span></span> removed call to com/intellij/openapi/ui/TextFieldWithBrowseButton::addBrowseFolderListener &rarr; KILLED</p> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@4d634127_139'>139</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_139'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>addPathListener<br/><b>Killed by : </b>com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest.testResetEditorFrom(com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest)</span></span> removed call to com/intellij/ui/InsertPathAction::addTo &rarr; KILLED</p> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@4d634127_149'>149</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_149'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>applyValuesToOptions<br/><b>Killed by : </b>com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest.testApplyEditorTo(com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest)</span></span> removed call to com/valantic/intellij/plugin/mutation/configuration/option/MutationConfigurationOptions::setTargetClasses &rarr; KILLED</p> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@4d634127_150'>150</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_150'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>applyValuesToOptions<br/><b>Killed by : </b>com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest.testApplyEditorTo(com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest)</span></span> removed call to com/valantic/intellij/plugin/mutation/configuration/option/MutationConfigurationOptions::setTargetTests &rarr; KILLED</p> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@4d634127_151'>151</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_151'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>applyValuesToOptions<br/><b>Killed by : </b>com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest.testApplyEditorTo(com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest)</span></span> removed call to com/valantic/intellij/plugin/mutation/configuration/option/MutationConfigurationOptions::setReportDir &rarr; KILLED</p> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@4d634127_152'>152</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_152'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>applyValuesToOptions<br/><b>Killed by : </b>com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest.testApplyEditorTo(com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest)</span></span> removed call to com/valantic/intellij/plugin/mutation/configuration/option/MutationConfigurationOptions::setSourceDirs &rarr; KILLED</p> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@4d634127_153'>153</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_153'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>applyValuesToOptions<br/><b>Killed by : </b>com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest.testApplyEditorTo(com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest)</span></span> removed call to com/valantic/intellij/plugin/mutation/configuration/option/MutationConfigurationOptions::setMutators &rarr; KILLED</p> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@4d634127_156'>156</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_156'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>applyValuesToOptions<br/><b>Killed by : </b>com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest.testApplyEditorTo(com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest)</span></span> removed call to com/valantic/intellij/plugin/mutation/configuration/option/MutationConfigurationOptions::setTimeoutConst &rarr; KILLED</p> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@4d634127_157'>157</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_157'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>applyValuesToOptions<br/><b>Killed by : </b>com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest.testApplyEditorTo(com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest)</span></span> removed call to com/valantic/intellij/plugin/mutation/configuration/option/MutationConfigurationOptions::setOutputFormats &rarr; KILLED</p> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@4d634127_158'>158</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_158'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>applyValuesToOptions<br/><b>Killed by : </b>com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest.testApplyEditorTo(com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest)</span></span> removed call to com/valantic/intellij/plugin/mutation/configuration/option/MutationConfigurationOptions::setTimestampedReports &rarr; KILLED</p> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@4d634127_159'>159</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_159'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>applyValuesToOptions<br/><b>Killed by : </b>com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest.testApplyEditorTo(com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest)</span></span> removed call to com/valantic/intellij/plugin/mutation/configuration/option/MutationConfigurationOptions::setIncludeLaunchClasspath &rarr; KILLED</p> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@4d634127_160'>160</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_160'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>applyValuesToOptions<br/><b>Killed by : </b>com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest.testApplyEditorTo(com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest)</span></span> removed call to com/valantic/intellij/plugin/mutation/configuration/option/MutationConfigurationOptions::setDependencyDistance &rarr; KILLED</p> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@4d634127_161'>161</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_161'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>applyValuesToOptions<br/><b>Killed by : </b>com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest.testApplyEditorTo(com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest)</span></span> removed call to com/valantic/intellij/plugin/mutation/configuration/option/MutationConfigurationOptions::setThreads &rarr; KILLED</p> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@4d634127_162'>162</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_162'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>applyValuesToOptions<br/><b>Killed by : </b>com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest.testApplyEditorTo(com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest)</span></span> removed call to com/valantic/intellij/plugin/mutation/configuration/option/MutationConfigurationOptions::setExcludedMethods &rarr; KILLED</p> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@4d634127_163'>163</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_163'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>applyValuesToOptions<br/><b>Killed by : </b>com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest.testApplyEditorTo(com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest)</span></span> removed call to com/valantic/intellij/plugin/mutation/configuration/option/MutationConfigurationOptions::setExcludedClasses &rarr; KILLED</p> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@4d634127_164'>164</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_164'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>applyValuesToOptions<br/><b>Killed by : </b>com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest.testApplyEditorTo(com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest)</span></span> removed call to com/valantic/intellij/plugin/mutation/configuration/option/MutationConfigurationOptions::setExcludedTests &rarr; KILLED</p> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@4d634127_165'>165</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_165'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>applyValuesToOptions<br/><b>Killed by : </b>com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest.testApplyEditorTo(com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest)</span></span> removed call to com/valantic/intellij/plugin/mutation/configuration/option/MutationConfigurationOptions::setAvoidCallsTo &rarr; KILLED</p> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@4d634127_166'>166</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_166'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>applyValuesToOptions<br/><b>Killed by : </b>com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest.testApplyEditorTo(com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest)</span></span> removed call to com/valantic/intellij/plugin/mutation/configuration/option/MutationConfigurationOptions::setVerbose &rarr; KILLED</p> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@4d634127_167'>167</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_167'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>applyValuesToOptions<br/><b>Killed by : </b>com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest.testApplyEditorTo(com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest)</span></span> removed call to com/valantic/intellij/plugin/mutation/configuration/option/MutationConfigurationOptions::setTimeoutFactor &rarr; KILLED</p> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@4d634127_168'>168</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_168'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>applyValuesToOptions<br/><b>Killed by : </b>com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest.testApplyEditorTo(com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest)</span></span> removed call to com/valantic/intellij/plugin/mutation/configuration/option/MutationConfigurationOptions::setMaxMutationsPerClass &rarr; KILLED</p> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@4d634127_169'>169</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_169'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>applyValuesToOptions<br/><b>Killed by : </b>com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest.testApplyEditorTo(com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest)</span></span> removed call to com/valantic/intellij/plugin/mutation/configuration/option/MutationConfigurationOptions::setJvmArgs &rarr; KILLED</p> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@4d634127_170'>170</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_170'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>applyValuesToOptions<br/><b>Killed by : </b>com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest.testApplyEditorTo(com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest)</span></span> removed call to com/valantic/intellij/plugin/mutation/configuration/option/MutationConfigurationOptions::setJvmPath &rarr; KILLED</p> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@4d634127_171'>171</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_171'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>applyValuesToOptions<br/><b>Killed by : </b>com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest.testApplyEditorTo(com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest)</span></span> removed call to com/valantic/intellij/plugin/mutation/configuration/option/MutationConfigurationOptions::setFailWhenNoMutations &rarr; KILLED</p> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@4d634127_172'>172</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_172'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>applyValuesToOptions<br/><b>Killed by : </b>com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest.testApplyEditorTo(com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest)</span></span> removed call to com/valantic/intellij/plugin/mutation/configuration/option/MutationConfigurationOptions::setClassPath &rarr; KILLED</p> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@4d634127_173'>173</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_173'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>applyValuesToOptions<br/><b>Killed by : </b>com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest.testApplyEditorTo(com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest)</span></span> removed call to com/valantic/intellij/plugin/mutation/configuration/option/MutationConfigurationOptions::setMutableCodePaths &rarr; KILLED</p> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@4d634127_174'>174</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_174'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>applyValuesToOptions<br/><b>Killed by : </b>com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest.testApplyEditorTo(com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest)</span></span> removed call to com/valantic/intellij/plugin/mutation/configuration/option/MutationConfigurationOptions::setTestPlugin &rarr; KILLED</p> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@4d634127_175'>175</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_175'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>applyValuesToOptions<br/><b>Killed by : </b>com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest.testApplyEditorTo(com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest)</span></span> removed call to com/valantic/intellij/plugin/mutation/configuration/option/MutationConfigurationOptions::setIncludedGroups &rarr; KILLED</p> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@4d634127_176'>176</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_176'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>applyValuesToOptions<br/><b>Killed by : </b>com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest.testApplyEditorTo(com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest)</span></span> removed call to com/valantic/intellij/plugin/mutation/configuration/option/MutationConfigurationOptions::setExcludedGroups &rarr; KILLED</p> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@4d634127_177'>177</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_177'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>applyValuesToOptions<br/><b>Killed by : </b>com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest.testApplyEditorTo(com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest)</span></span> removed call to com/valantic/intellij/plugin/mutation/configuration/option/MutationConfigurationOptions::setDetectInlinedCode &rarr; KILLED</p> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@4d634127_178'>178</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_178'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>applyValuesToOptions<br/><b>Killed by : </b>com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest.testApplyEditorTo(com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest)</span></span> removed call to com/valantic/intellij/plugin/mutation/configuration/option/MutationConfigurationOptions::setMutationThreshold &rarr; KILLED</p> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@4d634127_179'>179</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_179'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>applyValuesToOptions<br/><b>Killed by : </b>com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest.testApplyEditorTo(com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest)</span></span> removed call to com/valantic/intellij/plugin/mutation/configuration/option/MutationConfigurationOptions::setCoverageThreshold &rarr; KILLED</p> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@4d634127_180'>180</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_180'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>applyValuesToOptions<br/><b>Killed by : </b>com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest.testApplyEditorTo(com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest)</span></span> removed call to com/valantic/intellij/plugin/mutation/configuration/option/MutationConfigurationOptions::setHistoryInputLocation &rarr; KILLED</p> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@4d634127_181'>181</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@4d634127_181'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>applyValuesToOptions<br/><b>Killed by : </b>com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest.testApplyEditorTo(com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest)</span></span> removed call to com/valantic/intellij/plugin/mutation/configuration/option/MutationConfigurationOptions::setHistoryOutputLocation &rarr; KILLED</p> 
+</td>
+</tr>
+
+</table>
+
+
+<h2>Active mutators</h2>
+<ul>
+<li class='mutator'>CONDITIONALS_BOUNDARY</li>
+<li class='mutator'>EMPTY_RETURNS</li>
+<li class='mutator'>FALSE_RETURNS</li>
+<li class='mutator'>INCREMENTS</li>
+<li class='mutator'>INVERT_NEGS</li>
+<li class='mutator'>MATH</li>
+<li class='mutator'>NULL_RETURNS</li>
+<li class='mutator'>PRIMITIVE_RETURNS</li>
+<li class='mutator'>REMOVE_CONDITIONALS_EQUAL_ELSE</li>
+<li class='mutator'>REMOVE_CONDITIONALS_ORDER_ELSE</li>
+<li class='mutator'>TRUE_RETURNS</li>
+<li class='mutator'>VOID_METHOD_CALLS</li>
+
+</ul>
+
+<h2>Tests examined</h2>
+<ul>
+<li>com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest.testResetEditorFrom(com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest) (90 ms)</li><li>com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest.testApplyEditorTo(com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorServiceTest) (84 ms)</li>
+</ul>
+
+<br/>
+
+Report generated by <a href='http://pitest.org'>PIT</a> 1.7.4
+
+</body>
+</html>
