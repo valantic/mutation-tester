@@ -64,7 +64,7 @@ Written by Fabian Hüsig <fabian.huesig@cec.valantic.com>, February, 2022
 
     <extensions defaultExtensionNs="com.intellij">
         <configurationType implementation="com.valantic.intellij.plugin.mutation.configuration.MutationConfigurationType"/>
-        <runLineMarkerContributor language="JAVA" implementationClass="com.valantic.intellij.plugin.mutation.linemarker.MutationTestRunLineMarkerContributor"/>
+        <runLineMarkerContributor language="JAVA" implementationClass="com.valantic.intellij.plugin.mutation.linemarker.MutationRunLineMarkerContributor"/>
     </extensions>
     <actions>
         <action id="com.valantic.intellij.plugin.mutation.action.MutationAction"

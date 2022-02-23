@@ -17,24 +17,25 @@
  */
 package com.valantic.intellij.plugin.mutation.linemarker;
 
+import com.intellij.execution.lineMarker.RunLineMarkerContributor;
+import com.intellij.psi.PsiClass;
+import com.intellij.psi.PsiElement;
+import com.intellij.psi.PsiIdentifier;
 import com.valantic.intellij.plugin.mutation.action.MutationAction;
 import com.valantic.intellij.plugin.mutation.icons.Icons;
 import com.valantic.intellij.plugin.mutation.services.Services;
 import com.valantic.intellij.plugin.mutation.services.impl.PsiService;
 import com.valantic.intellij.plugin.mutation.services.impl.UtilService;
-import com.intellij.execution.lineMarker.RunLineMarkerContributor;
-import com.intellij.psi.PsiClass;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiIdentifier;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
+import java.util.function.Function;
 
 /**
  * created by fabian.huesig on 2022-02-01
  */
-public class MutationTestRunLineMarkerContributor extends RunLineMarkerContributor {
+public class MutationRunLineMarkerContributor extends RunLineMarkerContributor {
 
     private static final String EXECUTION_BUNDLE_MESSAGE_KEY = "run.text";
 
@@ -53,13 +54,12 @@ public class MutationTestRunLineMarkerContributor extends RunLineMarkerContribut
                 .filter(psiService::isTestClass).ifPresent(psiClass -> {
                     this.targetTest = psiService.determineTargetTest(psiClass);
                     this.targetClass = psiService.determineTargetClass(this.targetTest, psiClass);
-                    info[0] = getInfo();
+                    info[0] = getInfo(tooltipProviderFunction -> utilService.executionMessage(EXECUTION_BUNDLE_MESSAGE_KEY));
                 });
         return info[0];
     }
 
-    private Info getInfo() {
-        return new Info(Icons.MUTATIONx12, MutationAction.getSingletonActions(targetClass, targetTest),
-                element -> utilService.executionMessage(EXECUTION_BUNDLE_MESSAGE_KEY));
+    protected Info getInfo(Function tooltipProvider) {
+        return new Info(Icons.MUTATIONx12, MutationAction.getSingletonActions(targetClass, targetTest), tooltipProvider);
     }
 }
