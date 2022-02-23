@@ -16,7 +16,7 @@ This kind of testing helps you to produce better testing results, not only based
 
 This Plugin will help you as developer to run mutation tests easy and fast in your IDE without wasting time in configurations.
 
-For example is a full Pit Mutation Testing report of this plugin <a href="./samples/pitreport-v.0.1.1/index.html">here</a>
+For example is a full Pit Mutation Testing report of this plugin <a href="https://htmlpreview.github.io/?https://github.com/valantic/mutation-tester/samples/pitreport-v.0.1.1/index.html">here</a>
 
 
 ## Installation
@@ -105,3 +105,7 @@ Also the Icon (mutation.png) is based on an icon from flaticon by Freepik.
 - [ ] add to IntelliJ Marketplace
 - [ ] cross module testing
 - [ ] caching
+
+
+- no module action fix
+- lokales testing
