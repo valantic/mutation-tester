@@ -23,7 +23,7 @@ For example is a full Pit Mutation Testing report of this plugin <a href="./samp
 You can download the plugin from our [github(https://github.com/valantic/mutation-tester)].
 Next open your IntelliJ and install the plugin from disk, as seen below.
 It is recommended to restart your IDE.
-![](src/main/resources/sample/install-disk.png)
+![](./samples/screenshots/install-disk.png)
 
 
 ### IntelliJ Marketplace
@@ -32,34 +32,35 @@ The Plugin will be published to the Intellij Marketplace. This should be avaible
 
 ## Run the plugin
 You can simply create a new RunConfigurations with Mutation Tester
-![](src/main/resources/sample/create-configuration.png)
+![](./samples/screenshots/create-configuration.png)
 
 This Plugin will save you a lot of time. You don't need to create everytime new configurations by hand to test your new unit test. 
 With this tool you can automatically create configuration for your given test, as seen below by just executing the test in the run context of the unit test.
 
-![](src/main/resources/sample/run-in-class.png)
+![](./samples/screenshots/run-in-class.png)
 
-![](src/main/resources/sample/right-click-in-class.png)
+![](./samples/screenshots/right-click-in-class.png)
 
 You can also select packages in your test directory and test all classes in this package with all the tests in same named package.
 
-![](src/main/resources/sample/run-context-menu.png)
+![](./samples/screenshots/run-context-menu.png)
 
 If you still need to adjust the configuration you can do this easily. Each run will create a RunConfiguration you can simply modify.
 
-![](src/main/resources/sample/run-as.png)
+![](./samples/screenshots/run-as.png)
 
 
 ## Configuration
 If you need to adjust the defualt configuration, you can just go into your RunConfiguration and adjust the default settings.
 
-![](src/main/resources/sample/advanced-settings.png)
+![](./samples/screenshots/settings-1.png)
+
+![](./samples/screenshots/settings-2.png)
 
 In the tab settings the values of targetTests, targetClasses, reportDir, sourceDirs and mutators can not be empty. Otherwise the tests will not run. in the advanced tab you can easily modify default behaviour.
 
-![](src/main/resources/sample/settings-1.png)
+![](./samples/screenshots/advanced-settings.png)
 
-![](src/main/resources/sample/settings-2.png)
 
 You can get more informations about the configuration fields [here](https://pitest.org/quickstart/commandline/).
 
