@@ -25,6 +25,7 @@ import com.intellij.execution.configurations.JavaCommandLineState;
 import com.intellij.execution.configurations.JavaParameters;
 import com.intellij.execution.configurations.JavaRunConfigurationModule;
 import com.intellij.execution.configurations.ParametersList;
+import com.intellij.execution.process.OSProcessHandler;
 import com.intellij.execution.process.ProcessAdapter;
 import com.intellij.execution.process.ProcessEvent;
 import com.intellij.execution.process.ProcessHandler;
@@ -40,10 +41,10 @@ import com.valantic.intellij.plugin.mutation.configuration.option.MutationConfig
 import com.valantic.intellij.plugin.mutation.constants.MutationConstants;
 import com.valantic.intellij.plugin.mutation.localization.Messages;
 import com.valantic.intellij.plugin.mutation.services.Services;
-import com.valantic.intellij.plugin.mutation.services.impl.ModuleService;
 import com.valantic.intellij.plugin.mutation.services.impl.PsiService;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.TestOnly;
 import org.junit.runners.JUnit4;
 import org.pitest.boot.HotSwapAgent;
 import org.pitest.mutationtest.commandline.MutationCoverageReport;
@@ -68,7 +69,6 @@ public class MutationCommandLineState extends JavaCommandLineState {
     private MutationConfigurationOptions options;
 
     private PsiService psiService = Services.getService(PsiService.class);
-    private ModuleService moduleService = Services.getService(ModuleService.class);
 
     public MutationCommandLineState(final ExecutionEnvironment environment) {
         super(environment);
@@ -116,6 +116,21 @@ public class MutationCommandLineState extends JavaCommandLineState {
     }
 
     /**
+     * Path of report. Uses configured reportDir and creates a subdirectory based on timestamp.
+     *
+     * @return reportDir + timestampFolder
+     */
+    protected String getReport(final String reportDir) {
+        return Optional.ofNullable(reportDir)
+                .map(path -> path.replaceFirst(MutationConstants.TRAILING_SLASH_REGEX, StringUtils.EMPTY))
+                .map(StringBuilder::new)
+                .map(stringBuilder -> stringBuilder.append(MutationConstants.PATH_SEPARATOR))
+                .map(stringBuilder -> stringBuilder.append(creationTime))
+                .map(StringBuilder::toString)
+                .orElse(null);
+    }
+
+    /**
      * Setting JavaParameters to run org.pitest.mutationtest.commandline.MutationCoverageReport.
      * Parameters will be set from @see {@link MutationConfigurationOptions}
      *
@@ -141,22 +156,11 @@ public class MutationCommandLineState extends JavaCommandLineState {
         return javaParameters;
     }
 
-
     /**
-     * Path of report. Uses configured reportDir and creates a subdirectory based on timestamp.
+     * populates parameter list with values from mutationConfigurationOptions.
      *
-     * @return reportDir + timestampFolder
+     * @param parametersList
      */
-    public String getReport(final String reportDir) {
-        return Optional.of(reportDir)
-                .map(path -> path.replaceFirst(MutationConstants.TRAILING_SLASH_REGEX, StringUtils.EMPTY))
-                .map(StringBuilder::new)
-                .map(stringBuilder -> stringBuilder.append(MutationConstants.PATH_SEPARATOR))
-                .map(stringBuilder -> stringBuilder.append(creationTime))
-                .map(StringBuilder::toString)
-                .orElse(reportDir);
-    }
-
     private void populateParameterList(final ParametersList parametersList) {
         parametersList.add("--targetClasses", options.getTargetClasses());
         parametersList.add("--targetTests", options.getTargetTests());
@@ -165,69 +169,53 @@ public class MutationCommandLineState extends JavaCommandLineState {
         parametersList.add("--mutators", options.getMutators());
         parametersList.add("--timeoutConst", options.getTimeoutConst());
         parametersList.add("--outputFormats", options.getOutputFormats());
+
         parametersList.add(String.format("--timestampedReports=%s", options.getTimestampedReports()));
         parametersList.add(String.format("--includeLaunchClasspath=%s", options.getIncludeLaunchClasspath()));
         parametersList.add(String.format("--verbose=%s", options.getVerbose()));
         parametersList.add(String.format("--failWhenNoMutations=%s", options.getFailWhenNoMutations()));
-        if (StringUtils.isNotEmpty(options.getDependencyDistance())) {
-            parametersList.add("--dependencyDistance", options.getDependencyDistance());
-        }
-        if (StringUtils.isNotEmpty(options.getThreads())) {
-            parametersList.add("--threads", options.getThreads());
-        }
-        if (StringUtils.isNotEmpty(options.getExcludedMethods())) {
-            parametersList.add("--excludedMethods", options.getExcludedMethods());
-        }
-        if (StringUtils.isNotEmpty(options.getExcludedClasses())) {
-            parametersList.add("--excludedClasses", options.getExcludedClasses());
-        }
-        if (StringUtils.isNotEmpty(options.getExcludedTests())) {
-            parametersList.add("--excludedTests", options.getExcludedTests());
-        }
-        if (StringUtils.isNotEmpty(options.getAvoidCallsTo())) {
-            parametersList.add("--avoidCallsTo", options.getAvoidCallsTo());
-        }
-        if (StringUtils.isNotEmpty(options.getTimeoutFactor())) {
-            parametersList.add("--timeoutFactor", options.getTimeoutFactor());
-        }
-        if (StringUtils.isNotEmpty(options.getMaxMutationsPerClass())) {
-            parametersList.add("--maxMutationsPerClass", options.getMaxMutationsPerClass());
-        }
-        if (StringUtils.isNotEmpty(options.getJvmArgs())) {
-            parametersList.add("--jvmArgs", options.getJvmArgs());
-        }
-        if (StringUtils.isNotEmpty(options.getJvmPath())) {
-            parametersList.add("--jvmPath", options.getJvmPath());
-        }
-        if (StringUtils.isNotEmpty(options.getClassPath())) {
-            parametersList.add("--classPath", options.getClassPath());
-        }
-        if (StringUtils.isNotEmpty(options.getMutableCodePaths())) {
-            parametersList.add("--mutableCodePaths", options.getMutableCodePaths());
-        }
-        if (StringUtils.isNotEmpty(options.getTestPlugin())) {
-            parametersList.add("--testPlugin", options.getTestPlugin());
-        }
-        if (StringUtils.isNotEmpty(options.getIncludedGroups())) {
-            parametersList.add("--includedGroups", options.getIncludedGroups());
-        }
-        if (StringUtils.isNotEmpty(options.getExcludedGroups())) {
-            parametersList.add("--excludedGroups", options.getExcludedGroups());
-        }
-        if (StringUtils.isNotEmpty(options.getDetectInlinedCode())) {
-            parametersList.add("--detectInlinedCode", options.getDetectInlinedCode());
-        }
-        if (StringUtils.isNotEmpty(options.getMutationThreshold())) {
-            parametersList.add("--mutationThreshold", options.getMutationThreshold());
-        }
-        if (StringUtils.isNotEmpty(options.getCoverageThreshold())) {
-            parametersList.add("--coverageThreshold", options.getCoverageThreshold());
-        }
-        if (StringUtils.isNotEmpty(options.getHistoryInputLocation())) {
-            parametersList.add("--historyInputLocation", options.getHistoryInputLocation());
-        }
-        if (StringUtils.isNotEmpty(options.getHistoryOutputLocation())) {
-            parametersList.add("--historyOutputLocation", options.getHistoryOutputLocation());
-        }
+
+        addParameterIfExists(parametersList, "--dependencyDistance", options.getDependencyDistance());
+        addParameterIfExists(parametersList, "--threads", options.getThreads());
+        addParameterIfExists(parametersList, "--excludedMethods", options.getExcludedMethods());
+        addParameterIfExists(parametersList, "--excludedClasses", options.getExcludedClasses());
+        addParameterIfExists(parametersList, "--excludedTests", options.getExcludedTests());
+        addParameterIfExists(parametersList, "--avoidCallsTo", options.getAvoidCallsTo());
+        addParameterIfExists(parametersList, "--timeoutFactor", options.getTimeoutFactor());
+        addParameterIfExists(parametersList, "--maxMutationsPerClass", options.getMaxMutationsPerClass());
+        addParameterIfExists(parametersList, "--jvmArgs", options.getJvmArgs());
+        addParameterIfExists(parametersList, "--jvmPath", options.getJvmPath());
+        addParameterIfExists(parametersList, "--classPath", options.getClassPath());
+        addParameterIfExists(parametersList, "--mutableCodePaths", options.getMutableCodePaths());
+        addParameterIfExists(parametersList, "--testPlugin", options.getTestPlugin());
+        addParameterIfExists(parametersList, "--includedGroups", options.getIncludedGroups());
+        addParameterIfExists(parametersList, "--excludedGroups", options.getExcludedGroups());
+        addParameterIfExists(parametersList, "--detectInlinedCode", options.getDetectInlinedCode());
+        addParameterIfExists(parametersList, "--mutationThreshold", options.getMutationThreshold());
+        addParameterIfExists(parametersList, "--coverageThreshold", options.getCoverageThreshold());
+        addParameterIfExists(parametersList, "--historyInputLocation", options.getHistoryInputLocation());
+        addParameterIfExists(parametersList, "--historyOutputLocation", options.getHistoryOutputLocation());
+    }
+
+    /**
+     * adds the named parameter to the parameterList if the value is not empty.
+     *
+     * @param parametersList
+     * @param parameterName
+     * @param parameterValue
+     */
+    private void addParameterIfExists(final ParametersList parametersList, final String parameterName, final String parameterValue) {
+        Optional.ofNullable(parameterValue)
+                .filter(StringUtils::isNotEmpty)
+                .ifPresent(value -> parametersList.add(parameterName, value));
+    }
+
+    /**
+     * @TestOnly method for spying on super protected method in different packages.
+     * normal processes will start super process directly.
+     */
+    @TestOnly
+    protected OSProcessHandler startProcess() throws ExecutionException {
+        return super.startProcess();
     }
 }
