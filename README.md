@@ -105,7 +105,3 @@ Also the Icon (mutation.png) is based on an icon from flaticon by Freepik.
 - [ ] add to IntelliJ Marketplace
 - [ ] cross module testing
 - [ ] caching
-
-
-- no module action fix
-- lokales testing
