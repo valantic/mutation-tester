@@ -141,7 +141,7 @@ public final class PsiService {
     }
 
     /**
-     * res
+     * resolve package name for given PsiJavaDirectory
      *
      * @param dir
      * @return
@@ -155,7 +155,7 @@ public final class PsiService {
                 .map(PsiJavaFile.class::cast)
                 .map(PsiJavaFile::getPackageName)
                 .orElse(StringUtils.EMPTY);
-        if (StringUtils.isNotEmpty(classPackageName)) {
+        if (StringUtils.isNotEmpty(classPackageName) && !classPackageName.endsWith(MutationConstants.PACKAGE_SEPARATOR + dirName)) {
             String basePackageName = classPackageName.split(MutationConstants.PACKAGE_SEPARATOR + dirName + MutationConstants.PACKAGE_SEPARATOR)[0];
             return basePackageName + MutationConstants.PACKAGE_SEPARATOR + dirName;
         }
