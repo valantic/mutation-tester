@@ -16,6 +16,8 @@ This kind of testing helps you to produce better testing results, not only based
 
 This Plugin will help you as developer to run mutation tests easy and fast in your IDE without wasting time in configurations.
 
+For example is a full Pit Mutation Testing report of this plugin <a href="./samples/pitreport-v.0.1.1/index.html">here</a>
+
 
 ## Installation
 You can download the plugin from our [github(https://github.com/valantic/mutation-tester)].
@@ -97,8 +99,6 @@ Also the Icon (mutation.png) is based on an icon from flaticon by Freepik.
 
 
 ## Roadmap
-- [ ] refactoring
-- [ ] raise test coverage
 - [ ] testing badges (test and pitest)
 - [ ] fix beta issues
 - [ ] add to IntelliJ Marketplace
