@@ -45,6 +45,7 @@ public class MutationRunLineMarkerContributor extends RunLineMarkerContributor {
     private UtilService utilService = Services.getService(UtilService.class);
     private PsiService psiService = Services.getService(PsiService.class);
 
+    @SuppressWarnings("unchecked")
     @Nullable
     @Override
     public Info getInfo(@NotNull PsiElement element) {

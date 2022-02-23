@@ -19,7 +19,6 @@ package com.valantic.intellij.plugin.mutation.action;
 
 import com.intellij.execution.ExecutionManager;
 import com.intellij.execution.Executor;
-import com.intellij.execution.configurations.JavaRunConfigurationModule;
 import com.intellij.execution.executors.DefaultRunExecutor;
 import com.intellij.execution.runners.ExecutionEnvironment;
 import com.intellij.execution.runners.ExecutionEnvironmentBuilder;
@@ -192,7 +191,6 @@ public class MutationActionTest {
         final PsiJavaDirectoryImpl psiJavaDirectoryImpl = mock(PsiJavaDirectoryImpl.class);
         final MutationConfiguration mutationConfiguration = mock(MutationConfiguration.class);
         final MutationConfigurationOptions mutationConfigurationOptions = mock(MutationConfigurationOptions.class);
-        final JavaRunConfigurationModule javaRunConfigurationModule = mock(JavaRunConfigurationModule.class);
         final Executor executor = mock(Executor.class);
         final ExecutionEnvironmentBuilder builder = mock(ExecutionEnvironmentBuilder.class);
         final ExecutionManager executionManager = mock(ExecutionManager.class);
@@ -205,8 +203,6 @@ public class MutationActionTest {
         when(configurationService.getOrCreateMutationConfiguration(project, "packageName.*")).thenReturn(mutationConfiguration);
         when(mutationConfiguration.getMutationConfigurationOptions()).thenReturn(mutationConfigurationOptions);
         when(project.getBasePath()).thenReturn("projectBasePath");
-        when(mutationConfiguration.getConfigurationModule()).thenReturn(javaRunConfigurationModule);
-        when(mutationConfigurationOptions.getTargetTests()).thenReturn("packageName.*");
         defaultRunExecutorMockedStatic.when(() -> DefaultRunExecutor.getRunExecutorInstance()).thenReturn(executor);
         executionEnvironmentBuilderMockedStatic.when(() -> ExecutionEnvironmentBuilder.createOrNull(executor, mutationConfiguration)).thenReturn(builder);
         executionManagerMockedStatic.when(() -> ExecutionManager.getInstance(project)).thenReturn(executionManager);
@@ -217,7 +213,6 @@ public class MutationActionTest {
         verify(mutationConfigurationOptions).setSourceDirs("projectBasePath");
         verify(mutationConfigurationOptions).setTargetTests("packageName.*");
         verify(mutationConfigurationOptions).setTargetClasses("packageName.*");
-        verify(psiService).updateModule(project, "packageName.*", javaRunConfigurationModule);
         assertEquals(underTest.getTargetTest(), "packageName.*");
         assertEquals(underTest.getTargetClass(), "packageName.*");
         verify(executionManager).restartRunProfile(executionEnvironment);
@@ -232,7 +227,6 @@ public class MutationActionTest {
         final PsiJavaFile psiJavaFile = mock(PsiJavaFile.class);
         final MutationConfiguration mutationConfiguration = mock(MutationConfiguration.class);
         final MutationConfigurationOptions mutationConfigurationOptions = mock(MutationConfigurationOptions.class);
-        final JavaRunConfigurationModule javaRunConfigurationModule = mock(JavaRunConfigurationModule.class);
         final Executor executor = mock(Executor.class);
         final ExecutionEnvironmentBuilder builder = mock(ExecutionEnvironmentBuilder.class);
         final ExecutionManager executionManager = mock(ExecutionManager.class);
@@ -247,8 +241,6 @@ public class MutationActionTest {
         when(configurationService.getOrCreateMutationConfiguration(project, "packageName.className")).thenReturn(mutationConfiguration);
         when(mutationConfiguration.getMutationConfigurationOptions()).thenReturn(mutationConfigurationOptions);
         when(project.getBasePath()).thenReturn("projectBasePath");
-        when(mutationConfiguration.getConfigurationModule()).thenReturn(javaRunConfigurationModule);
-        when(mutationConfigurationOptions.getTargetTests()).thenReturn("packageName.className");
         defaultRunExecutorMockedStatic.when(() -> DefaultRunExecutor.getRunExecutorInstance()).thenReturn(executor);
         executionEnvironmentBuilderMockedStatic.when(() -> ExecutionEnvironmentBuilder.createOrNull(executor, mutationConfiguration)).thenReturn(builder);
         executionManagerMockedStatic.when(() -> ExecutionManager.getInstance(project)).thenReturn(executionManager);
@@ -259,7 +251,6 @@ public class MutationActionTest {
         verify(mutationConfigurationOptions).setSourceDirs("projectBasePath");
         verify(mutationConfigurationOptions).setTargetTests("packageName.className");
         verify(mutationConfigurationOptions, times(0)).setTargetClasses(anyString());
-        verify(psiService).updateModule(project, "packageName.className", javaRunConfigurationModule);
         assertEquals(underTest.getTargetTest(), "packageName.className");
         verify(executionManager).restartRunProfile(executionEnvironment);
     }

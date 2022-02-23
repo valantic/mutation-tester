@@ -17,16 +17,19 @@
  */
 package com.valantic.intellij.plugin.mutation.services.impl;
 
+import com.intellij.execution.configurations.JavaRunConfigurationModule;
 import com.intellij.openapi.components.Service;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.module.ModuleManager;
 import com.intellij.openapi.module.ModuleUtil;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiFile;
+import com.valantic.intellij.plugin.mutation.configuration.MutationConfiguration;
 import com.valantic.intellij.plugin.mutation.services.Services;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Optional;
 
 /**
  * created by fabian.huesig on 2022-02-01
@@ -46,6 +49,13 @@ public final class ModuleService {
 
     public ModuleManager getModuleManager(final Project project) {
         return ModuleManager.getInstance(project);
+    }
+
+    public JavaRunConfigurationModule getOrCreateRunConfigurationModule(final MutationConfiguration mutationConfiguration) {
+        return Optional.ofNullable(mutationConfiguration)
+                .map(MutationConfiguration::getConfigurationModule)
+                .orElseGet(() -> new JavaRunConfigurationModule(projectService.getCurrentProject(), true));
+
     }
 
 }

@@ -17,12 +17,14 @@
  */
 package com.valantic.intellij.plugin.mutation.services.impl;
 
+import com.intellij.execution.configurations.JavaRunConfigurationModule;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.module.ModuleManager;
 import com.intellij.openapi.module.ModuleUtil;
 import com.intellij.openapi.module.ModuleUtilCore;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiFile;
+import com.valantic.intellij.plugin.mutation.configuration.MutationConfiguration;
 import com.valantic.intellij.plugin.mutation.services.Services;
 import org.junit.After;
 import org.junit.Before;
@@ -35,9 +37,12 @@ import org.mockito.junit.MockitoJUnitRunner;
 import java.util.Collection;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertSame;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.mockStatic;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 /**
@@ -102,6 +107,34 @@ public class ModuleServiceTest {
 
         moduleManagerMockedStatic.verify(() -> ModuleManager.getInstance(project));
         assertSame(moduleManager, result);
+    }
+
+    @Test
+    public void testGetOrCreateRunConfigurationModule_get() {
+        final MutationConfiguration mutationConfiguration = mock(MutationConfiguration.class);
+        final JavaRunConfigurationModule javaRunConfigurationModule = mock(JavaRunConfigurationModule.class);
+
+        when(mutationConfiguration.getConfigurationModule()).thenReturn(javaRunConfigurationModule);
+
+        JavaRunConfigurationModule result = underTest.getOrCreateRunConfigurationModule(mutationConfiguration);
+
+        verify(projectService, times(0)).getCurrentProject();
+        assertSame(javaRunConfigurationModule, result);
+    }
+
+    @Test
+    public void testGetOrCreateRunConfigurationModule_create() {
+        final MutationConfiguration mutationConfiguration = mock(MutationConfiguration.class);
+        final Project project = mock(Project.class);
+
+        when(mutationConfiguration.getConfigurationModule()).thenReturn(null);
+        when(projectService.getCurrentProject()).thenReturn(project);
+
+        JavaRunConfigurationModule result = underTest.getOrCreateRunConfigurationModule(mutationConfiguration);
+
+        verify(projectService).getCurrentProject();
+        assertNotNull(result);
+        assertSame(JavaRunConfigurationModule.class, result.getClass());
     }
 
     @After

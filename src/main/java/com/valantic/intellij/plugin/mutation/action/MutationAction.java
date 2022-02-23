@@ -102,7 +102,6 @@ public class MutationAction extends AnAction {
                             .ifPresent(options::setTargetTests);
                     Optional.ofNullable(getTargetClass())
                             .ifPresent(options::setTargetClasses);
-                    psiService.updateModule(project, options.getTargetTests(), mutationConfiguration.getConfigurationModule());
                 });
         Optional.ofNullable(DefaultRunExecutor.getRunExecutorInstance())
                 .map(executor -> ExecutionEnvironmentBuilder.createOrNull(executor, mutationConfiguration))

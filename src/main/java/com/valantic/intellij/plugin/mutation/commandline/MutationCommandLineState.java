@@ -41,7 +41,7 @@ import com.valantic.intellij.plugin.mutation.configuration.option.MutationConfig
 import com.valantic.intellij.plugin.mutation.constants.MutationConstants;
 import com.valantic.intellij.plugin.mutation.localization.Messages;
 import com.valantic.intellij.plugin.mutation.services.Services;
-import com.valantic.intellij.plugin.mutation.services.impl.PsiService;
+import com.valantic.intellij.plugin.mutation.services.impl.ModuleService;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.TestOnly;
@@ -68,7 +68,7 @@ public class MutationCommandLineState extends JavaCommandLineState {
     private JavaRunConfigurationModule module;
     private MutationConfigurationOptions options;
 
-    private PsiService psiService = Services.getService(PsiService.class);
+    private ModuleService moduleService = Services.getService(ModuleService.class);
 
     public MutationCommandLineState(final ExecutionEnvironment environment) {
         super(environment);
@@ -78,16 +78,9 @@ public class MutationCommandLineState extends JavaCommandLineState {
                 .map(MutationConfiguration.class::cast)
                 .ifPresent(mutationConfiguration -> {
                     this.creationTime = new SimpleDateFormat(DATE_FORMAT).format(new Date());
-                    this.module = getConfigurationModule(mutationConfiguration);
+                    this.module = moduleService.getOrCreateRunConfigurationModule(mutationConfiguration);
                     this.options = mutationConfiguration.getMutationConfigurationOptions();
-                    psiService.updateModule(mutationConfiguration.getProject(), this.options.getTargetTests(), this.module);
                 });
-    }
-
-    private JavaRunConfigurationModule getConfigurationModule(MutationConfiguration mutationConfiguration) {
-        return Optional.ofNullable(mutationConfiguration)
-                .map(MutationConfiguration::getConfigurationModule)
-                .orElse(null);
     }
 
     @NotNull
