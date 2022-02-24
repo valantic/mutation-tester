@@ -64,6 +64,21 @@ In the tab settings the values of targetTests, targetClasses, reportDir, sourceD
 
 You can get more informations about the configuration fields [here](https://pitest.org/quickstart/commandline/).
 
+## Limitations
+This Plugin has a few limitation, we might (if needed) will fix in the near future.
+
+```
+automaticly determine name of to be testet Class
+
+When executing the plugin from the context-menu oder inside a class, the targetTest and targetClass 
+will be set automaticly. This is handled by default naming conventions. For example, you test the 
+Class "SampleService" with the test "SampleServiceTest", there will no problem setting these values 
+automaticly. The plugin will you the targetTest "SampleServiceTest" and remove the suffix "Test", 
+and will check if the rest of the string "SampleService" is a valid class.
+If it doesn't, the targetTestClass will be set by the package the test class "SampleServiceTest" is in. 
+You can always update the correct names by hand. If you might have different namingConventions relating 
+the application and testclass let us know, so we can add it to the automated process.
+```
 
 ## Copyright and Licensing Information
 See [LICENSE.md](LICENSE.md) for the complete License.
