@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Written by Fabian Hüsig <fabian.huesig@cec.valantic.com>, February, 2022
+ * Written by Fabian Hüsig, February, 2022
  */
 package com.valantic.intellij.plugin.mutation.services.impl;
 
@@ -98,11 +98,16 @@ public final class PsiService {
      * @param project
      */
     public void updateModule(final Project project, final String qualifiedName, final JavaRunConfigurationModule configurationModule) {
-        utilService.allowSlowOperations(() -> Optional.of(JavaPsiFacade.getInstance(project))
-                .map(javaPsiFacade -> getPsiClass(javaPsiFacade, qualifiedName, project))
-                .map(PsiClass::getContainingFile)
-                .map(moduleService::findModule)
-                .ifPresent(module -> configurationModule.setModule(module)));
+        utilService.allowSlowOperations(() -> {
+            PsiClass psiClass = getPsiClass(qualifiedName, project);
+            Optional.ofNullable(psiClass)
+                    .map(PsiClass::getContainingFile)
+                    .map(moduleService::findModule)
+                    .ifPresent(module -> {
+                        configurationModule.setModule(module);
+                        configurationModule.setModuleName(module.getName());
+                    });
+        });
     }
 
     /**
@@ -141,7 +146,7 @@ public final class PsiService {
     }
 
     /**
-     * res
+     * resolve package name for given PsiJavaDirectory
      *
      * @param dir
      * @return
@@ -155,7 +160,7 @@ public final class PsiService {
                 .map(PsiJavaFile.class::cast)
                 .map(PsiJavaFile::getPackageName)
                 .orElse(StringUtils.EMPTY);
-        if (StringUtils.isNotEmpty(classPackageName)) {
+        if (StringUtils.isNotEmpty(classPackageName) && !classPackageName.endsWith(MutationConstants.PACKAGE_SEPARATOR + dirName)) {
             String basePackageName = classPackageName.split(MutationConstants.PACKAGE_SEPARATOR + dirName + MutationConstants.PACKAGE_SEPARATOR)[0];
             return basePackageName + MutationConstants.PACKAGE_SEPARATOR + dirName;
         }
@@ -191,21 +196,45 @@ public final class PsiService {
     /**
      * get PsiClass for qualified name in the given project.
      *
-     * @param javaPsiFacade
      * @param qualifiedName
      * @param project
      * @return PsiClass
      */
-    private PsiClass getPsiClass(final JavaPsiFacade javaPsiFacade, final String qualifiedName, final Project project) {
+    private PsiClass getPsiClass(final String qualifiedName, final Project project) {
         if (qualifiedName.endsWith(MutationConstants.PACKAGE_SEPARATOR + MutationConstants.WILDCARD_SUFFIX)) {
-            PsiPackage psiPackage = Optional.of(qualifiedName.split(MutationConstants.WILDCARD_SUFFIX_REGEX)[0])
-                    .map(javaPsiFacade::findPackage)
-                    .orElse(null);
+            final String packageName = qualifiedName.split(MutationConstants.WILDCARD_SUFFIX_REGEX)[0];
+            PsiPackage psiPackage = getJavaPsiFacade().findPackage(packageName);
             if (psiPackage != null) {
-                return Arrays.stream(psiPackage.getClasses()).findAny().orElse(null);
+                return findPsiClassInPackage(psiPackage);
             }
         }
-        return javaPsiFacade.findClass(qualifiedName, new ProjectJavaFileSearchScope(project));
+        return getJavaPsiFacade().findClass(qualifiedName, new ProjectJavaFileSearchScope(project));
+    }
+
+    /**
+     * recursive call to find first class of psiPackage.getClasses.
+     * If empty make recursive call with subpackages.
+     *
+     * @param psiPackage
+     * @return
+     */
+    private PsiClass findPsiClassInPackage(final PsiPackage psiPackage) {
+        return Arrays.stream(psiPackage.getClasses())
+                .findFirst()
+                .orElseGet(() -> Arrays.stream(psiPackage.getSubPackages())
+                        .map(this::findPsiClassInPackage)
+                        .findFirst()
+                        .orElse(null));
+
+    }
+
+    /**
+     * get JavaPsiFacade
+     *
+     * @return
+     */
+    private JavaPsiFacade getJavaPsiFacade() {
+        return JavaPsiFacade.getInstance(projectService.getCurrentProject());
     }
 
 }

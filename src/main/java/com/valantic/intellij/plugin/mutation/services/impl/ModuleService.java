@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Written by Fabian Hüsig <fabian.huesig@cec.valantic.com>, February, 2022
+ * Written by Fabian Hüsig, February, 2022
  */
 package com.valantic.intellij.plugin.mutation.services.impl;
 
@@ -25,12 +25,11 @@ import com.intellij.openapi.module.ModuleUtil;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiFile;
 import com.valantic.intellij.plugin.mutation.configuration.MutationConfiguration;
-import com.valantic.intellij.plugin.mutation.configuration.MutationConfigurationFactory;
-import com.valantic.intellij.plugin.mutation.configuration.MutationConfigurationType;
 import com.valantic.intellij.plugin.mutation.services.Services;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Optional;
 
 /**
  * created by fabian.huesig on 2022-02-01
@@ -52,10 +51,11 @@ public final class ModuleService {
         return ModuleManager.getInstance(project);
     }
 
-    public JavaRunConfigurationModule createConfigurationModule() {
-        MutationConfigurationType mutationConfigurationType = new MutationConfigurationType();
-        MutationConfigurationFactory mutationConfigurationFactory = new MutationConfigurationFactory(mutationConfigurationType);
-        MutationConfiguration mutationConfiguration = new MutationConfiguration(projectService.getCurrentProject(), mutationConfigurationFactory, "name");
-        return mutationConfiguration.getConfigurationModule();
+    public JavaRunConfigurationModule getOrCreateRunConfigurationModule(final MutationConfiguration mutationConfiguration) {
+        return Optional.ofNullable(mutationConfiguration)
+                .map(MutationConfiguration::getConfigurationModule)
+                .orElseGet(() -> new JavaRunConfigurationModule(projectService.getCurrentProject(), true));
+
     }
+
 }

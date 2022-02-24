@@ -13,13 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Written by Fabian Hüsig <fabian.huesig@cec.valantic.com>, February, 2022
+ * Written by Fabian Hüsig, February, 2022
  */
 package com.valantic.intellij.plugin.mutation.icons;
 
 import org.junit.Test;
 
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 
 /**
@@ -38,6 +39,7 @@ public class IconsTest {
         assertNotNull(Icons.MUTATION_DISABLEDx13);
         assertNotNull(Icons.MUTATION_DISABLEDx16);
         assertNotNull(Icons.MUTATION_DISABLEDx40);
+        assertNull(Icons.createPNGImageIcon(null));
     }
 
 }

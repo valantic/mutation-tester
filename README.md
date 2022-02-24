@@ -16,12 +16,14 @@ This kind of testing helps you to produce better testing results, not only based
 
 This Plugin will help you as developer to run mutation tests easy and fast in your IDE without wasting time in configurations.
 
+For example is a full Pit Mutation Testing report of this plugin <a href="https://htmlpreview.github.io/?https://github.com/valantic/mutation-tester/samples/pitreport-v.0.1.1/index.html">here</a>
+
 
 ## Installation
 You can download the plugin from our [github(https://github.com/valantic/mutation-tester)].
 Next open your IntelliJ and install the plugin from disk, as seen below.
 It is recommended to restart your IDE.
-![](src/main/resources/sample/install-disk.png)
+![](./samples/screenshots/install-disk.png)
 
 
 ### IntelliJ Marketplace
@@ -30,37 +32,53 @@ The Plugin will be published to the Intellij Marketplace. This should be avaible
 
 ## Run the plugin
 You can simply create a new RunConfigurations with Mutation Tester
-![](src/main/resources/sample/create-configuration.png)
+![](./samples/screenshots/create-configuration.png)
 
 This Plugin will save you a lot of time. You don't need to create everytime new configurations by hand to test your new unit test. 
 With this tool you can automatically create configuration for your given test, as seen below by just executing the test in the run context of the unit test.
 
-![](src/main/resources/sample/run-in-class.png)
+![](./samples/screenshots/run-in-class.png)
 
-![](src/main/resources/sample/right-click-in-class.png)
+![](./samples/screenshots/right-click-in-class.png)
 
 You can also select packages in your test directory and test all classes in this package with all the tests in same named package.
 
-![](src/main/resources/sample/run-context-menu.png)
+![](./samples/screenshots/run-context-menu.png)
 
 If you still need to adjust the configuration you can do this easily. Each run will create a RunConfiguration you can simply modify.
 
-![](src/main/resources/sample/run-as.png)
+![](./samples/screenshots/run-as.png)
 
 
 ## Configuration
 If you need to adjust the defualt configuration, you can just go into your RunConfiguration and adjust the default settings.
 
-![](src/main/resources/sample/advanced-settings.png)
+![](./samples/screenshots/settings-1.png)
+
+![](./samples/screenshots/settings-2.png)
 
 In the tab settings the values of targetTests, targetClasses, reportDir, sourceDirs and mutators can not be empty. Otherwise the tests will not run. in the advanced tab you can easily modify default behaviour.
 
-![](src/main/resources/sample/settings-1.png)
+![](./samples/screenshots/advanced-settings.png)
 
-![](src/main/resources/sample/settings-2.png)
 
 You can get more informations about the configuration fields [here](https://pitest.org/quickstart/commandline/).
 
+## Limitations
+This Plugin has a few limitation, we might (if needed) will fix in the near future.
+
+```
+automaticly determine name of to be testet Class
+
+When executing the plugin from the context-menu oder inside a class, the targetTest and targetClass 
+will be set automaticly. This is handled by default naming conventions. For example, you test the 
+Class "SampleService" with the test "SampleServiceTest", there will no problem setting these values 
+automaticly. The plugin will you the targetTest "SampleServiceTest" and remove the suffix "Test", 
+and will check if the rest of the string "SampleService" is a valid class.
+If it doesn't, the targetTestClass will be set by the package the test class "SampleServiceTest" is in. 
+You can always update the correct names by hand. If you might have different namingConventions relating 
+the application and testclass let us know, so we can add it to the automated process.
+```
 
 ## Copyright and Licensing Information
 See [LICENSE.md](LICENSE.md) for the complete License.
@@ -95,10 +113,11 @@ So special credits go out to henry@pitest.org for developing such an amazing too
 Also the Icon (mutation.png) is based on an icon from flaticon by Freepik.
 <a href="https://www.flaticon.com/de/kostenlose-icons/gen" title="gen Icons">Gen Icons erstellt von Freepik - Flaticon</a>
 
+## Change Notes
+- <b>0.1.0</b> - 2022-02: Published Beta Version with primary focused on SAP Commerce
+- <b>0.1.1</b> - 2022-02: Raised Testcoverage. Fixed issue with missing module on run configuration
 
 ## Roadmap
-- [ ] refactoring
-- [ ] raise test coverage
 - [ ] testing badges (test and pitest)
 - [ ] fix beta issues
 - [ ] add to IntelliJ Marketplace

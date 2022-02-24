@@ -13,7 +13,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 
-Written by Fabian Hüsig <fabian.huesig@cec.valantic.com>, February, 2022
+Written by Fabian Hüsig, February, 2022
  -->
 <idea-plugin>
     <!-- Unique id for this plugin. Must stay constant for the life of the plugin. -->
@@ -52,7 +52,8 @@ Written by Fabian Hüsig <fabian.huesig@cec.valantic.com>, February, 2022
     <change-notes>
         <![CDATA[
 		  <ul>
-			<li><b>0.1.0</b> 2022-02: Published Closed Beta Version with primary focused on SAP Commerce</li>
+			<li><b>0.1.0</b> - 2022-02: Published Beta Version with primary focused on SAP Commerce</li>
+			<li><b>0.1.1</b> - 2022-02: Raised Testcoverage. Fixed issue with missing module on run configuration</li>
 		  </ul>
 		]]>
     </change-notes>
@@ -64,7 +65,7 @@ Written by Fabian Hüsig <fabian.huesig@cec.valantic.com>, February, 2022
 
     <extensions defaultExtensionNs="com.intellij">
         <configurationType implementation="com.valantic.intellij.plugin.mutation.configuration.MutationConfigurationType"/>
-        <runLineMarkerContributor language="JAVA" implementationClass="com.valantic.intellij.plugin.mutation.linemarker.MutationTestRunLineMarkerContributor"/>
+        <runLineMarkerContributor language="JAVA" implementationClass="com.valantic.intellij.plugin.mutation.linemarker.MutationRunLineMarkerContributor"/>
     </extensions>
     <actions>
         <action id="com.valantic.intellij.plugin.mutation.action.MutationAction"
