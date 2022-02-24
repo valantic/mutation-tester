@@ -2,8 +2,9 @@
 This Plugin enables mutation testing in your IDE based on <a href="https://pitest.org">pitest.org</a>.
 
 ![build workflow](https://github.com/valantic/mutation-tester/actions/workflows/gradle-build.yml/badge.svg)
-[![Software License](https://img.shields.io/badge/license-Apache%202-orange.svg?style=flat-square)](LICENSE.md)
+[![Software License](https://img.shields.io/badge/license-Apache%202-red.svg?style=flat-square)](LICENSE.md)
 [![HitCount](http://hits.dwyl.com/valantic/mutation-tester.svg?style=flat-square)](http://hits.dwyl.com/valantic/mutation-tester)
+[![MutationReport](https://img.shields.io/badge/mutation%20coverage-95%25-green.svg?style=flat-square)](https://htmlpreview.github.io/?https://github.com/valantic/mutation-tester/blob/main/samples/pitreport-v.0.1.1/index.html)
 
 This package is developed by [valantic CEC Schweiz](https://www.valantic.com/).
 
@@ -18,9 +19,14 @@ This Plugin will help you as developer to run mutation tests easy and fast in yo
 
 For example is a full Pit Mutation Testing report of this plugin <a href="https://htmlpreview.github.io/?https://github.com/valantic/mutation-tester/blob/main/samples/pitreport-v.0.1.1/index.html">here</a>
 
+#### Versions
+| Tool          | Supported / Used Version |
+|---------------|--------------------------|
+| PIT           | 1.7.4                    |
+| IntelliJ Idea | \>= 2019.*               |
 
 ## Installation
-You can download the plugin from our [github(https://github.com/valantic/mutation-tester)].
+You can download the plugin from our [github](https://github.com/valantic/mutation-tester).
 Next open your IntelliJ and install the plugin from disk, as seen below.
 It is recommended to restart your IDE.
 ![](./samples/screenshots/install-disk.png)
@@ -118,7 +124,6 @@ Also the Icon (mutation.png) is based on an icon from flaticon by Freepik.
 - <b>0.1.1</b> - 2022-02: Raised Testcoverage. Fixed issue with missing module on run configuration
 
 ## Roadmap
-- [ ] testing badges (test and pitest)
 - [ ] fix beta issues
 - [ ] add to IntelliJ Marketplace
 - [ ] cross module testing
