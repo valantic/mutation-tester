@@ -237,8 +237,9 @@ public class MutationActionTest {
         when(dataContext.getData("psi.Element.array")).thenReturn(new PsiElement[]{psiElement});
         when(dataContext.getData("psi.File")).thenReturn(psiJavaFile);
         when(psiJavaFile.getPackageName()).thenReturn("packageName");
-        when(psiJavaFile.getName()).thenReturn("className.java");
-        when(configurationService.getOrCreateMutationConfiguration(project, "packageName.className")).thenReturn(mutationConfiguration);
+        when(psiJavaFile.getName()).thenReturn("classNameTest.java");
+        when(psiService.doesClassExists("packageName.className")).thenReturn(true);
+        when(configurationService.getOrCreateMutationConfiguration(project, "packageName.classNameTest")).thenReturn(mutationConfiguration);
         when(mutationConfiguration.getMutationConfigurationOptions()).thenReturn(mutationConfigurationOptions);
         when(project.getBasePath()).thenReturn("projectBasePath");
         defaultRunExecutorMockedStatic.when(() -> DefaultRunExecutor.getRunExecutorInstance()).thenReturn(executor);
@@ -249,9 +250,10 @@ public class MutationActionTest {
         underTest.actionPerformed(anActionEvent);
 
         verify(mutationConfigurationOptions).setSourceDirs("projectBasePath");
-        verify(mutationConfigurationOptions).setTargetTests("packageName.className");
-        verify(mutationConfigurationOptions, times(0)).setTargetClasses(anyString());
-        assertEquals(underTest.getTargetTest(), "packageName.className");
+        verify(mutationConfigurationOptions).setTargetTests("packageName.classNameTest");
+        verify(mutationConfigurationOptions).setTargetClasses("packageName.className");
+        assertEquals(underTest.getTargetTest(), "packageName.classNameTest");
+        assertEquals(underTest.getTargetClass(), "packageName.className");
         verify(executionManager).restartRunProfile(executionEnvironment);
     }
 

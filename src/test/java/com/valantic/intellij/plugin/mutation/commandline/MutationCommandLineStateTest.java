@@ -41,6 +41,7 @@ import com.valantic.intellij.plugin.mutation.configuration.option.MutationConfig
 import com.valantic.intellij.plugin.mutation.localization.Messages;
 import com.valantic.intellij.plugin.mutation.services.Services;
 import com.valantic.intellij.plugin.mutation.services.impl.ModuleService;
+import com.valantic.intellij.plugin.mutation.services.impl.PsiService;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -74,6 +75,8 @@ public class MutationCommandLineStateTest {
 
     @Mock
     private ModuleService moduleService;
+    @Mock
+    private PsiService psiService;
 
     @Mock
     private ExecutionEnvironment environment;
@@ -100,11 +103,13 @@ public class MutationCommandLineStateTest {
         messagesMockedStatic = mockStatic(Messages.class);
         servicesMockedStatic = mockStatic(Services.class);
         servicesMockedStatic.when(() -> Services.getService(ModuleService.class)).thenReturn(moduleService);
+        servicesMockedStatic.when(() -> Services.getService(PsiService.class)).thenReturn(psiService);
         globalSearchScopesMockedStatic = mockStatic(GlobalSearchScopes.class);
         globalSearchScopesMockedStatic.when(() -> GlobalSearchScopes.executionScope(project, mutationConfiguration)).thenReturn(searchScope);
         textConsoleBuilderFactoryMockedStatic = mockStatic(TextConsoleBuilderFactory.class);
         textConsoleBuilderFactoryMockedStatic.when(() -> TextConsoleBuilderFactory.getInstance()).thenReturn(textConsoleBuilderFactory);
         when(mutationConfiguration.getMutationConfigurationOptions()).thenReturn(mutationConfigurationOptions);
+        when(mutationConfiguration.getProject()).thenReturn(project);
         when(mutationConfigurationOptions.getTargetTests()).thenReturn("targetTests");
         when(environment.getRunProfile()).thenReturn(mutationConfiguration);
         when(moduleService.getOrCreateRunConfigurationModule(mutationConfiguration)).thenReturn(javaRunConfigurationModule);
@@ -112,6 +117,7 @@ public class MutationCommandLineStateTest {
         underTest = spy(new MutationCommandLineState(environment));
 
         verify(moduleService).getOrCreateRunConfigurationModule(mutationConfiguration);
+        verify(psiService).updateModule(project, "targetTests", javaRunConfigurationModule);
     }
 
 

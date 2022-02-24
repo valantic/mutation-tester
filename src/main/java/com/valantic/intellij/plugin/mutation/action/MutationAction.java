@@ -90,7 +90,8 @@ public class MutationAction extends AnAction {
     @Override
     public void actionPerformed(final @NotNull AnActionEvent event) {
         final Project project = event.getProject();
-        setEventTargetTestIfNotExists(event);
+        setEventTargetTest(event);
+        setEventTargetClass();
         final MutationConfiguration mutationConfiguration = configurationService.getOrCreateMutationConfiguration(project, getTargetTest());
         Optional.of(mutationConfiguration)
                 .map(MutationConfiguration::getMutationConfigurationOptions)
@@ -123,17 +124,21 @@ public class MutationAction extends AnAction {
                 .ifPresent(presentation -> presentation.setEnabled(psiClass != null && psiService.isTestClass(psiClass)));
     }
 
-    private void setEventTargetTestIfNotExists(final AnActionEvent event) {
+    private void setEventTargetTest(final AnActionEvent event) {
         final DataContext dataContext = event.getDataContext();
-        final String selectedTargetTest = Optional.ofNullable(dataContext)
+        this.targetTest = Optional.ofNullable(dataContext)
                 .map(this::getSelectedTestDir)
                 .map(psiService::resolvePackageNameForDir)
                 .map(packageName -> packageName + MutationConstants.PACKAGE_WILDCARD_SUFFIX)
                 .orElseGet(() -> getSelectedFile(dataContext));
-        if (StringUtils.isNotEmpty(selectedTargetTest)) {
-            this.targetTest = selectedTargetTest;
-            if (selectedTargetTest.endsWith(MutationConstants.WILDCARD_SUFFIX)) {
-                this.targetClass = selectedTargetTest;
+    }
+
+    private void setEventTargetClass() {
+        if (StringUtils.isNotEmpty(this.targetTest)) {
+            if (this.targetTest.endsWith(MutationConstants.WILDCARD_SUFFIX)) {
+                this.targetClass = this.targetTest;
+            } else if (psiService.doesClassExists(this.targetTest.split(MutationConstants.TEST_CLASS_SUFFIX)[0])) {
+                this.targetClass = this.targetTest.split(MutationConstants.TEST_CLASS_SUFFIX)[0];
             }
         }
     }

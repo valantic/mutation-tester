@@ -18,13 +18,17 @@
 package com.valantic.intellij.plugin.mutation.services.impl;
 
 import com.intellij.codeInsight.TestFrameworks;
+import com.intellij.execution.configurations.JavaRunConfigurationModule;
 import com.intellij.openapi.components.Service;
 import com.intellij.openapi.project.Project;
+import com.intellij.psi.JavaPsiFacade;
 import com.intellij.psi.PsiClass;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiJavaFile;
+import com.intellij.psi.PsiPackage;
 import com.intellij.psi.impl.file.PsiJavaDirectoryImpl;
 import com.valantic.intellij.plugin.mutation.constants.MutationConstants;
+import com.valantic.intellij.plugin.mutation.search.ProjectJavaFileSearchScope;
 import com.valantic.intellij.plugin.mutation.services.Services;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -40,6 +44,8 @@ import java.util.Optional;
 public final class PsiService {
 
     private ClassNameService classNameService = Services.getService(ClassNameService.class);
+    private ModuleService moduleService = Services.getService(ModuleService.class);
+    private UtilService utilService = Services.getService(UtilService.class);
     private ProjectService projectService = Services.getService(ProjectService.class);
 
     /**
@@ -82,6 +88,26 @@ public final class PsiService {
                 .filter(className -> className.contains(MutationConstants.PACKAGE_SEPARATOR))
                 .map(className -> StringUtils.substringAfterLast(className, MutationConstants.PACKAGE_SEPARATOR))
                 .orElse(fullyQualifiedClassName);
+    }
+
+    /**
+     * updates the module needed for java command line state.
+     * This can change in a multi module project depending of the used module.
+     * Determines the correct moule based by package of the test
+     *
+     * @param project
+     */
+    public void updateModule(final Project project, final String qualifiedName, final JavaRunConfigurationModule configurationModule) {
+        utilService.allowSlowOperations(() -> {
+            PsiClass psiClass = getPsiClass(qualifiedName, project);
+            Optional.ofNullable(psiClass)
+                    .map(PsiClass::getContainingFile)
+                    .map(moduleService::findModule)
+                    .ifPresent(module -> {
+                        configurationModule.setModule(module);
+                        configurationModule.setModuleName(module.getName());
+                    });
+        });
     }
 
     /**
@@ -165,6 +191,50 @@ public final class PsiService {
             psiClass[0] = optionalPsiClass.get();
         }
         return psiClass[0];
+    }
+
+    /**
+     * get PsiClass for qualified name in the given project.
+     *
+     * @param qualifiedName
+     * @param project
+     * @return PsiClass
+     */
+    private PsiClass getPsiClass(final String qualifiedName, final Project project) {
+        if (qualifiedName.endsWith(MutationConstants.PACKAGE_SEPARATOR + MutationConstants.WILDCARD_SUFFIX)) {
+            final String packageName = qualifiedName.split(MutationConstants.WILDCARD_SUFFIX_REGEX)[0];
+            PsiPackage psiPackage = getJavaPsiFacade().findPackage(packageName);
+            if (psiPackage != null) {
+                return findPsiClassInPackage(psiPackage);
+            }
+        }
+        return getJavaPsiFacade().findClass(qualifiedName, new ProjectJavaFileSearchScope(project));
+    }
+
+    /**
+     * recursive call to find first class of psiPackage.getClasses.
+     * If empty make recursive call with subpackages.
+     *
+     * @param psiPackage
+     * @return
+     */
+    private PsiClass findPsiClassInPackage(final PsiPackage psiPackage) {
+        return Arrays.stream(psiPackage.getClasses())
+                .findFirst()
+                .orElseGet(() -> Arrays.stream(psiPackage.getSubPackages())
+                        .map(this::findPsiClassInPackage)
+                        .findFirst()
+                        .orElse(null));
+
+    }
+
+    /**
+     * get JavaPsiFacade
+     *
+     * @return
+     */
+    private JavaPsiFacade getJavaPsiFacade() {
+        return JavaPsiFacade.getInstance(projectService.getCurrentProject());
     }
 
 }

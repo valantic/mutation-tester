@@ -35,6 +35,7 @@ import java.util.function.Function;
 /**
  * created by fabian.huesig on 2022-02-01
  */
+@SuppressWarnings("unchecked")
 public class MutationRunLineMarkerContributor extends RunLineMarkerContributor {
 
     private static final String EXECUTION_BUNDLE_MESSAGE_KEY = "run.text";
@@ -45,7 +46,7 @@ public class MutationRunLineMarkerContributor extends RunLineMarkerContributor {
     private UtilService utilService = Services.getService(UtilService.class);
     private PsiService psiService = Services.getService(PsiService.class);
 
-    @SuppressWarnings("unchecked")
+
     @Nullable
     @Override
     public Info getInfo(@NotNull PsiElement element) {

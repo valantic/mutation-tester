@@ -98,6 +98,9 @@ So special credits go out to henry@pitest.org for developing such an amazing too
 Also the Icon (mutation.png) is based on an icon from flaticon by Freepik.
 <a href="https://www.flaticon.com/de/kostenlose-icons/gen" title="gen Icons">Gen Icons erstellt von Freepik - Flaticon</a>
 
+## Change Notes
+- <b>0.1.0</b> - 2022-02: Published Beta Version with primary focused on SAP Commerce
+- <b>0.1.1</b> - 2022-02: Raised Testcoverage. Fixed issue with missing module on run configuration
 
 ## Roadmap
 - [ ] testing badges (test and pitest)

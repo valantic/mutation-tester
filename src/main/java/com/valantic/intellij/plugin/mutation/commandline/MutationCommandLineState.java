@@ -42,6 +42,7 @@ import com.valantic.intellij.plugin.mutation.constants.MutationConstants;
 import com.valantic.intellij.plugin.mutation.localization.Messages;
 import com.valantic.intellij.plugin.mutation.services.Services;
 import com.valantic.intellij.plugin.mutation.services.impl.ModuleService;
+import com.valantic.intellij.plugin.mutation.services.impl.PsiService;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.TestOnly;
@@ -68,6 +69,7 @@ public class MutationCommandLineState extends JavaCommandLineState {
     private JavaRunConfigurationModule module;
     private MutationConfigurationOptions options;
 
+    private PsiService psiService = Services.getService(PsiService.class);
     private ModuleService moduleService = Services.getService(ModuleService.class);
 
     public MutationCommandLineState(final ExecutionEnvironment environment) {
@@ -80,6 +82,7 @@ public class MutationCommandLineState extends JavaCommandLineState {
                     this.creationTime = new SimpleDateFormat(DATE_FORMAT).format(new Date());
                     this.module = moduleService.getOrCreateRunConfigurationModule(mutationConfiguration);
                     this.options = mutationConfiguration.getMutationConfigurationOptions();
+                    psiService.updateModule(mutationConfiguration.getProject(), this.options.getTargetTests(), this.module);
                 });
     }
 

@@ -18,15 +18,20 @@
 package com.valantic.intellij.plugin.mutation.services.impl;
 
 import com.intellij.codeInsight.TestFrameworks;
+import com.intellij.execution.configurations.JavaRunConfigurationModule;
+import com.intellij.openapi.module.Module;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.JavaPsiFacade;
 import com.intellij.psi.PsiClass;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiJavaFile;
+import com.intellij.psi.PsiPackage;
 import com.intellij.psi.impl.file.PsiJavaDirectoryImpl;
 import com.intellij.psi.search.GlobalSearchScope;
 import com.intellij.util.Processor;
+import com.intellij.util.ThrowableRunnable;
+import com.valantic.intellij.plugin.mutation.search.ProjectJavaFileSearchScope;
 import com.valantic.intellij.plugin.mutation.services.Services;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.After;
@@ -41,11 +46,13 @@ import org.mockito.junit.MockitoJUnitRunner;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.mockStatic;
 import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -134,6 +141,105 @@ public class PsiServiceTest {
     public void testGetClassName_isPackage() {
         final String fullyQualifiedClassName = "fully.qualified.ClassName";
         assertEquals("ClassName", underTest.getClassName(fullyQualifiedClassName));
+    }
+
+
+    @Test
+    public void testUpdateModule_className() throws Throwable {
+        final Project project = mock(Project.class);
+        final String qualifiedName = "ClassName";
+        final JavaRunConfigurationModule configurationModule = mock(JavaRunConfigurationModule.class);
+        final ArgumentCaptor<ThrowableRunnable> throwableRunnableArgumentCaptor = ArgumentCaptor.forClass(ThrowableRunnable.class);
+        final JavaPsiFacade javaPsiFacade = mock(JavaPsiFacade.class);
+        final PsiClass psiClass = mock(PsiClass.class);
+        final PsiFile psiFile = mock(PsiFile.class);
+        final Module module = mock(Module.class);
+
+        when(projectService.getCurrentProject()).thenReturn(project);
+        javaPsiFacadeMockedStatic.when(() -> JavaPsiFacade.getInstance(project)).thenReturn(javaPsiFacade);
+        when(javaPsiFacade.findClass(eq("ClassName"), any(ProjectJavaFileSearchScope.class))).thenReturn(psiClass);
+        when(psiClass.getContainingFile()).thenReturn(psiFile);
+        when(moduleService.findModule(psiFile)).thenReturn(module);
+
+        underTest.updateModule(project, qualifiedName, configurationModule);
+
+        verify(utilService).allowSlowOperations(throwableRunnableArgumentCaptor.capture());
+        throwableRunnableArgumentCaptor.getValue().run();
+        verify(configurationModule).setModule(module);
+    }
+
+    @Test
+    public void testUpdateModule_wildcardPackage_packageFound() throws Throwable {
+        final Project project = mock(Project.class);
+        final String qualifiedName = "var.package.*";
+        final JavaRunConfigurationModule configurationModule = mock(JavaRunConfigurationModule.class);
+        final ArgumentCaptor<ThrowableRunnable> throwableRunnableArgumentCaptor = ArgumentCaptor.forClass(ThrowableRunnable.class);
+        final JavaPsiFacade javaPsiFacade = mock(JavaPsiFacade.class);
+        final PsiPackage psiPackage = mock(PsiPackage.class);
+        final PsiClass psiClass = mock(PsiClass.class);
+        final PsiFile psiFile = mock(PsiFile.class);
+        final Module module = mock(Module.class);
+
+        when(projectService.getCurrentProject()).thenReturn(project);
+        javaPsiFacadeMockedStatic.when(() -> JavaPsiFacade.getInstance(project)).thenReturn(javaPsiFacade);
+        when(javaPsiFacade.findPackage("var.package")).thenReturn(psiPackage);
+        when(psiPackage.getClasses()).thenReturn(new PsiClass[]{psiClass});
+        when(psiClass.getContainingFile()).thenReturn(psiFile);
+        when(moduleService.findModule(psiFile)).thenReturn(module);
+
+        underTest.updateModule(project, qualifiedName, configurationModule);
+
+        verify(utilService).allowSlowOperations(throwableRunnableArgumentCaptor.capture());
+        throwableRunnableArgumentCaptor.getValue().run();
+        verify(configurationModule).setModule(module);
+    }
+
+    @Test
+    public void testUpdateModule_wildcardPackage_foundInSubpackages() throws Throwable {
+        final Project project = mock(Project.class);
+        final String qualifiedName = "var.package.*";
+        final JavaRunConfigurationModule configurationModule = mock(JavaRunConfigurationModule.class);
+        final ArgumentCaptor<ThrowableRunnable> throwableRunnableArgumentCaptor = ArgumentCaptor.forClass(ThrowableRunnable.class);
+        final JavaPsiFacade javaPsiFacade = mock(JavaPsiFacade.class);
+        final PsiPackage psiPackage = mock(PsiPackage.class);
+        final PsiPackage subPackage = mock(PsiPackage.class);
+        final PsiClass psiClass = mock(PsiClass.class);
+        final PsiFile psiFile = mock(PsiFile.class);
+        final Module module = mock(Module.class);
+
+        when(projectService.getCurrentProject()).thenReturn(project);
+        javaPsiFacadeMockedStatic.when(() -> JavaPsiFacade.getInstance(project)).thenReturn(javaPsiFacade);
+        when(javaPsiFacade.findPackage("var.package")).thenReturn(psiPackage);
+        when(psiPackage.getClasses()).thenReturn(new PsiClass[]{});
+        when(psiPackage.getSubPackages()).thenReturn(new PsiPackage[]{subPackage});
+        when(subPackage.getClasses()).thenReturn(new PsiClass[]{psiClass});
+        when(psiClass.getContainingFile()).thenReturn(psiFile);
+        when(moduleService.findModule(psiFile)).thenReturn(module);
+
+        underTest.updateModule(project, qualifiedName, configurationModule);
+
+        verify(utilService).allowSlowOperations(throwableRunnableArgumentCaptor.capture());
+        throwableRunnableArgumentCaptor.getValue().run();
+        verify(configurationModule).setModule(module);
+    }
+
+    @Test
+    public void testUpdateModule_wildcardPackage_packageDoesNotExists() throws Throwable {
+        final Project project = mock(Project.class);
+        final String qualifiedName = "var.package.not.existing.*";
+        final JavaRunConfigurationModule configurationModule = mock(JavaRunConfigurationModule.class);
+        final ArgumentCaptor<ThrowableRunnable> throwableRunnableArgumentCaptor = ArgumentCaptor.forClass(ThrowableRunnable.class);
+        final JavaPsiFacade javaPsiFacade = mock(JavaPsiFacade.class);
+
+        when(projectService.getCurrentProject()).thenReturn(project);
+        javaPsiFacadeMockedStatic.when(() -> JavaPsiFacade.getInstance(project)).thenReturn(javaPsiFacade);
+        when(javaPsiFacade.findPackage("var.package.not.existing")).thenReturn(null);
+        underTest.updateModule(project, qualifiedName, configurationModule);
+
+        verify(moduleService, times(0)).findModule(any());
+        verify(utilService).allowSlowOperations(throwableRunnableArgumentCaptor.capture());
+        throwableRunnableArgumentCaptor.getValue().run();
+        verify(configurationModule, times(0)).setModule(any());
     }
 
     @Test
