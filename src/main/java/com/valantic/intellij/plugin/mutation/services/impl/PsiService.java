@@ -27,7 +27,7 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiJavaFile;
 import com.intellij.psi.PsiPackage;
 import com.intellij.psi.impl.file.PsiJavaDirectoryImpl;
-import com.valantic.intellij.plugin.mutation.constants.MutationConstants;
+import com.valantic.intellij.plugin.mutation.enums.MutationConstants;
 import com.valantic.intellij.plugin.mutation.search.ProjectJavaFileSearchScope;
 import com.valantic.intellij.plugin.mutation.services.Services;
 import org.apache.commons.lang3.ArrayUtils;
@@ -57,7 +57,7 @@ public final class PsiService {
     public boolean doesClassExists(final String fullyQualifiedClassName) {
         final boolean[] exists = new boolean[1];
         final Project project = projectService.getCurrentProject();
-        classNameService.processClassNames(project, projectService.getJavaFileProjectSearchScope(project), name -> {
+        classNameService.processClassNames(project, projectService.getSearchScope(project), name -> {
             if (getClassName(fullyQualifiedClassName).equals(name)) {
                 exists[0] = Boolean.TRUE;
                 return Boolean.FALSE;
@@ -85,8 +85,8 @@ public final class PsiService {
      */
     public String getClassName(final String fullyQualifiedClassName) {
         return Optional.of(fullyQualifiedClassName)
-                .filter(className -> className.contains(MutationConstants.PACKAGE_SEPARATOR))
-                .map(className -> StringUtils.substringAfterLast(className, MutationConstants.PACKAGE_SEPARATOR))
+                .filter(className -> className.contains(MutationConstants.PACKAGE_SEPARATOR.getValue()))
+                .map(className -> StringUtils.substringAfterLast(className, MutationConstants.PACKAGE_SEPARATOR.getValue()))
                 .orElse(fullyQualifiedClassName);
     }
 
@@ -134,14 +134,14 @@ public final class PsiService {
      */
     public String determineTargetClass(final String targetTest, final PsiClass psiClass) {
         return Optional.ofNullable(targetTest)
-                .map(testClassName -> StringUtils.removeEnd(testClassName, MutationConstants.TEST_CLASS_SUFFIX))
+                .map(testClassName -> StringUtils.removeEnd(testClassName, MutationConstants.TEST_CLASS_SUFFIX.getValue()))
                 .filter(this::doesClassExists)
                 .orElseGet(() -> Optional.of(psiClass)
                         .map(PsiClass::getContainingFile)
                         .filter(PsiJavaFile.class::isInstance)
                         .map(PsiJavaFile.class::cast)
                         .map(PsiJavaFile::getPackageName)
-                        .map(packageName -> packageName + MutationConstants.PACKAGE_WILDCARD_SUFFIX)
+                        .map(packageName -> packageName + MutationConstants.PACKAGE_WILDCARD_SUFFIX.getValue())
                         .orElse(StringUtils.EMPTY));
     }
 
@@ -160,9 +160,9 @@ public final class PsiService {
                 .map(PsiJavaFile.class::cast)
                 .map(PsiJavaFile::getPackageName)
                 .orElse(StringUtils.EMPTY);
-        if (StringUtils.isNotEmpty(classPackageName) && !classPackageName.endsWith(MutationConstants.PACKAGE_SEPARATOR + dirName)) {
-            String basePackageName = classPackageName.split(MutationConstants.PACKAGE_SEPARATOR + dirName + MutationConstants.PACKAGE_SEPARATOR)[0];
-            return basePackageName + MutationConstants.PACKAGE_SEPARATOR + dirName;
+        if (StringUtils.isNotEmpty(classPackageName) && !classPackageName.endsWith(MutationConstants.PACKAGE_SEPARATOR.getValue() + dirName)) {
+            String basePackageName = classPackageName.split(MutationConstants.PACKAGE_SEPARATOR.getValue() + dirName + MutationConstants.PACKAGE_SEPARATOR.getValue())[0];
+            return basePackageName + MutationConstants.PACKAGE_SEPARATOR.getValue() + dirName;
         }
         return classPackageName;
     }
@@ -201,8 +201,8 @@ public final class PsiService {
      * @return PsiClass
      */
     private PsiClass getPsiClass(final String qualifiedName, final Project project) {
-        if (qualifiedName.endsWith(MutationConstants.PACKAGE_SEPARATOR + MutationConstants.WILDCARD_SUFFIX)) {
-            final String packageName = qualifiedName.split(MutationConstants.WILDCARD_SUFFIX_REGEX)[0];
+        if (qualifiedName.endsWith(MutationConstants.PACKAGE_SEPARATOR.getValue() + MutationConstants.WILDCARD_SUFFIX.getValue())) {
+            final String packageName = qualifiedName.split(MutationConstants.WILDCARD_SUFFIX_REGEX.getValue())[0];
             PsiPackage psiPackage = getJavaPsiFacade().findPackage(packageName);
             if (psiPackage != null) {
                 return findPsiClassInPackage(psiPackage);

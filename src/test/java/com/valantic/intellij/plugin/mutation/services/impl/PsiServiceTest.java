@@ -98,7 +98,7 @@ public class PsiServiceTest {
         final ArgumentCaptor<Processor<String>> processorArgumentCaptor = ArgumentCaptor.forClass(Processor.class);
 
         when(projectService.getCurrentProject()).thenReturn(project);
-        when(projectService.getJavaFileProjectSearchScope(project)).thenReturn(searchScope);
+        when(projectService.getSearchScope(project)).thenReturn(searchScope);
 
         underTest.doesClassExists(fullyQualifiedClassName);
 

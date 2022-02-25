@@ -122,9 +122,7 @@ public final class SettingsEditorService {
      * @param text
      */
     private void resetTextField(final LabeledComponent<EditorTextField> textField, final String text) {
-        Optional.of(textField).map(LabeledComponent::getComponent).ifPresent(component -> {
-            component.setText(text);
-        });
+        Optional.of(textField).map(LabeledComponent::getComponent).ifPresent(component -> component.setText(text));
     }
 
     /**

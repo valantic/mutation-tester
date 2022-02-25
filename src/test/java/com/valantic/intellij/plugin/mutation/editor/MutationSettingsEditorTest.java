@@ -102,12 +102,12 @@ public class MutationSettingsEditorTest {
     @Test
     public void testCreateEditor() {
         underTest.createEditor();
-        // do nothing
+        verify(underTest).createEditor();
     }
 
 
     @Test
-    public void testCreateUiComponents() {
+    public void testCreateUiComponents_majorSettings() {
         underTest.createUIComponents();
 
         verify(underTest).setUIComponents();
@@ -119,6 +119,12 @@ public class MutationSettingsEditorTest {
         verify(underTest.timeoutConst).setComponent(any());
         verify(underTest.outputFormats).setComponent(any());
         verify(underTest.timestampedReports).setComponent(any());
+    }
+
+    @Test
+    public void testCreateUiComponents_advancedSettings() {
+        underTest.createUIComponents();
+
         verify(underTest.includeLaunchClasspath).setComponent(any());
         verify(underTest.dependencyDistance).setComponent(any());
         verify(underTest.threads).setComponent(any());

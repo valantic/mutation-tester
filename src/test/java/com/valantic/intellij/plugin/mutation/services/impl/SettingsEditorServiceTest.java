@@ -99,7 +99,7 @@ public class SettingsEditorServiceTest {
     }
 
     @Test
-    public void testApplyEditorTo() {
+    public void testApplyEditorTo_majorSettings() {
         MutationConfiguration mutationConfiguration = mock(MutationConfiguration.class);
         MutationConfigurationOptions mutationConfigurationOptions = mock(MutationConfigurationOptions.class);
         MutationSettingsEditor mutationSettingsEditor = mockMutationSettingsEditor();
@@ -121,6 +121,23 @@ public class SettingsEditorServiceTest {
         verify(mutationConfigurationOptions).setTimeoutConst(anyString());
         verify(mutationConfigurationOptions).setOutputFormats(anyString());
         verify(mutationConfigurationOptions).setTimestampedReports(anyString());
+    }
+
+    @Test
+    public void testApplyEditorTo_advancedSettings() {
+        MutationConfiguration mutationConfiguration = mock(MutationConfiguration.class);
+        MutationConfigurationOptions mutationConfigurationOptions = mock(MutationConfigurationOptions.class);
+        MutationSettingsEditor mutationSettingsEditor = mockMutationSettingsEditor();
+        Object selectedObject = mock(Object.class);
+
+        when(mutationConfiguration.getMutationConfigurationOptions()).thenReturn(mutationConfigurationOptions);
+        when(editorTextField.getText()).thenReturn("editorTextFieldText");
+        when(textFieldWithBrowseButton.getText()).thenReturn("textFieldWithBrowseButtonText");
+        when(comboBox.getSelectedItem()).thenReturn(selectedObject);
+        when(selectedObject.toString()).thenReturn("comboBoxText");
+
+        underTest.applyEditorTo(mutationSettingsEditor, mutationConfiguration);
+
         verify(mutationConfigurationOptions).setIncludeLaunchClasspath(anyString());
         verify(mutationConfigurationOptions).setDependencyDistance(anyString());
         verify(mutationConfigurationOptions).setThreads(anyString());

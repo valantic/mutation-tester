@@ -21,7 +21,7 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.project.ProjectManager;
 import com.intellij.openapi.roots.ProjectRootManager;
 import com.intellij.psi.search.GlobalSearchScope;
-import com.valantic.intellij.plugin.mutation.search.ProjectJavaFileSearchScope;
+import com.intellij.psi.search.ProjectScope;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -30,7 +30,6 @@ import org.mockito.MockedStatic;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.mockStatic;
@@ -47,14 +46,14 @@ public class ProjectServiceTest {
 
     private MockedStatic<ProjectManager> projectManagerMockedStatic;
     private MockedStatic<ProjectRootManager> projectRootManagerMockedStatic;
-    private MockedStatic<GlobalSearchScope> projectJavaFileSearchScopeMockedStatic;
+    private MockedStatic<ProjectScope> projectScopeMockedStatic;
 
 
     @Before
     public void setUp() {
         projectManagerMockedStatic = mockStatic(ProjectManager.class);
         projectRootManagerMockedStatic = mockStatic(ProjectRootManager.class);
-        projectJavaFileSearchScopeMockedStatic = mockStatic(GlobalSearchScope.class);
+        projectScopeMockedStatic = mockStatic(ProjectScope.class);
         underTest = new ProjectService();
     }
 
@@ -73,18 +72,14 @@ public class ProjectServiceTest {
         assertSame(project, result);
     }
 
-    @Test
+    @Test(expected = IndexOutOfBoundsException.class)
     public void testGetCurrentProject_notFound() {
-        Project project = mock(Project.class);
         ProjectManager projectManager = mock(ProjectManager.class);
 
         projectManagerMockedStatic.when(() -> ProjectManager.getInstance()).thenReturn(projectManager);
         when(projectManager.getOpenProjects()).thenReturn(new Project[]{});
 
-        Project result = underTest.getCurrentProject();
-
-        verify(projectManager).getOpenProjects();
-        assertNull(result);
+        underTest.getCurrentProject();
     }
 
     @Test
@@ -104,18 +99,18 @@ public class ProjectServiceTest {
     public void testGetJavaFileProjectSearchScope() {
         Project project = mock(Project.class);
         GlobalSearchScope globalSearchScope = mock(GlobalSearchScope.class);
-        projectJavaFileSearchScopeMockedStatic.when(() -> ProjectJavaFileSearchScope.projectScope(project)).thenReturn(globalSearchScope);
+        projectScopeMockedStatic.when(() -> ProjectScope.getProjectScope(project)).thenReturn(globalSearchScope);
 
-        GlobalSearchScope result = underTest.getJavaFileProjectSearchScope(project);
+        GlobalSearchScope result = underTest.getSearchScope(project);
 
         assertSame(globalSearchScope, result);
-        projectJavaFileSearchScopeMockedStatic.verify(() -> ProjectJavaFileSearchScope.projectScope(project));
+        projectScopeMockedStatic.verify(() -> ProjectScope.getProjectScope(project));
     }
 
     @After
     public void tearDown() {
         projectManagerMockedStatic.close();
         projectRootManagerMockedStatic.close();
-        projectJavaFileSearchScopeMockedStatic.close();
+        projectScopeMockedStatic.close();
     }
 }

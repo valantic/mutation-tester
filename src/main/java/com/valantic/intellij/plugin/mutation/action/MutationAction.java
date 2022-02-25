@@ -22,8 +22,8 @@ import com.intellij.execution.executors.DefaultRunExecutor;
 import com.intellij.execution.runners.ExecutionEnvironmentBuilder;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
+import com.intellij.openapi.actionSystem.CommonDataKeys;
 import com.intellij.openapi.actionSystem.DataContext;
-import com.intellij.openapi.actionSystem.LangDataKeys;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiClass;
 import com.intellij.psi.PsiElement;
@@ -31,7 +31,7 @@ import com.intellij.psi.PsiJavaFile;
 import com.intellij.psi.impl.file.PsiJavaDirectoryImpl;
 import com.intellij.psi.util.PsiTreeUtil;
 import com.valantic.intellij.plugin.mutation.configuration.MutationConfiguration;
-import com.valantic.intellij.plugin.mutation.constants.MutationConstants;
+import com.valantic.intellij.plugin.mutation.enums.MutationConstants;
 import com.valantic.intellij.plugin.mutation.icons.Icons;
 import com.valantic.intellij.plugin.mutation.localization.Messages;
 import com.valantic.intellij.plugin.mutation.services.Services;
@@ -110,7 +110,7 @@ public class MutationAction extends AnAction {
     }
 
     private void updatePresentation(final AnActionEvent event) {
-        final PsiElement psiElement = event.getData(LangDataKeys.PSI_ELEMENT);
+        final PsiElement psiElement = event.getData(CommonDataKeys.PSI_ELEMENT);
         final PsiClass psiClass = Optional.ofNullable(psiElement)
                 .filter(PsiJavaDirectoryImpl.class::isInstance)
                 .map(PsiJavaDirectoryImpl.class::cast)
@@ -129,16 +129,16 @@ public class MutationAction extends AnAction {
         this.targetTest = Optional.ofNullable(dataContext)
                 .map(this::getSelectedTestDir)
                 .map(psiService::resolvePackageNameForDir)
-                .map(packageName -> packageName + MutationConstants.PACKAGE_WILDCARD_SUFFIX)
+                .map(packageName -> packageName + MutationConstants.PACKAGE_WILDCARD_SUFFIX.getValue())
                 .orElseGet(() -> getSelectedFile(dataContext));
     }
 
     private void setEventTargetClass() {
         if (StringUtils.isNotEmpty(this.targetTest)) {
-            if (this.targetTest.endsWith(MutationConstants.WILDCARD_SUFFIX)) {
+            if (this.targetTest.endsWith(MutationConstants.WILDCARD_SUFFIX.getValue())) {
                 this.targetClass = this.targetTest;
-            } else if (psiService.doesClassExists(this.targetTest.split(MutationConstants.TEST_CLASS_SUFFIX)[0])) {
-                this.targetClass = this.targetTest.split(MutationConstants.TEST_CLASS_SUFFIX)[0];
+            } else if (psiService.doesClassExists(this.targetTest.split(MutationConstants.TEST_CLASS_SUFFIX.getValue())[0])) {
+                this.targetClass = this.targetTest.split(MutationConstants.TEST_CLASS_SUFFIX.getValue())[0];
             }
         }
     }
@@ -148,7 +148,7 @@ public class MutationAction extends AnAction {
                 .map(dataContext::getData)
                 .filter(PsiJavaFile.class::isInstance)
                 .map(PsiJavaFile.class::cast)
-                .map(psiJavaFile -> psiJavaFile.getPackageName() + MutationConstants.PACKAGE_SEPARATOR + psiJavaFile.getName().split(MutationConstants.JAVA_FILE_SUFFIX_REGEX)[0])
+                .map(psiJavaFile -> psiJavaFile.getPackageName() + MutationConstants.PACKAGE_SEPARATOR.getValue() + psiJavaFile.getName().split(MutationConstants.JAVA_FILE_SUFFIX_REGEX.getValue())[0])
                 .orElse(StringUtils.EMPTY);
     }
 

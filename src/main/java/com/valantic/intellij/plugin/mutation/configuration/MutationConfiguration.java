@@ -55,7 +55,7 @@ public class MutationConfiguration extends JavaRunConfigurationBase {
     private boolean passParentEnvs;
     private ShortenCommandLine shortenCommandLine;
 
-    private ModuleService moduleService = Services.getService(ModuleService.class);
+    private transient ModuleService moduleService = Services.getService(ModuleService.class);
 
     public MutationConfiguration(final Project project, final ConfigurationFactory factory, final String name) {
         super(name, new JavaRunConfigurationModule(project, Boolean.TRUE), factory);

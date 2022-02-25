@@ -15,21 +15,29 @@
  *
  * Written by Fabian Hüsig, February, 2022
  */
-package com.valantic.intellij.plugin.mutation.localization;
-
-import org.junit.Test;
-
-import static org.junit.Assert.assertEquals;
-
+package com.valantic.intellij.plugin.mutation.enums;
 
 /**
  * created by fabian.huesig on 2022-02-01
  */
-public class MessagesTest {
+public enum MutationConstants {
 
-    @Test
-    public void getMessages() {
-        assertEquals("test value", Messages.getMessage("key.test"));
-        assertEquals("key.does.not.exist", Messages.getMessage("key.does.not.exist"));
+    PACKAGE_SEPARATOR("."),
+    PATH_SEPARATOR("/"),
+    TRAILING_SLASH_REGEX("/*$"),
+    JAVA_FILE_SUFFIX_REGEX("\\.java"),
+    WILDCARD_SUFFIX_REGEX("\\.\\*"),
+    PACKAGE_WILDCARD_SUFFIX(".*"),
+    TEST_CLASS_SUFFIX("Test"),
+    WILDCARD_SUFFIX("*");
+
+    private String value;
+
+    MutationConstants(String value) {
+        this.value = value;
+    }
+
+    public String getValue() {
+        return this.value;
     }
 }
