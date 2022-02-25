@@ -20,7 +20,6 @@ plugins {
     id "org.jetbrains.intellij" version "$intellijPluginVersion"
     id 'info.solidsoft.pitest' version "$pitestGradleVersion"
     id "org.sonarqube" version "$sonarqubeVersion"
-    id 'jacoco'
 }
 
 group "com.valantic"
@@ -51,14 +50,6 @@ sonarqube {
         property "sonar.tests", "src/test"
     }
 }
-
-jacocoTestReport {
-    reports {
-        xml.enabled true
-    }
-}
-
-test.finalizedBy jacocoTestReport
 
 dependencies {
     // https://mvnrepository.com/artifact/org.pitest/pitest
