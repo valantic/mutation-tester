@@ -19,6 +19,7 @@ plugins {
     id "java"
     id "org.jetbrains.intellij" version "$intellijPluginVersion"
     id 'info.solidsoft.pitest' version "$pitestGradleVersion"
+    id "org.sonarqube" version "$sonarqubeVersion"
 }
 
 group "com.valantic"
@@ -38,6 +39,14 @@ intellij {
 
 pitest {
     timestampedReports = false
+}
+
+sonarqube {
+    properties {
+        property "sonar.projectKey", "valantic_mutation-tester"
+        property "sonar.organization", "valantic-cx-ch"
+        property "sonar.host.url", "https://sonarcloud.io"
+    }
 }
 
 dependencies {
