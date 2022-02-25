@@ -20,6 +20,7 @@ plugins {
     id "org.jetbrains.intellij" version "$intellijPluginVersion"
     id 'info.solidsoft.pitest' version "$pitestGradleVersion"
     id "org.sonarqube" version "$sonarqubeVersion"
+    id 'jacoco'
 }
 
 group "com.valantic"
@@ -46,8 +47,17 @@ sonarqube {
         property "sonar.projectKey", "valantic_mutation-tester"
         property "sonar.organization", "valantic-cx-ch"
         property "sonar.host.url", "https://sonarcloud.io"
+        property "sonar.sourceEncoding", "UTF-8"
+        property "sonar.tests", "src/test"
     }
 }
+
+jacocoTestReport {
+    reports {
+        xml.enabled true
+    }
+}
+test.finalizedBy jacocoTestReport
 
 dependencies {
     // https://mvnrepository.com/artifact/org.pitest/pitest
