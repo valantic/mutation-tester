@@ -2,9 +2,18 @@
 This Plugin enables mutation testing in your IDE based on <a href="https://pitest.org">pitest.org</a>.
 
 ![build workflow](https://github.com/valantic/mutation-tester/actions/workflows/gradle-build.yml/badge.svg)
-[![Software License](https://img.shields.io/badge/license-Apache%202-red.svg?style=flat-square)](LICENSE.md)
+[![Software License](https://img.shields.io/badge/license-Apache%202-green.svg?style=flat-square)](LICENSE.md)
 [![HitCount](http://hits.dwyl.com/valantic/mutation-tester.svg?style=flat-square)](http://hits.dwyl.com/valantic/mutation-tester)
 [![MutationReport](https://img.shields.io/badge/mutation%20coverage-95%25-green.svg?style=flat-square)](https://htmlpreview.github.io/?https://github.com/valantic/mutation-tester/blob/main/samples/pitreport-v.0.1.2/index.html)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=valantic_mutation-tester&metric=coverage)](https://sonarcloud.io/summary/new_code?id=valantic_mutation-tester)
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=valantic_mutation-tester&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=valantic_mutation-tester)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=valantic_mutation-tester&metric=bugs)](https://sonarcloud.io/summary/new_code?id=valantic_mutation-tester)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=valantic_mutation-tester&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=valantic_mutation-tester)
+[![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=valantic_mutation-tester&metric=duplicated_lines_density)](https://sonarcloud.io/summary/new_code?id=valantic_mutation-tester)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=valantic_mutation-tester&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=valantic_mutation-tester)
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=valantic_mutation-tester&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=valantic_mutation-tester)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=valantic_mutation-tester&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=valantic_mutation-tester)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=valantic_mutation-tester&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=valantic_mutation-tester)
 
 This package is developed by [valantic CEC Schweiz](https://www.valantic.com/).
 
