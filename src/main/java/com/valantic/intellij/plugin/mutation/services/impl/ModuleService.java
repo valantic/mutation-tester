@@ -21,7 +21,7 @@ import com.intellij.execution.configurations.JavaRunConfigurationModule;
 import com.intellij.openapi.components.Service;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.module.ModuleManager;
-import com.intellij.openapi.module.ModuleUtil;
+import com.intellij.openapi.module.ModuleUtilCore;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiFile;
 import com.valantic.intellij.plugin.mutation.configuration.MutationConfiguration;
@@ -44,7 +44,7 @@ public final class ModuleService {
     }
 
     public Module findModule(final PsiFile psiFile) {
-        return ModuleUtil.findModuleForFile(psiFile);
+        return ModuleUtilCore.findModuleForFile(psiFile);
     }
 
     public ModuleManager getModuleManager(final Project project) {

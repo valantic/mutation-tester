@@ -213,8 +213,8 @@ public class MutationActionTest {
         verify(mutationConfigurationOptions).setSourceDirs("projectBasePath");
         verify(mutationConfigurationOptions).setTargetTests("packageName.*");
         verify(mutationConfigurationOptions).setTargetClasses("packageName.*");
-        assertEquals(underTest.getTargetTest(), "packageName.*");
-        assertEquals(underTest.getTargetClass(), "packageName.*");
+        assertEquals("packageName.*", underTest.getTargetTest());
+        assertEquals("packageName.*", underTest.getTargetClass());
         verify(executionManager).restartRunProfile(executionEnvironment);
     }
 
@@ -252,8 +252,8 @@ public class MutationActionTest {
         verify(mutationConfigurationOptions).setSourceDirs("projectBasePath");
         verify(mutationConfigurationOptions).setTargetTests("packageName.classNameTest");
         verify(mutationConfigurationOptions).setTargetClasses("packageName.className");
-        assertEquals(underTest.getTargetTest(), "packageName.classNameTest");
-        assertEquals(underTest.getTargetClass(), "packageName.className");
+        assertEquals("packageName.classNameTest", underTest.getTargetTest());
+        assertEquals("packageName.className", underTest.getTargetClass());
         verify(executionManager).restartRunProfile(executionEnvironment);
     }
 

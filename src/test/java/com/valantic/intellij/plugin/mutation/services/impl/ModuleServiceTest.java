@@ -57,14 +57,14 @@ public class ModuleServiceTest {
     private ProjectService projectService;
 
     private MockedStatic<Services> servicesMockedStatic;
-    private MockedStatic<ModuleUtilCore> moduleUtilMockedStatic;
+    private MockedStatic<ModuleUtilCore> moduleUtilCoreMockedStatic;
     private MockedStatic<ModuleManager> moduleManagerMockedStatic;
 
     @Before
     public void setUp() {
         servicesMockedStatic = mockStatic(Services.class);
         servicesMockedStatic.when(() -> Services.getService(ProjectService.class)).thenReturn(projectService);
-        moduleUtilMockedStatic = mockStatic(ModuleUtilCore.class);
+        moduleUtilCoreMockedStatic = mockStatic(ModuleUtilCore.class);
         moduleManagerMockedStatic = mockStatic(ModuleManager.class);
         underTest = new ModuleService();
     }
@@ -89,11 +89,11 @@ public class ModuleServiceTest {
         PsiFile psiFile = mock(PsiFile.class);
         Module module = mock(Module.class);
 
-        moduleUtilMockedStatic.when(() -> ModuleUtil.findModuleForFile(psiFile)).thenReturn(module);
+        moduleUtilCoreMockedStatic.when(() -> ModuleUtil.findModuleForFile(psiFile)).thenReturn(module);
 
         Module result = underTest.findModule(psiFile);
 
-        moduleUtilMockedStatic.verify(() -> ModuleUtil.findModuleForFile(psiFile));
+        moduleUtilCoreMockedStatic.verify(() -> ModuleUtil.findModuleForFile(psiFile));
         assertSame(module, result);
     }
 
@@ -140,7 +140,7 @@ public class ModuleServiceTest {
     @After
     public void tearDown() {
         servicesMockedStatic.close();
-        moduleUtilMockedStatic.close();
+        moduleUtilCoreMockedStatic.close();
         moduleManagerMockedStatic.close();
     }
 

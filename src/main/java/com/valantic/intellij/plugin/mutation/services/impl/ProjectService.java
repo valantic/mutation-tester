@@ -17,16 +17,12 @@
  */
 package com.valantic.intellij.plugin.mutation.services.impl;
 
-import com.valantic.intellij.plugin.mutation.search.ProjectJavaFileSearchScope;
 import com.intellij.openapi.components.Service;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.project.ProjectManager;
 import com.intellij.openapi.roots.ProjectRootManager;
 import com.intellij.psi.search.GlobalSearchScope;
-
-import java.util.Arrays;
-import java.util.Optional;
-import java.util.stream.Stream;
+import com.intellij.psi.search.ProjectScope;
 
 /**
  * created by fabian.huesig on 2022-02-01
@@ -40,19 +36,15 @@ public final class ProjectService {
      * @return
      */
     public Project getCurrentProject() {
-        return Optional.of(ProjectManager.getInstance())
-                .map(ProjectManager::getOpenProjects)
-                .map(Arrays::stream)
-                .flatMap(Stream::findFirst)
-                .orElse(null);
+        return ProjectManager.getInstance().getOpenProjects()[0];
     }
 
     public ProjectRootManager getProjectRootManager(final Project project) {
         return ProjectRootManager.getInstance(project);
     }
 
-    public GlobalSearchScope getJavaFileProjectSearchScope(final Project project) {
-        return ProjectJavaFileSearchScope.projectScope(project);
+    public GlobalSearchScope getSearchScope(final Project project) {
+        return ProjectScope.getProjectScope(project);
     }
 
 }

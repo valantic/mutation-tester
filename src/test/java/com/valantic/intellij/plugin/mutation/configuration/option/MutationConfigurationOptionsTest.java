@@ -34,7 +34,7 @@ public class MutationConfigurationOptionsTest {
     private MutationConfigurationOptions underTest;
 
     @Test
-    public void testSetterAndGetter() {
+    public void testSetterAndGetter_majorSettings() {
         underTest.setTargetClasses("targetClasses");
         assertEquals("targetClasses", underTest.getTargetClasses());
 
@@ -58,7 +58,10 @@ public class MutationConfigurationOptionsTest {
 
         underTest.setTimestampedReports("false");
         assertEquals("false", underTest.getTimestampedReports());
+    }
 
+    @Test
+    public void testSetterAndGetter_advancedSettings() {
         underTest.setIncludeLaunchClasspath("includeLaunchClasspath");
         assertEquals("includeLaunchClasspath", underTest.getIncludeLaunchClasspath());
 

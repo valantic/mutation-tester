@@ -38,7 +38,7 @@ import com.intellij.util.PathUtil;
 import com.valantic.intellij.plugin.mutation.action.MutationAction;
 import com.valantic.intellij.plugin.mutation.configuration.MutationConfiguration;
 import com.valantic.intellij.plugin.mutation.configuration.option.MutationConfigurationOptions;
-import com.valantic.intellij.plugin.mutation.constants.MutationConstants;
+import com.valantic.intellij.plugin.mutation.enums.MutationConstants;
 import com.valantic.intellij.plugin.mutation.localization.Messages;
 import com.valantic.intellij.plugin.mutation.services.Services;
 import com.valantic.intellij.plugin.mutation.services.impl.ModuleService;
@@ -99,10 +99,10 @@ public class MutationCommandLineState extends JavaCommandLineState {
                         .map(MutationConfigurationOptions::getReportDir)
                         .map(MutationCommandLineState.this::getReport)
                         .map(reportPath -> {
-                            if (Boolean.valueOf(options.getTimestampedReports())) {
+                            if (Boolean.parseBoolean(options.getTimestampedReports())) {
                                 return reportPath;
                             }
-                            return reportPath + MutationConstants.PATH_SEPARATOR + INDEX_FILE;
+                            return reportPath + MutationConstants.PATH_SEPARATOR.getValue() + INDEX_FILE;
                         })
                         .map(OpenUrlHyperlinkInfo::new)
                         .ifPresent(openUrlHyperlinkInfo -> consoleView.printHyperlink(Messages.getMessage("report.hyperlink.text"), openUrlHyperlinkInfo));
@@ -118,9 +118,9 @@ public class MutationCommandLineState extends JavaCommandLineState {
      */
     protected String getReport(final String reportDir) {
         return Optional.ofNullable(reportDir)
-                .map(path -> path.replaceFirst(MutationConstants.TRAILING_SLASH_REGEX, StringUtils.EMPTY))
+                .map(path -> path.replaceFirst(MutationConstants.TRAILING_SLASH_REGEX.getValue(), StringUtils.EMPTY))
                 .map(StringBuilder::new)
-                .map(stringBuilder -> stringBuilder.append(MutationConstants.PATH_SEPARATOR))
+                .map(stringBuilder -> stringBuilder.append(MutationConstants.PATH_SEPARATOR.getValue()))
                 .map(stringBuilder -> stringBuilder.append(creationTime))
                 .map(StringBuilder::toString)
                 .orElse(null);
@@ -211,6 +211,7 @@ public class MutationCommandLineState extends JavaCommandLineState {
      * normal processes will start super process directly.
      */
     @TestOnly
+    @Override
     protected OSProcessHandler startProcess() throws ExecutionException {
         return super.startProcess();
     }

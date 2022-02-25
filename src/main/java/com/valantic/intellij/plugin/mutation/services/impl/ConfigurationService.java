@@ -24,7 +24,7 @@ import com.valantic.intellij.plugin.mutation.configuration.MutationConfiguration
 import com.valantic.intellij.plugin.mutation.configuration.MutationConfigurationFactory;
 import com.valantic.intellij.plugin.mutation.configuration.MutationConfigurationType;
 import com.valantic.intellij.plugin.mutation.configuration.option.MutationConfigurationOptions;
-import com.valantic.intellij.plugin.mutation.constants.MutationConstants;
+import com.valantic.intellij.plugin.mutation.enums.MutationConstants;
 import com.valantic.intellij.plugin.mutation.services.Services;
 import org.apache.commons.lang3.StringUtils;
 
@@ -115,8 +115,8 @@ public final class ConfigurationService {
      */
     private String getMutationRunConfigurationName(final String name) {
         return Optional.ofNullable(name)
-                .filter(targetTestClass -> targetTestClass.endsWith(MutationConstants.PACKAGE_SEPARATOR + MutationConstants.WILDCARD_SUFFIX))
-                .map(targetTestClass -> targetTestClass.split(MutationConstants.WILDCARD_SUFFIX_REGEX)[0])
+                .filter(targetTestClass -> targetTestClass.endsWith(MutationConstants.PACKAGE_SEPARATOR.getValue() + MutationConstants.WILDCARD_SUFFIX.getValue()))
+                .map(targetTestClass -> targetTestClass.split(MutationConstants.WILDCARD_SUFFIX_REGEX.getValue())[0])
                 .orElseGet(() -> psiService.getClassName(name));
     }
 

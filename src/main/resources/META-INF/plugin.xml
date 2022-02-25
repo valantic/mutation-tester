@@ -54,6 +54,7 @@ Written by Fabian Hüsig, February, 2022
 		  <ul>
 			<li><b>0.1.0</b> - 2022-02: Published Beta Version with primary focused on SAP Commerce</li>
 			<li><b>0.1.1</b> - 2022-02: Raised Testcoverage. Fixed issue with missing module on run configuration</li>
+			<li><b>0.1.2</b> - 2022-02: Setting up Sonarcube and refactoring classes</li>
 		  </ul>
 		]]>
     </change-notes>

@@ -4,7 +4,7 @@ This Plugin enables mutation testing in your IDE based on <a href="https://pites
 ![build workflow](https://github.com/valantic/mutation-tester/actions/workflows/gradle-build.yml/badge.svg)
 [![Software License](https://img.shields.io/badge/license-Apache%202-red.svg?style=flat-square)](LICENSE.md)
 [![HitCount](http://hits.dwyl.com/valantic/mutation-tester.svg?style=flat-square)](http://hits.dwyl.com/valantic/mutation-tester)
-[![MutationReport](https://img.shields.io/badge/mutation%20coverage-95%25-green.svg?style=flat-square)](https://htmlpreview.github.io/?https://github.com/valantic/mutation-tester/blob/main/samples/pitreport-v.0.1.1/index.html)
+[![MutationReport](https://img.shields.io/badge/mutation%20coverage-95%25-green.svg?style=flat-square)](https://htmlpreview.github.io/?https://github.com/valantic/mutation-tester/blob/main/samples/pitreport-v.0.1.2/index.html)
 
 This package is developed by [valantic CEC Schweiz](https://www.valantic.com/).
 
@@ -17,7 +17,7 @@ This kind of testing helps you to produce better testing results, not only based
 
 This Plugin will help you as developer to run mutation tests easy and fast in your IDE without wasting time in configurations.
 
-For example is a full Pit Mutation Testing report of this plugin <a href="https://htmlpreview.github.io/?https://github.com/valantic/mutation-tester/blob/main/samples/pitreport-v.0.1.1/index.html">here</a>
+For example is a full Pit Mutation Testing report of this plugin <a href="https://htmlpreview.github.io/?https://github.com/valantic/mutation-tester/blob/main/samples/pitreport-v.0.1.2/index.html">here</a>
 
 #### Versions
 | Tool          | Supported / Used Version |
@@ -122,6 +122,7 @@ Also the Icon (mutation.png) is based on an icon from flaticon by Freepik.
 ## Change Notes
 - <b>0.1.0</b> - 2022-02: Published Beta Version with primary focused on SAP Commerce
 - <b>0.1.1</b> - 2022-02: Raised Testcoverage. Fixed issue with missing module on run configuration
+- <b>0.1.2</b> - 2022-02: Setting up Sonarcube and refactoring classes
 
 ## Roadmap
 - [ ] fix beta issues
