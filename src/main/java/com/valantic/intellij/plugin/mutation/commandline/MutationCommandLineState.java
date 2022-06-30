@@ -35,6 +35,7 @@ import com.intellij.execution.ui.ConsoleView;
 import com.intellij.execution.util.JavaParametersUtil;
 import com.intellij.ide.browsers.OpenUrlHyperlinkInfo;
 import com.intellij.util.PathUtil;
+import com.intellij.util.PathsList;
 import com.valantic.intellij.plugin.mutation.action.MutationAction;
 import com.valantic.intellij.plugin.mutation.configuration.MutationConfiguration;
 import com.valantic.intellij.plugin.mutation.configuration.option.MutationConfigurationOptions;
@@ -143,13 +144,20 @@ public class MutationCommandLineState extends JavaCommandLineState {
                 .ifPresent(this::populateParameterList);
         Optional.ofNullable(javaParameters)
                 .map(JavaParameters::getClassPath)
-                .ifPresent(pathsList -> {
-                    pathsList.addFirst(PathUtil.getJarPathForClass(HotSwapAgent.class));
-                    pathsList.addFirst(PathUtil.getJarPathForClass(MutationCoverageReport.class));
-                    pathsList.addFirst(PathUtil.getJarPathForClass(PluginServices.class));
-                    pathsList.addFirst(PathUtil.getJarPathForClass(JUnit4.class));
-                });
+                .ifPresent(this::populatePathList);
         return javaParameters;
+    }
+
+    /**
+     * populates path list with pitest class path entries.
+     *
+     * @param pathsList
+     */
+    protected void populatePathList(final PathsList pathsList) {
+        pathsList.addFirst(PathUtil.getJarPathForClass(HotSwapAgent.class));
+        pathsList.addFirst(PathUtil.getJarPathForClass(MutationCoverageReport.class));
+        pathsList.addFirst(PathUtil.getJarPathForClass(PluginServices.class));
+        pathsList.addFirst(PathUtil.getJarPathForClass(JUnit4.class));
     }
 
     /**
@@ -157,7 +165,7 @@ public class MutationCommandLineState extends JavaCommandLineState {
      *
      * @param parametersList
      */
-    private void populateParameterList(final ParametersList parametersList) {
+    protected void populateParameterList(final ParametersList parametersList) {
         parametersList.add("--targetClasses", options.getTargetClasses());
         parametersList.add("--targetTests", options.getTargetTests());
         parametersList.add("--reportDir", getReport(options.getReportDir()));

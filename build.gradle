@@ -52,22 +52,32 @@ sonarqube {
     }
 }
 
+configurations {
+    libImplementation
+    implementation.extendsFrom(libImplementation)
+}
+
+jar {
+    from {
+        configurations.libImplementation.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
+
 jacocoTestReport {
     reports {
         xml.enabled true
     }
 }
-test.finalizedBy jacocoTestReport
 
 dependencies {
     // https://mvnrepository.com/artifact/org.pitest/pitest
-    implementation group: "org.pitest", name: "pitest", version: "$pitestVersion"
+    libImplementation group: "org.pitest", name: "pitest", version: "$pitestVersion"
 
     // https://mvnrepository.com/artifact/org.pitest/pitest-entry
-    implementation group: "org.pitest", name: "pitest-entry", version: "$pitestVersion"
+    libImplementation group: "org.pitest", name: "pitest-entry", version: "$pitestVersion"
 
     // https://mvnrepository.com/artifact/org.pitest/pitest-command-line
-    implementation group: "org.pitest", name: "pitest-command-line", version: "$pitestVersion"
+    libImplementation group: "org.pitest", name: "pitest-command-line", version: "$pitestVersion"
 
     // https://mvnrepository.com/artifact/org.mockito/mockito-core
     testImplementation group: "org.mockito", name: "mockito-core", version: "$jUnitVersion"
@@ -82,10 +92,4 @@ buildSearchableOptions {
 
 patchPluginXml {
     version = project.version
-    sinceBuild = "$patchSinceBuildVersion"
-    untilBuild = "$patchUntilBuildVersion"
-}
-
-publishPlugin {
-    channels = ["beta"]
 }

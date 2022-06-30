@@ -502,4 +502,14 @@ public class MutationConfigurationOptions extends ModuleBasedConfigurationOption
     public void setHistoryOutputLocation(String historyOutputLocation) {
         this.historyOutputLocation.setValue(this, historyOutputLocation);
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        return this == obj;
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
 }

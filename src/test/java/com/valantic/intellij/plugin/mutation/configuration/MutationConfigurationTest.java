@@ -26,8 +26,8 @@ import com.intellij.execution.filters.TextConsoleBuilderFactory;
 import com.intellij.execution.runners.ExecutionEnvironment;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.project.Project;
+import com.intellij.psi.search.ExecutionSearchScopes;
 import com.intellij.psi.search.GlobalSearchScope;
-import com.intellij.psi.search.GlobalSearchScopes;
 import com.valantic.intellij.plugin.mutation.configuration.option.MutationConfigurationOptions;
 import com.valantic.intellij.plugin.mutation.services.Services;
 import com.valantic.intellij.plugin.mutation.services.impl.ModuleService;
@@ -47,6 +47,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.mockStatic;
 import static org.mockito.Mockito.when;
@@ -65,8 +66,8 @@ public class MutationConfigurationTest {
     private ModuleService moduleService;
 
     private MockedStatic<Services> servicesMockedStatic;
-    private MockedStatic<GlobalSearchScopes> globalSearchScopesMockedStatic;
     private MockedStatic<TextConsoleBuilderFactory> textConsoleBuilderFactoryMockedStatic;
+    private MockedStatic<ExecutionSearchScopes> executionSearchScopesMockedStatic;
 
 
     @Before
@@ -75,8 +76,8 @@ public class MutationConfigurationTest {
         final String name = "name";
         servicesMockedStatic = mockStatic(Services.class);
         servicesMockedStatic.when(() -> Services.getService(ModuleService.class)).thenReturn(moduleService);
-        globalSearchScopesMockedStatic = mockStatic(GlobalSearchScopes.class);
         textConsoleBuilderFactoryMockedStatic = mockStatic(TextConsoleBuilderFactory.class);
+        executionSearchScopesMockedStatic = mockStatic(ExecutionSearchScopes.class);
         underTest = new MutationConfiguration(project, factory, name);
     }
 
@@ -99,13 +100,14 @@ public class MutationConfigurationTest {
         final GlobalSearchScope searchScope = mock(GlobalSearchScope.class);
         when(environment.getProject()).thenReturn(project);
         when(environment.getRunProfile()).thenReturn(runProfile);
-        globalSearchScopesMockedStatic.when(() -> GlobalSearchScopes.executionScope(project, runProfile)).thenReturn(searchScope);
         textConsoleBuilderFactoryMockedStatic.when(() -> TextConsoleBuilderFactory.getInstance()).thenReturn(textConsoleBuilderFactory);
+        executionSearchScopesMockedStatic.when(() -> ExecutionSearchScopes.executionScope(any(), any())).thenReturn(searchScope);
+
         when(textConsoleBuilderFactory.createBuilder(project, searchScope)).thenReturn(null);
 
         assertNotNull(underTest.getState(mock(Executor.class), environment));
-        globalSearchScopesMockedStatic.verify(() -> GlobalSearchScopes.executionScope(project, runProfile));
         textConsoleBuilderFactoryMockedStatic.verify(() -> TextConsoleBuilderFactory.getInstance());
+        executionSearchScopesMockedStatic.verify(() -> ExecutionSearchScopes.executionScope(any(), any()));
     }
 
     @Test
@@ -197,8 +199,8 @@ public class MutationConfigurationTest {
     @After
     public void tearDown() {
         servicesMockedStatic.close();
-        globalSearchScopesMockedStatic.close();
         textConsoleBuilderFactoryMockedStatic.close();
+        executionSearchScopesMockedStatic.close();
     }
 
 }

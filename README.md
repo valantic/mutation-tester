@@ -4,7 +4,7 @@ This Plugin enables mutation testing in your IDE based on <a href="https://pites
 ![build workflow](https://github.com/valantic/mutation-tester/actions/workflows/gradle-build.yml/badge.svg)
 [![Software License](https://img.shields.io/badge/license-Apache%202-green.svg?style=flat-square)](LICENSE.md)
 [![HitCount](http://hits.dwyl.com/valantic/mutation-tester.svg?style=flat-square)](http://hits.dwyl.com/valantic/mutation-tester)
-[![MutationReport](https://img.shields.io/badge/mutation%20coverage-95%25-green.svg?style=flat-square)](https://htmlpreview.github.io/?https://github.com/valantic/mutation-tester/blob/main/samples/pitreport-v.0.1.2/index.html)
+[![MutationReport](https://img.shields.io/badge/mutation%20coverage-95%25-green.svg?style=flat-square)](https://htmlpreview.github.io/?https://github.com/valantic/mutation-tester/blob/main/samples/pitreport-v.0.1.3/index.html)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=valantic_mutation-tester&metric=coverage)](https://sonarcloud.io/summary/new_code?id=valantic_mutation-tester)
 [![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=valantic_mutation-tester&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=valantic_mutation-tester)
 [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=valantic_mutation-tester&metric=bugs)](https://sonarcloud.io/summary/new_code?id=valantic_mutation-tester)
@@ -26,13 +26,13 @@ This kind of testing helps you to produce better testing results, not only based
 
 This Plugin will help you as developer to run mutation tests easy and fast in your IDE without wasting time in configurations.
 
-For example is a full Pit Mutation Testing report of this plugin <a href="https://htmlpreview.github.io/?https://github.com/valantic/mutation-tester/blob/main/samples/pitreport-v.0.1.2/index.html">here</a>
+For example is a full Pit Mutation Testing report of this plugin <a href="https://htmlpreview.github.io/?https://github.com/valantic/mutation-tester/blob/main/samples/pitreport-v.0.1.3/index.html">here</a>
 
 #### Versions
 | Tool          | Supported / Used Version |
 |---------------|--------------------------|
-| PIT           | 1.7.4                    |
-| IntelliJ Idea | \>= 2019.*               |
+| PIT           | 1.9.0                    |
+| IntelliJ Idea | 2021.1 - 2022.1.3        |
 
 ## Installation
 You can download the plugin from our [github](https://github.com/valantic/mutation-tester).
@@ -42,8 +42,8 @@ It is recommended to restart your IDE.
 
 
 ### IntelliJ Marketplace
-The Plugin will be published to the Intellij Marketplace. This should be avaible in the store after our beta testing (est. 2022-04).
-
+The Plugin will be published to the Intellij Marketplace. This should be available in the store after our beta testing.
+Publishing should be within end of 07.2022
 
 ## Run the plugin
 You can simply create a new RunConfigurations with Mutation Tester
@@ -132,9 +132,10 @@ Also the Icon (mutation.png) is based on an icon from flaticon by Freepik.
 - <b>0.1.0</b> - 2022-02: Published Beta Version with primary focused on SAP Commerce
 - <b>0.1.1</b> - 2022-02: Raised Testcoverage. Fixed issue with missing module on run configuration
 - <b>0.1.2</b> - 2022-02: Setting up Sonarcube and refactoring classes
+- <b>0.1.3</b> - 2022-06: Enabled support for 2022.1. Include libs into jar for NoClassDefException. Updated Pitest to 1.9.0. Updated info.solidsoft.pitest to 1.7.4. Updated org.jetbrains.intellij to 1.6.0. Fixed Bug with JacocoTestReports
 
 ## Roadmap
-- [ ] fix beta issues
+- [x] fix beta issues
 - [ ] add to IntelliJ Marketplace
 - [ ] cross module testing
 - [ ] caching
