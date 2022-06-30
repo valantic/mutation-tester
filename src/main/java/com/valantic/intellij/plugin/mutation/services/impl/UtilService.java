@@ -29,8 +29,7 @@ import com.intellij.util.ThrowableRunnable;
 @Service
 public final class UtilService {
 
-    @SuppressWarnings("unchecked")
-    public void allowSlowOperations(final ThrowableRunnable throwableRunnable) {
+    public void allowSlowOperations(final ThrowableRunnable<RuntimeException> throwableRunnable) {
         SlowOperations.allowSlowOperations(throwableRunnable);
     }
 

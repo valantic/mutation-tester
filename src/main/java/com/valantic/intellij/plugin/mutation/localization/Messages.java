@@ -26,16 +26,16 @@ import java.util.ResourceBundle;
 /**
  * created by fabian.huesig on 2022-02-01
  */
-public interface Messages {
-    String BASE_PACKAGE = "messages.MessageBundle";
+public class Messages {
+    private static final String BASE_PACKAGE = "messages.MessageBundle";
 
-    static String getMessage(final String key) {
+    public static String getMessage(final String key) {
         return Optional.ofNullable(key)
                 .map(Messages::getValue)
                 .orElse(key);
     }
 
-    static String getValue(final String key) {
+    private static String getValue(final String key) {
         try {
             return ResourceBundle.getBundle(BASE_PACKAGE, Locale.ENGLISH).getString(key);
         } catch (MissingResourceException e) {

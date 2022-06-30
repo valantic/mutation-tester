@@ -33,8 +33,9 @@ import com.intellij.execution.ui.ConsoleView;
 import com.intellij.execution.util.JavaParametersUtil;
 import com.intellij.ide.browsers.OpenUrlHyperlinkInfo;
 import com.intellij.openapi.project.Project;
+import com.intellij.psi.search.ExecutionSearchScopes;
 import com.intellij.psi.search.GlobalSearchScope;
-import com.intellij.psi.search.GlobalSearchScopes;
+import com.intellij.util.PathsList;
 import com.valantic.intellij.plugin.mutation.action.MutationAction;
 import com.valantic.intellij.plugin.mutation.configuration.MutationConfiguration;
 import com.valantic.intellij.plugin.mutation.configuration.option.MutationConfigurationOptions;
@@ -42,6 +43,7 @@ import com.valantic.intellij.plugin.mutation.localization.Messages;
 import com.valantic.intellij.plugin.mutation.services.Services;
 import com.valantic.intellij.plugin.mutation.services.impl.ModuleService;
 import com.valantic.intellij.plugin.mutation.services.impl.PsiService;
+import org.apache.commons.collections.CollectionUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -87,10 +89,10 @@ public class MutationCommandLineStateTest {
 
 
     private MockedStatic<Services> servicesMockedStatic;
-    private MockedStatic<GlobalSearchScopes> globalSearchScopesMockedStatic;
     private MockedStatic<TextConsoleBuilderFactory> textConsoleBuilderFactoryMockedStatic;
     private MockedStatic<Messages> messagesMockedStatic;
     private MockedStatic<JavaParametersUtil> javaParametersUtilMockedStatic;
+    private MockedStatic<ExecutionSearchScopes> executionSearchScopesMockedStatic;
 
     @Before
     public void setUp() {
@@ -104,8 +106,8 @@ public class MutationCommandLineStateTest {
         servicesMockedStatic = mockStatic(Services.class);
         servicesMockedStatic.when(() -> Services.getService(ModuleService.class)).thenReturn(moduleService);
         servicesMockedStatic.when(() -> Services.getService(PsiService.class)).thenReturn(psiService);
-        globalSearchScopesMockedStatic = mockStatic(GlobalSearchScopes.class);
-        globalSearchScopesMockedStatic.when(() -> GlobalSearchScopes.executionScope(project, mutationConfiguration)).thenReturn(searchScope);
+        executionSearchScopesMockedStatic = mockStatic(ExecutionSearchScopes.class);
+        executionSearchScopesMockedStatic.when(() -> ExecutionSearchScopes.executionScope(any(), any())).thenReturn(searchScope);
         textConsoleBuilderFactoryMockedStatic = mockStatic(TextConsoleBuilderFactory.class);
         textConsoleBuilderFactoryMockedStatic.when(() -> TextConsoleBuilderFactory.getInstance()).thenReturn(textConsoleBuilderFactory);
         when(mutationConfiguration.getMutationConfigurationOptions()).thenReturn(mutationConfigurationOptions);
@@ -255,8 +257,8 @@ public class MutationCommandLineStateTest {
     public void tearDown() {
         messagesMockedStatic.close();
         servicesMockedStatic.close();
-        globalSearchScopesMockedStatic.close();
         textConsoleBuilderFactoryMockedStatic.close();
         javaParametersUtilMockedStatic.close();
+        executionSearchScopesMockedStatic.close();
     }
 }
