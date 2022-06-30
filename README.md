@@ -132,7 +132,7 @@ Also the Icon (mutation.png) is based on an icon from flaticon by Freepik.
 - <b>0.1.0</b> - 2022-02: Published Beta Version with primary focused on SAP Commerce
 - <b>0.1.1</b> - 2022-02: Raised Testcoverage. Fixed issue with missing module on run configuration
 - <b>0.1.2</b> - 2022-02: Setting up Sonarcube and refactoring classes
-- <b>0.1.3</b> - 2022-02: Enabled support for 2022.1. Include libs into jar for NoClassDefException. Updated Pitest to 1.9.0. Updated info.solidsoft.pitest to 1.7.4. Updated org.jetbrains.intellij to 1.6.0. Fixed Bug with JacocoTestReports
+- <b>0.1.3</b> - 2022-06: Enabled support for 2022.1. Include libs into jar for NoClassDefException. Updated Pitest to 1.9.0. Updated info.solidsoft.pitest to 1.7.4. Updated org.jetbrains.intellij to 1.6.0. Fixed Bug with JacocoTestReports
 
 ## Roadmap
 - [x] fix beta issues
