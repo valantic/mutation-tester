@@ -56,7 +56,8 @@ Written by Fabian Hüsig, February, 2022
 			<li><b>0.1.1</b> - 2022-02: Raised Testcoverage. Fixed issue with missing module on run configuration</li>
 			<li><b>0.1.2</b> - 2022-02: Setting up Sonarcube and refactoring classes</li>
 			<li><b>0.1.3</b> - 2022-06: Enabled support for 2022.1. Include libs into jar for NoClassDefException. Updated Pitest to 1.9.0. Updated info.solidsoft.pitest to 1.7.4. Updated org.jetbrains.intellij to 1.6.0. Fixed Bug with JacocoTestReports</li>
-
+            <li><b>end of beta</b></li>
+            <li><b>1.0.0</b> - 2022-07: Updated Unittests. Enabled Upload to Marketplace. Fixed Bug with NoModuleDefinied Error.</li>
 		  </ul>
 		]]>
     </change-notes>

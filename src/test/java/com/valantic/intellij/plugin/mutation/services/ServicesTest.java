@@ -19,7 +19,7 @@ package com.valantic.intellij.plugin.mutation.services;
 
 import com.intellij.openapi.application.Application;
 import com.intellij.openapi.application.ApplicationManager;
-import com.valantic.intellij.plugin.mutation.services.impl.UtilService;
+import com.valantic.intellij.plugin.mutation.services.impl.ProjectService;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -48,11 +48,11 @@ public class ServicesTest {
     @Test
     public void testGetService() {
         Application application = mock(Application.class);
-        UtilService utilService = mock(UtilService.class);
+        ProjectService projectService = mock(ProjectService.class);
         applicationManagerMockedStatic.when(ApplicationManager::getApplication).thenReturn(application);
-        when(application.getService(UtilService.class)).thenReturn(utilService);
+        when(application.getService(ProjectService.class)).thenReturn(projectService);
 
-        assertSame(utilService, Services.getService(UtilService.class));
+        assertSame(projectService, Services.getService(ProjectService.class));
     }
 
     @After
