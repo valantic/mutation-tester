@@ -24,6 +24,8 @@ import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.CommonDataKeys;
 import com.intellij.openapi.actionSystem.DataContext;
+import com.intellij.openapi.application.NonBlockingReadAction;
+import com.intellij.openapi.application.ReadAction;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiClass;
 import com.intellij.psi.PsiElement;
@@ -37,7 +39,6 @@ import com.valantic.intellij.plugin.mutation.localization.Messages;
 import com.valantic.intellij.plugin.mutation.services.Services;
 import com.valantic.intellij.plugin.mutation.services.impl.ConfigurationService;
 import com.valantic.intellij.plugin.mutation.services.impl.PsiService;
-import com.valantic.intellij.plugin.mutation.services.impl.UtilService;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
@@ -60,7 +61,6 @@ public class MutationAction extends AnAction {
 
     private ConfigurationService configurationService = Services.getService(ConfigurationService.class);
     private PsiService psiService = Services.getService(PsiService.class);
-    private UtilService utilService = Services.getService(UtilService.class);
 
     public MutationAction() {
         super(Messages.getMessage("action.com.valantic.intellij.plugin.mutation.action.MutationAction.text"),
@@ -83,7 +83,7 @@ public class MutationAction extends AnAction {
     @Override
     public void update(@NotNull AnActionEvent event) {
         if (PROJECT_VIEW_POPUP.equals(event.getPlace())) {
-            utilService.allowSlowOperations(() -> updatePresentation(event));
+            updatePresentation(event);
         }
     }
 
@@ -111,18 +111,21 @@ public class MutationAction extends AnAction {
 
     private void updatePresentation(final AnActionEvent event) {
         final PsiElement psiElement = event.getData(CommonDataKeys.PSI_ELEMENT);
-        final PsiClass psiClass = Optional.ofNullable(psiElement)
-                .filter(PsiJavaDirectoryImpl.class::isInstance)
-                .map(PsiJavaDirectoryImpl.class::cast)
-                .map(element -> PsiTreeUtil.findChildOfType(element, PsiClass.class))
-                .orElseGet(() -> Optional.ofNullable(psiElement)
-                        .filter(PsiClass.class::isInstance)
-                        .map(PsiClass.class::cast)
-                        .orElse(null));
-        Optional.of(event)
-                .map(AnActionEvent::getPresentation)
-                .ifPresent(presentation -> presentation.setEnabled(psiClass != null && psiService.isTestClass(psiClass)));
+        ReadAction.run(() -> {
+            final PsiClass psiClass = Optional.ofNullable(psiElement)
+                    .filter(PsiJavaDirectoryImpl.class::isInstance)
+                    .map(PsiJavaDirectoryImpl.class::cast)
+                    .map(element -> PsiTreeUtil.findChildOfType(element, PsiClass.class))
+                    .orElseGet(() -> Optional.ofNullable(psiElement)
+                            .filter(PsiClass.class::isInstance)
+                            .map(PsiClass.class::cast)
+                            .orElse(null));
+            Optional.of(event)
+                    .map(AnActionEvent::getPresentation)
+                    .ifPresent(presentation -> presentation.setEnabled(psiClass != null && psiService.isTestClass(psiClass)));
+        });
     }
+
 
     private void setEventTargetTest(final AnActionEvent event) {
         final DataContext dataContext = event.getDataContext();

@@ -61,6 +61,7 @@ jar {
     from {
         configurations.libImplementation.collect { it.isDirectory() ? it : zipTree(it) }
     }
+    dependsOn "instrumentTestCode"
 }
 
 jacocoTestReport {
@@ -92,4 +93,9 @@ buildSearchableOptions {
 
 patchPluginXml {
     version = project.version
+}
+
+
+publishPlugin {
+    token = System.getenv("ORG_GRADLE_PROJECT_intellijPublishToken")
 }

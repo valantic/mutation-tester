@@ -18,12 +18,12 @@
 package com.valantic.intellij.plugin.mutation.services.impl;
 
 import com.intellij.codeInsight.TestFrameworks;
-import com.intellij.execution.configurations.JavaRunConfigurationModule;
 import com.intellij.openapi.components.Service;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.JavaPsiFacade;
 import com.intellij.psi.PsiClass;
 import com.intellij.psi.PsiElement;
+import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiJavaFile;
 import com.intellij.psi.PsiPackage;
 import com.intellij.psi.impl.file.PsiJavaDirectoryImpl;
@@ -44,8 +44,6 @@ import java.util.Optional;
 public final class PsiService {
 
     private ClassNameService classNameService = Services.getService(ClassNameService.class);
-    private ModuleService moduleService = Services.getService(ModuleService.class);
-    private UtilService utilService = Services.getService(UtilService.class);
     private ProjectService projectService = Services.getService(ProjectService.class);
 
     /**
@@ -90,25 +88,6 @@ public final class PsiService {
                 .orElse(fullyQualifiedClassName);
     }
 
-    /**
-     * updates the module needed for java command line state.
-     * This can change in a multi module project depending of the used module.
-     * Determines the correct moule based by package of the test
-     *
-     * @param project
-     */
-    public void updateModule(final Project project, final String qualifiedName, final JavaRunConfigurationModule configurationModule) {
-        utilService.allowSlowOperations(() -> {
-            PsiClass psiClass = getPsiClass(qualifiedName, project);
-            Optional.ofNullable(psiClass)
-                    .map(PsiClass::getContainingFile)
-                    .map(moduleService::findModule)
-                    .ifPresent(module -> {
-                        configurationModule.setModule(module);
-                        configurationModule.setModuleName(module.getName());
-                    });
-        });
-    }
 
     /**
      * either it is a list of classes, a wildcard package or a single test class,
@@ -168,6 +147,28 @@ public final class PsiService {
     }
 
     /**
+     * get PsiFile for qualified name in the current project.
+     *
+     * @param qualifiedName
+     * @return PsiClass
+     */
+    public PsiFile getPsiFile(final String qualifiedName) {
+        final Project project = projectService.getCurrentProject();
+        PsiClass psiClass = null;
+        if (qualifiedName.endsWith(MutationConstants.PACKAGE_SEPARATOR.getValue() + MutationConstants.WILDCARD_SUFFIX.getValue())) {
+            final String packageName = qualifiedName.split(MutationConstants.WILDCARD_SUFFIX_REGEX.getValue())[0];
+            PsiPackage psiPackage = getJavaPsiFacade().findPackage(packageName);
+            if (psiPackage != null) {
+                psiClass = findPsiClassInPackage(psiPackage);
+            }
+        }
+        if (psiClass == null) {
+            psiClass = getJavaPsiFacade().findClass(qualifiedName, new ProjectJavaFileSearchScope(project));
+        }
+        return psiClass != null ? psiClass.getContainingFile() : null;
+    }
+
+    /**
      * get recurisvly first child which is a PsiClass
      *
      * @param children
@@ -191,24 +192,6 @@ public final class PsiService {
             psiClass[0] = optionalPsiClass.get();
         }
         return psiClass[0];
-    }
-
-    /**
-     * get PsiClass for qualified name in the given project.
-     *
-     * @param qualifiedName
-     * @param project
-     * @return PsiClass
-     */
-    private PsiClass getPsiClass(final String qualifiedName, final Project project) {
-        if (qualifiedName.endsWith(MutationConstants.PACKAGE_SEPARATOR.getValue() + MutationConstants.WILDCARD_SUFFIX.getValue())) {
-            final String packageName = qualifiedName.split(MutationConstants.WILDCARD_SUFFIX_REGEX.getValue())[0];
-            PsiPackage psiPackage = getJavaPsiFacade().findPackage(packageName);
-            if (psiPackage != null) {
-                return findPsiClassInPackage(psiPackage);
-            }
-        }
-        return getJavaPsiFacade().findClass(qualifiedName, new ProjectJavaFileSearchScope(project));
     }
 
     /**

@@ -17,13 +17,13 @@
  */
 package com.valantic.intellij.plugin.mutation.configuration;
 
-import com.valantic.intellij.plugin.mutation.icons.Icons;
-import com.valantic.intellij.plugin.mutation.localization.Messages;
 import com.intellij.execution.configurations.ConfigurationFactory;
 import com.intellij.execution.configurations.ConfigurationType;
+import com.valantic.intellij.plugin.mutation.icons.Icons;
+import com.valantic.intellij.plugin.mutation.localization.Messages;
 import org.jetbrains.annotations.NotNull;
 
-import javax.swing.*;
+import javax.swing.Icon;
 
 
 /**

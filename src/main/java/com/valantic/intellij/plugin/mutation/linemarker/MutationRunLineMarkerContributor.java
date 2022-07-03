@@ -24,13 +24,12 @@ import com.intellij.psi.PsiIdentifier;
 import com.valantic.intellij.plugin.mutation.action.MutationAction;
 import com.valantic.intellij.plugin.mutation.icons.Icons;
 import com.valantic.intellij.plugin.mutation.services.Services;
+import com.valantic.intellij.plugin.mutation.services.impl.MessageService;
 import com.valantic.intellij.plugin.mutation.services.impl.PsiService;
-import com.valantic.intellij.plugin.mutation.services.impl.UtilService;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
-import java.util.function.Function;
 
 /**
  * created by fabian.huesig on 2022-02-01
@@ -43,7 +42,7 @@ public class MutationRunLineMarkerContributor extends RunLineMarkerContributor {
     private String targetClass;
     private String targetTest;
 
-    private UtilService utilService = Services.getService(UtilService.class);
+    private MessageService messageService = Services.getService(MessageService.class);
     private PsiService psiService = Services.getService(PsiService.class);
 
 
@@ -56,12 +55,12 @@ public class MutationRunLineMarkerContributor extends RunLineMarkerContributor {
                 .filter(psiService::isTestClass).ifPresent(psiClass -> {
                     this.targetTest = psiService.determineTargetTest(psiClass);
                     this.targetClass = psiService.determineTargetClass(this.targetTest, psiClass);
-                    info[0] = getInfo(tooltipProviderFunction -> utilService.executionMessage(EXECUTION_BUNDLE_MESSAGE_KEY));
+                    info[0] = getInfo(messageService.executionMessage(EXECUTION_BUNDLE_MESSAGE_KEY));
                 });
         return info[0];
     }
 
-    protected Info getInfo(Function tooltipProvider) {
-        return new Info(Icons.MUTATIONx12, MutationAction.getSingletonActions(targetClass, targetTest), tooltipProvider);
+    protected Info getInfo(final String tooltipProvider) {
+        return new Info(Icons.MUTATIONx12, MutationAction.getSingletonActions(targetClass, targetTest), psiElement -> tooltipProvider);
     }
 }

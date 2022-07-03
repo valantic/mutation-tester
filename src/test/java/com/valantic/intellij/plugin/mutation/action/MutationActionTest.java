@@ -26,6 +26,7 @@ import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.DataContext;
 import com.intellij.openapi.actionSystem.LangDataKeys;
 import com.intellij.openapi.actionSystem.Presentation;
+import com.intellij.openapi.application.ReadAction;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiClass;
 import com.intellij.psi.PsiElement;
@@ -38,7 +39,6 @@ import com.valantic.intellij.plugin.mutation.configuration.option.MutationConfig
 import com.valantic.intellij.plugin.mutation.services.Services;
 import com.valantic.intellij.plugin.mutation.services.impl.ConfigurationService;
 import com.valantic.intellij.plugin.mutation.services.impl.PsiService;
-import com.valantic.intellij.plugin.mutation.services.impl.UtilService;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -53,7 +53,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.mockStatic;
 import static org.mockito.Mockito.times;
@@ -72,14 +71,13 @@ public class MutationActionTest {
     private ConfigurationService configurationService;
     @Mock
     private PsiService psiService;
-    @Mock
-    private UtilService utilService;
 
     private MockedStatic<Services> servicesMockedStatic;
     private MockedStatic<PsiTreeUtil> psiTreeUtilMockedStatic;
     private MockedStatic<DefaultRunExecutor> defaultRunExecutorMockedStatic;
     private MockedStatic<ExecutionEnvironmentBuilder> executionEnvironmentBuilderMockedStatic;
     private MockedStatic<ExecutionManager> executionManagerMockedStatic;
+    private MockedStatic<ReadAction> readActionMockedStatic;
 
 
     @Before
@@ -87,11 +85,11 @@ public class MutationActionTest {
         servicesMockedStatic = mockStatic(Services.class);
         servicesMockedStatic.when(() -> Services.getService(ConfigurationService.class)).thenReturn(configurationService);
         servicesMockedStatic.when(() -> Services.getService(PsiService.class)).thenReturn(psiService);
-        servicesMockedStatic.when(() -> Services.getService(UtilService.class)).thenReturn(utilService);
         psiTreeUtilMockedStatic = mockStatic(PsiTreeUtil.class);
         defaultRunExecutorMockedStatic = mockStatic(DefaultRunExecutor.class);
         executionEnvironmentBuilderMockedStatic = mockStatic(ExecutionEnvironmentBuilder.class);
         executionManagerMockedStatic = mockStatic(ExecutionManager.class);
+        readActionMockedStatic = mockStatic(ReadAction.class);
         underTest = new MutationAction();
     }
 
@@ -119,21 +117,18 @@ public class MutationActionTest {
     public void testUpdate_isNotEnabled() throws Throwable {
         final AnActionEvent anActionEvent = mock(AnActionEvent.class);
         final Presentation presentation = mock(Presentation.class);
-        final ArgumentCaptor<ThrowableRunnable> throwableRunnerArgumentCaptor = ArgumentCaptor.forClass(ThrowableRunnable.class);
+        final ArgumentCaptor<ThrowableRunnable> throwableRunnableArgumentCaptor = ArgumentCaptor.forClass(ThrowableRunnable.class);
 
         when(anActionEvent.getPlace()).thenReturn("ProjectViewPopup");
         when(anActionEvent.getPresentation()).thenReturn(presentation);
 
         underTest.update(anActionEvent);
 
-        verify(utilService).allowSlowOperations(throwableRunnerArgumentCaptor.capture());
-        throwableRunnerArgumentCaptor.getValue().run();
-
-        // call a second time to verify throwableRunnerArgumentCaptor did run
-        underTest.update(anActionEvent);
-
+        readActionMockedStatic.verify(() -> ReadAction.run(throwableRunnableArgumentCaptor.capture()));
+        throwableRunnableArgumentCaptor.getValue().run();
         verify(presentation).setEnabled(false);
         assertFalse(presentation.isEnabled());
+        verify(psiService, times(0)).isTestClass(any(PsiClass.class));
     }
 
     @Test
@@ -142,20 +137,18 @@ public class MutationActionTest {
         final Presentation presentation = mock(Presentation.class);
         final PsiElement psiElement = mock(PsiJavaDirectoryImpl.class);
         final PsiClass psiClass = mock(PsiClass.class);
-        final ArgumentCaptor<ThrowableRunnable> throwableRunnerArgumentCaptor = ArgumentCaptor.forClass(ThrowableRunnable.class);
+        final ArgumentCaptor<ThrowableRunnable> throwableRunnableArgumentCaptor = ArgumentCaptor.forClass(ThrowableRunnable.class);
 
         when(anActionEvent.getPlace()).thenReturn("ProjectViewPopup");
         when(anActionEvent.getPresentation()).thenReturn(presentation);
         when(anActionEvent.getData(LangDataKeys.PSI_ELEMENT)).thenReturn(psiElement);
         servicesMockedStatic.when(() -> PsiTreeUtil.findChildOfType(psiElement, PsiClass.class)).thenReturn(psiClass);
         when(psiService.isTestClass(psiClass)).thenReturn(true);
+
         underTest.update(anActionEvent);
 
-        verify(utilService).allowSlowOperations(throwableRunnerArgumentCaptor.capture());
-        throwableRunnerArgumentCaptor.getValue().run();
-
-        // call a second time to verify throwableRunnerArgumentCaptor did run
-        underTest.update(anActionEvent);
+        readActionMockedStatic.verify(() -> ReadAction.run(throwableRunnableArgumentCaptor.capture()));
+        throwableRunnableArgumentCaptor.getValue().run();
 
         verify(presentation).setEnabled(true);
         verify(psiService).isTestClass(psiClass);
@@ -171,13 +164,11 @@ public class MutationActionTest {
         when(anActionEvent.getPlace()).thenReturn("ProjectViewPopup");
         when(anActionEvent.getPresentation()).thenReturn(presentation);
         when(anActionEvent.getData(LangDataKeys.PSI_ELEMENT)).thenReturn(psiElement);
+
         underTest.update(anActionEvent);
 
-        verify(utilService).allowSlowOperations(throwableRunnerArgumentCaptor.capture());
+        readActionMockedStatic.verify(() -> ReadAction.run(throwableRunnerArgumentCaptor.capture()));
         throwableRunnerArgumentCaptor.getValue().run();
-
-        // call a second time to verify throwableRunnerArgumentCaptor did run
-        underTest.update(anActionEvent);
 
         verify(presentation).setEnabled(false);
         verify(psiService, times(0)).isTestClass(any());
@@ -264,5 +255,6 @@ public class MutationActionTest {
         defaultRunExecutorMockedStatic.close();
         executionEnvironmentBuilderMockedStatic.close();
         executionManagerMockedStatic.close();
+        readActionMockedStatic.close();
     }
 }

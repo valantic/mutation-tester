@@ -34,14 +34,16 @@ import org.mockito.Mock;
 import org.mockito.MockedStatic;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import java.util.Arrays;
 import java.util.Collection;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertSame;
+import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.mockStatic;
-import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -55,6 +57,8 @@ public class ModuleServiceTest {
 
     @Mock
     private ProjectService projectService;
+    @Mock
+    private PsiService psiService;
 
     private MockedStatic<Services> servicesMockedStatic;
     private MockedStatic<ModuleUtilCore> moduleUtilCoreMockedStatic;
@@ -64,9 +68,10 @@ public class ModuleServiceTest {
     public void setUp() {
         servicesMockedStatic = mockStatic(Services.class);
         servicesMockedStatic.when(() -> Services.getService(ProjectService.class)).thenReturn(projectService);
+        servicesMockedStatic.when(() -> Services.getService(PsiService.class)).thenReturn(psiService);
         moduleUtilCoreMockedStatic = mockStatic(ModuleUtilCore.class);
         moduleManagerMockedStatic = mockStatic(ModuleManager.class);
-        underTest = new ModuleService();
+        underTest = spy(new ModuleService());
     }
 
     @Test
@@ -113,28 +118,42 @@ public class ModuleServiceTest {
     public void testGetOrCreateRunConfigurationModule_get() {
         final MutationConfiguration mutationConfiguration = mock(MutationConfiguration.class);
         final JavaRunConfigurationModule javaRunConfigurationModule = mock(JavaRunConfigurationModule.class);
+        final String targetTests = "targetTests";
+        final Project project = mock(Project.class);
+        final Module module = mock(Module.class);
 
         when(mutationConfiguration.getConfigurationModule()).thenReturn(javaRunConfigurationModule);
+        when(projectService.getCurrentProject()).thenReturn(project);
+        when(module.getName()).thenReturn("moduleName");
+        doReturn(Arrays.asList(module)).when(underTest).getModules(project);
 
-        JavaRunConfigurationModule result = underTest.getOrCreateRunConfigurationModule(mutationConfiguration);
+        JavaRunConfigurationModule result = underTest.getOrCreateRunConfigurationModule(mutationConfiguration, targetTests);
 
-        verify(projectService, times(0)).getCurrentProject();
+        verify(projectService).getCurrentProject();
         assertSame(javaRunConfigurationModule, result);
     }
 
     @Test
     public void testGetOrCreateRunConfigurationModule_create() {
         final MutationConfiguration mutationConfiguration = mock(MutationConfiguration.class);
+        final JavaRunConfigurationModule javaRunConfigurationModule = mock(JavaRunConfigurationModule.class);
         final Project project = mock(Project.class);
+        final String targetTests = "targetTests";
+        final Module module = mock(Module.class);
 
         when(mutationConfiguration.getConfigurationModule()).thenReturn(null);
         when(projectService.getCurrentProject()).thenReturn(project);
+        when(module.getName()).thenReturn("moduleName");
+        doReturn(Arrays.asList(module)).when(underTest).getModules(project);
+        doReturn(javaRunConfigurationModule).when(underTest).createJavaRunConfigurationModule();
 
-        JavaRunConfigurationModule result = underTest.getOrCreateRunConfigurationModule(mutationConfiguration);
+        JavaRunConfigurationModule result = underTest.getOrCreateRunConfigurationModule(mutationConfiguration, targetTests);
 
         verify(projectService).getCurrentProject();
         assertNotNull(result);
-        assertSame(JavaRunConfigurationModule.class, result.getClass());
+        assertSame(javaRunConfigurationModule, result);
+        verify(javaRunConfigurationModule).setModule(module);
+        verify(javaRunConfigurationModule).setModuleName("moduleName");
     }
 
     @After

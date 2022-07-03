@@ -26,9 +26,11 @@ import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiFile;
 import com.valantic.intellij.plugin.mutation.configuration.MutationConfiguration;
 import com.valantic.intellij.plugin.mutation.services.Services;
+import org.apache.commons.lang.StringUtils;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Optional;
 
 /**
@@ -37,6 +39,7 @@ import java.util.Optional;
 @Service
 public final class ModuleService {
 
+    private PsiService psiService = Services.getService(PsiService.class);
     private ProjectService projectService = Services.getService(ProjectService.class);
 
     public Collection<Module> getModules(final Project project) {
@@ -51,11 +54,52 @@ public final class ModuleService {
         return ModuleManager.getInstance(project);
     }
 
-    public JavaRunConfigurationModule getOrCreateRunConfigurationModule(final MutationConfiguration mutationConfiguration) {
-        return Optional.ofNullable(mutationConfiguration)
+    /**
+     * get or create configuration module
+     *
+     * @param mutationConfiguration
+     * @param targetTests
+     * @return
+     */
+    public JavaRunConfigurationModule getOrCreateRunConfigurationModule(final MutationConfiguration mutationConfiguration, final String targetTests) {
+        JavaRunConfigurationModule module = Optional.ofNullable(mutationConfiguration)
                 .map(MutationConfiguration::getConfigurationModule)
-                .orElseGet(() -> new JavaRunConfigurationModule(projectService.getCurrentProject(), true));
+                .orElseGet(this::createJavaRunConfigurationModule);
+        updateModule(module, targetTests);
+        return module;
+    }
 
+    protected JavaRunConfigurationModule createJavaRunConfigurationModule() {
+        return new JavaRunConfigurationModule(projectService.getCurrentProject(), true);
+    }
+
+    /**
+     * updates the module needed for java command line state.
+     * This can change in a multi module project depending of the used module.
+     * Determines the correct moule based by package of the test
+     */
+    private void updateModule(final JavaRunConfigurationModule configurationModule, final String targetTests) {
+        Module module = Optional.of(targetTests)
+                .map(psiService::getPsiFile)
+                .map(this::findModule)
+                .orElseGet(this::getFallbackModule);
+        configurationModule.setModule(module);
+        configurationModule.setModuleName(module.getName());
+    }
+
+    /**
+     * if no module can be found try with random fallback module in this project.
+     *
+     * @return
+     */
+    private Module getFallbackModule() {
+        return Optional.ofNullable(projectService.getCurrentProject())
+                .map(this::getModules)
+                .orElse(Collections.emptyList())
+                .stream()
+                .filter(fallbackModule -> StringUtils.isNotEmpty(fallbackModule.getName()))
+                .findFirst()
+                .orElse(null);
     }
 
 }
