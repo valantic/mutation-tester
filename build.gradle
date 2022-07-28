@@ -93,6 +93,7 @@ buildSearchableOptions {
 
 patchPluginXml {
     version = project.version
+    intellij.updateSinceUntilBuild = false
 }
 
 

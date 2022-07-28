@@ -58,6 +58,7 @@ Written by Fabian Hüsig, February, 2022
 			<li><b>0.1.3</b> - 2022-06: Enabled support for 2022.1. Include libs into jar for NoClassDefException. Updated Pitest to 1.9.0. Updated info.solidsoft.pitest to 1.7.4. Updated org.jetbrains.intellij to 1.6.0. Fixed Bug with JacocoTestReports</li>
             <li><b>end of beta</b></li>
             <li><b>1.0.0</b> - 2022-07: Updated Unittests. Enabled Upload to Marketplace. Fixed Bug with NoModuleDefinied Error.</li>
+            <li><b>1.0.1</b> - 2022-07: Enables untilBuild to the newest. Enabled Support for IntelliJ IDE since 2019</li>
 		  </ul>
 		]]>
     </change-notes>
@@ -65,7 +66,7 @@ Written by Fabian Hüsig, February, 2022
     <!-- Text to display as company information on Preferences/Settings | Plugin page -->
     <vendor url="https://github.com/valantic/mutation-tester">valantic - github</vendor>
 
-    <idea-version since-build="211.6693.111"/>
+    <idea-version since-build="193"/>
 
     <resource-bundle>messages.MessageBundle</resource-bundle>
 
