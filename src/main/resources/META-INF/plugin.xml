@@ -59,13 +59,13 @@ Written by Fabian Hüsig, February, 2022
             <li><b>end of beta</b></li>
             <li><b>1.0.0</b> - 2022-07: Updated Unittests. Enabled Upload to Marketplace. Fixed Bug with NoModuleDefinied Error.</li>
             <li><b>1.0.1</b> - 2022-07: Enables untilBuild to the newest. Enabled Support for IntelliJ IDE since 2020.3.4</li>
+
 		  </ul>
 		]]>
     </change-notes>
 
     <!-- Text to display as company information on Preferences/Settings | Plugin page -->
     <vendor url="https://github.com/valantic/mutation-tester">valantic - github</vendor>
-
 
     <idea-version since-build="203.8084.24"/>
 

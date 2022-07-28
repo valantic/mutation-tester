@@ -32,11 +32,8 @@ For example is a full Pit Mutation Testing report of this plugin <a href="https:
 | Tool          | Supported / Used Version |
 |---------------|--------------------------|
 | PIT           | 1.9.0                    |
-<<<<<<< Updated upstream
-| IntelliJ Idea | 2021.1 - 2022.1.3        |
-=======
 | IntelliJ Idea | 2020.3.4 - now           |
->>>>>>> Stashed changes
+
 
 ## Installation
 You can download the plugin from our [github](https://github.com/valantic/mutation-tester).
