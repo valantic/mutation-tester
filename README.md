@@ -32,7 +32,8 @@ For example is a full Pit Mutation Testing report of this plugin <a href="https:
 | Tool          | Supported / Used Version |
 |---------------|--------------------------|
 | PIT           | 1.9.0                    |
-| IntelliJ Idea | 2019 - now               |
+| IntelliJ Idea | 2020.3.4 - now           |
+
 
 ## Installation
 You can download the plugin from our [github](https://github.com/valantic/mutation-tester).
@@ -137,7 +138,7 @@ Also the Icon (mutation.png) is based on an icon from flaticon by Freepik.
 - <b>0.1.3</b> - 2022-06: Enabled support for 2022.1. Include libs into jar for NoClassDefException. Updated Pitest to 1.9.0. Updated info.solidsoft.pitest to 1.7.4. Updated org.jetbrains.intellij to 1.6.0. Fixed Bug with JacocoTestReports
 - <b>end of beta</b>
 - <b>1.0.0</b> - 2022-07: Updated Unittests. Enabled Upload to Marketplace. Fixed Bug with NoModuleDefinied Error.
-- <b>1.0.1</b> - 2022-07: Enables untilBuild to the newest. Enabled Support for IntelliJ IDE since 2019
+- <b>1.0.1</b> - 2022-07: Enables untilBuild to the newest. Enabled Support for IntelliJ IDE since 2020.3.4
 
 ## Roadmap
 - [x] fix beta issues
