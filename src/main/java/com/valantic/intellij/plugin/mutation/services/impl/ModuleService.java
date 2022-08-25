@@ -79,7 +79,7 @@ public final class ModuleService {
      * Determines the correct moule based by package of the test
      */
     private void updateModule(final JavaRunConfigurationModule configurationModule, final String targetTests) {
-        Module module = Optional.of(targetTests)
+        Module module = Optional.ofNullable(targetTests)
                 .map(psiService::getPsiFile)
                 .map(this::findModule)
                 .orElseGet(this::getFallbackModule);
