@@ -139,6 +139,8 @@ Also the Icon (mutation.png) is based on an icon from flaticon by Freepik.
 - <b>end of beta</b>
 - <b>1.0.0</b> - 2022-07: Updated Unittests. Enabled Upload to Marketplace. Fixed Bug with NoModuleDefinied Error.
 - <b>1.1.0</b> - 2022-07: Enables untilBuild to the newest. Enabled Support for IntelliJ IDE since 2020.3.4
+- <b>1.1.1</b> - 2022-08: Fixed issue https://github.com/valantic/mutation-tester/issues/7
+
 
 ## Roadmap
 - [x] fix beta issues
