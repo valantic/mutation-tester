@@ -121,7 +121,7 @@ public class MutationCommandLineState extends JavaCommandLineState {
                 .map(stringBuilder -> stringBuilder.append(MutationConstants.PATH_SEPARATOR.getValue()))
                 .map(stringBuilder -> stringBuilder.append(creationTime))
                 .map(StringBuilder::toString)
-                .orElse(null);
+                .orElse(null); // TODO default value can not be null
     }
 
     /**
@@ -163,18 +163,13 @@ public class MutationCommandLineState extends JavaCommandLineState {
      * @param parametersList
      */
     protected void populateParameterList(final ParametersList parametersList) {
-        parametersList.add("--targetClasses", options.getTargetClasses());
-        parametersList.add("--targetTests", options.getTargetTests());
-        parametersList.add("--reportDir", getReport(options.getReportDir()));
-        parametersList.add("--sourceDirs", options.getSourceDirs());
-        parametersList.add("--mutators", options.getMutators());
-        parametersList.add("--timeoutConst", options.getTimeoutConst());
-        parametersList.add("--outputFormats", options.getOutputFormats());
-
-        parametersList.add(String.format("--timestampedReports=%s", options.getTimestampedReports()));
-        parametersList.add(String.format("--includeLaunchClasspath=%s", options.getIncludeLaunchClasspath()));
-        parametersList.add(String.format("--verbose=%s", options.getVerbose()));
-        parametersList.add(String.format("--failWhenNoMutations=%s", options.getFailWhenNoMutations()));
+        addParameterIfExists(parametersList, "--targetClasses", options.getTargetClasses());
+        addParameterIfExists(parametersList, "--targetTests", options.getTargetTests());
+        addParameterIfExists(parametersList, "--reportDir", getReport(options.getReportDir()));
+        addParameterIfExists(parametersList, "--sourceDirs", options.getSourceDirs());
+        addParameterIfExists(parametersList, "--mutators", options.getMutators());
+        addParameterIfExists(parametersList, "--timeoutConst", options.getTimeoutConst());
+        addParameterIfExists(parametersList, "--outputFormats", options.getOutputFormats());
 
         addParameterIfExists(parametersList, "--dependencyDistance", options.getDependencyDistance());
         addParameterIfExists(parametersList, "--threads", options.getThreads());
@@ -196,6 +191,20 @@ public class MutationCommandLineState extends JavaCommandLineState {
         addParameterIfExists(parametersList, "--coverageThreshold", options.getCoverageThreshold());
         addParameterIfExists(parametersList, "--historyInputLocation", options.getHistoryInputLocation());
         addParameterIfExists(parametersList, "--historyOutputLocation", options.getHistoryOutputLocation());
+
+        // these parameters can be empty but not null
+        if(options.getTimestampedReports() != null) {
+            parametersList.add(String.format("--timestampedReports=%s", options.getTimestampedReports()));
+        }
+        if(options.getIncludeLaunchClasspath() != null) {
+            parametersList.add(String.format("--includeLaunchClasspath=%s", options.getIncludeLaunchClasspath()));
+        }
+        if(options.getVerbose() != null) {
+            parametersList.add(String.format("--verbose=%s", options.getVerbose()));
+        }
+        if(options.getFailWhenNoMutations() != null) {
+            parametersList.add(String.format("--failWhenNoMutations=%s", options.getFailWhenNoMutations()));
+        }
     }
 
     /**
