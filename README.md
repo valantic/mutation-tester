@@ -3,7 +3,6 @@ This Plugin enables mutation testing in your IDE based on <a href="https://pites
 
 ![build workflow](https://github.com/valantic/mutation-tester/actions/workflows/gradle-build.yml/badge.svg)
 [![Software License](https://img.shields.io/badge/license-Apache%202-green.svg?style=flat-square)](LICENSE.md)
-[![HitCount](http://hits.dwyl.com/valantic/mutation-tester.svg?style=flat-square)](http://hits.dwyl.com/valantic/mutation-tester)
 [![MutationReport](https://img.shields.io/badge/mutation%20coverage-91%25-green.svg?style=flat-square)](https://htmlpreview.github.io/?https://github.com/valantic/mutation-tester/blob/main/samples/pitreport-v.1.0.0/index.html)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=valantic_mutation-tester&metric=coverage)](https://sonarcloud.io/summary/new_code?id=valantic_mutation-tester)
 [![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=valantic_mutation-tester&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=valantic_mutation-tester)
@@ -31,7 +30,7 @@ For example is a full Pit Mutation Testing report of this plugin <a href="https:
 #### Versions
 | Tool          | Supported / Used Version |
 |---------------|--------------------------|
-| PIT           | 1.9.0                    |
+| PIT           | 1.10.0                   |
 | IntelliJ Idea | 2020.3.4 - now           |
 
 
