@@ -87,7 +87,7 @@ public class PsiServiceTest {
 
 
     @Test
-    public void testDoesClassExists() {
+    public void testDoesClassExists_processClassNames_equalsClassName() {
         final String fullyQualifiedClassName = "fullyQualifiedClassName";
         final Project project = mock(Project.class);
         final GlobalSearchScope searchScope = mock(GlobalSearchScope.class);
@@ -96,11 +96,31 @@ public class PsiServiceTest {
         when(projectService.getCurrentProject()).thenReturn(project);
         when(projectService.getSearchScope(project)).thenReturn(searchScope);
 
-        underTest.doesClassExists(fullyQualifiedClassName);
+        boolean result = underTest.doesClassExists(fullyQualifiedClassName);
 
         verify(classNameService).processClassNames(eq(project), eq(searchScope), processorArgumentCaptor.capture());
         assertFalse(processorArgumentCaptor.getValue().process("fullyQualifiedClassName"));
         assertTrue(processorArgumentCaptor.getValue().process("anyOtherGivenName"));
+        assertFalse(result);
+    }
+
+    @Test
+    public void testDoesClassExists_processClassNames_notEqualsClassName() {
+        final String fullyQualifiedClassName = "package.notAFittingClassName";
+        final Project project = mock(Project.class);
+        final GlobalSearchScope searchScope = mock(GlobalSearchScope.class);
+        final ArgumentCaptor<Processor<String>> processorArgumentCaptor = ArgumentCaptor.forClass(Processor.class);
+
+        when(projectService.getCurrentProject()).thenReturn(project);
+        when(projectService.getSearchScope(project)).thenReturn(searchScope);
+        doReturn("notTheExpectedClassName").when(underTest).getClassName(fullyQualifiedClassName);
+
+        boolean result = underTest.doesClassExists(fullyQualifiedClassName);
+
+        verify(classNameService).processClassNames(eq(project), eq(searchScope), processorArgumentCaptor.capture());
+        assertTrue(processorArgumentCaptor.getValue().process("notAFittingClassName"));
+        assertTrue(processorArgumentCaptor.getValue().process("anyOtherGivenName"));
+        assertFalse(result);
     }
 
     @Test

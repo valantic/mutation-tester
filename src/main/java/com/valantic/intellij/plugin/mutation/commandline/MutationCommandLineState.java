@@ -17,13 +17,13 @@
  */
 package com.valantic.intellij.plugin.mutation.commandline;
 
+import com.intellij.execution.CantRunException;
 import com.intellij.execution.DefaultExecutionResult;
 import com.intellij.execution.ExecutionException;
 import com.intellij.execution.ExecutionResult;
 import com.intellij.execution.Executor;
 import com.intellij.execution.configurations.JavaCommandLineState;
 import com.intellij.execution.configurations.JavaParameters;
-import com.intellij.execution.configurations.JavaRunConfigurationModule;
 import com.intellij.execution.configurations.ParametersList;
 import com.intellij.execution.process.OSProcessHandler;
 import com.intellij.execution.process.ProcessAdapter;
@@ -34,6 +34,7 @@ import com.intellij.execution.runners.ProgramRunner;
 import com.intellij.execution.ui.ConsoleView;
 import com.intellij.execution.util.JavaParametersUtil;
 import com.intellij.ide.browsers.OpenUrlHyperlinkInfo;
+import com.intellij.openapi.module.ModuleManager;
 import com.intellij.util.PathUtil;
 import com.intellij.util.PathsList;
 import com.valantic.intellij.plugin.mutation.action.MutationAction;
@@ -42,16 +43,15 @@ import com.valantic.intellij.plugin.mutation.configuration.option.MutationConfig
 import com.valantic.intellij.plugin.mutation.enums.MutationConstants;
 import com.valantic.intellij.plugin.mutation.localization.Messages;
 import com.valantic.intellij.plugin.mutation.services.Services;
-import com.valantic.intellij.plugin.mutation.services.impl.ModuleService;
+import com.valantic.intellij.plugin.mutation.services.impl.ProjectService;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.TestOnly;
 import org.junit.runners.JUnit4;
-import org.pitest.boot.HotSwapAgent;
-import org.pitest.mutationtest.commandline.MutationCoverageReport;
-import org.pitest.mutationtest.config.PluginServices;
 
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Optional;
 
@@ -66,10 +66,8 @@ public class MutationCommandLineState extends JavaCommandLineState {
     private static final String MAIN_CLASS = "org.pitest.mutationtest.commandline.MutationCoverageReport";
 
     private String creationTime;
-    private JavaRunConfigurationModule module;
     private MutationConfigurationOptions options;
-
-    private ModuleService moduleService = Services.getService(ModuleService.class);
+    private ProjectService projectService = Services.getService(ProjectService.class);
 
     public MutationCommandLineState(final ExecutionEnvironment environment) {
         super(environment);
@@ -80,7 +78,6 @@ public class MutationCommandLineState extends JavaCommandLineState {
                 .ifPresent(mutationConfiguration -> {
                     this.creationTime = new SimpleDateFormat(DATE_FORMAT).format(new Date());
                     this.options = mutationConfiguration.getMutationConfigurationOptions();
-                    this.module = moduleService.getOrCreateRunConfigurationModule(mutationConfiguration, this.options.getTargetTests());
                 });
     }
 
@@ -135,25 +132,24 @@ public class MutationCommandLineState extends JavaCommandLineState {
     protected JavaParameters createJavaParameters() throws ExecutionException {
         final JavaParameters javaParameters = new JavaParameters();
         javaParameters.setMainClass(MAIN_CLASS);
-        JavaParametersUtil.configureModule(module, javaParameters, JavaParameters.JDK_AND_CLASSES_AND_TESTS, null);
+        configureModule(javaParameters);
         Optional.of(javaParameters)
                 .map(JavaParameters::getProgramParametersList)
                 .ifPresent(this::populateParameterList);
         Optional.ofNullable(javaParameters)
                 .map(JavaParameters::getClassPath)
-                .ifPresent(this::populatePathList);
+                .ifPresent(this::populateClassPathList);
+        javaParameters.setUseDynamicClasspath(true);
         return javaParameters;
     }
 
     /**
-     * populates path list with pitest class path entries.
+     * populates classpath list with pitest class path entries.
      *
      * @param pathsList
      */
-    protected void populatePathList(final PathsList pathsList) {
-        pathsList.addFirst(PathUtil.getJarPathForClass(HotSwapAgent.class));
-        pathsList.addFirst(PathUtil.getJarPathForClass(MutationCoverageReport.class));
-        pathsList.addFirst(PathUtil.getJarPathForClass(PluginServices.class));
+    protected void populateClassPathList(final PathsList pathsList) {
+        pathsList.addFirst(PathUtil.getJarPathForClass(this.getClass()));
         pathsList.addFirst(PathUtil.getJarPathForClass(JUnit4.class));
     }
 
@@ -193,16 +189,16 @@ public class MutationCommandLineState extends JavaCommandLineState {
         addParameterIfExists(parametersList, "--historyOutputLocation", options.getHistoryOutputLocation());
 
         // these parameters can be empty but not null
-        if(options.getTimestampedReports() != null) {
+        if (options.getTimestampedReports() != null) {
             parametersList.add(String.format("--timestampedReports=%s", options.getTimestampedReports()));
         }
-        if(options.getIncludeLaunchClasspath() != null) {
+        if (options.getIncludeLaunchClasspath() != null) {
             parametersList.add(String.format("--includeLaunchClasspath=%s", options.getIncludeLaunchClasspath()));
         }
-        if(options.getVerbose() != null) {
+        if (options.getVerbose() != null) {
             parametersList.add(String.format("--verbose=%s", options.getVerbose()));
         }
-        if(options.getFailWhenNoMutations() != null) {
+        if (options.getFailWhenNoMutations() != null) {
             parametersList.add(String.format("--failWhenNoMutations=%s", options.getFailWhenNoMutations()));
         }
     }
@@ -218,6 +214,27 @@ public class MutationCommandLineState extends JavaCommandLineState {
         Optional.ofNullable(parameterValue)
                 .filter(StringUtils::isNotEmpty)
                 .ifPresent(value -> parametersList.add(parameterName, value));
+    }
+
+    /**
+     * configures modules in the current project for the javaparameters.
+     *
+     * @param javaParameters
+     */
+    private void configureModule(final JavaParameters javaParameters) {
+        Optional.of(projectService.getCurrentProject())
+                .map(ModuleManager::getInstance)
+                .map(ModuleManager::getModules)
+                .map(Arrays::asList)
+                .orElseGet(Collections::emptyList)
+                .stream()
+                .forEach(module -> {
+                    try {
+                        JavaParametersUtil.configureModule(module, javaParameters, JavaParameters.JDK_AND_CLASSES_AND_TESTS, null);
+                    } catch (CantRunException e) {
+                        throw new RuntimeException(e);
+                    }
+                });
     }
 
     /**
