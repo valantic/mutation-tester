@@ -51,7 +51,7 @@ Update: Plugin is in IntelliJ Marketplace. You can download it [here](https://pl
 You can simply create a new RunConfigurations with Mutation Tester
 ![](./samples/screenshots/create-configuration.png)
 
-This Plugin will save you a lot of time. You don't need to create everytime new configurations by hand to test your new unit test. 
+This Plugin will save you a lot of time. You don't need to create everytime new configurations by hand to test your new unit test.
 With this tool you can automatically create configuration for your given test, as seen below by just executing the test in the run context of the unit test.
 
 ![](./samples/screenshots/run-in-class.png)
@@ -87,13 +87,13 @@ This Plugin has a few limitation, we might (if needed) will fix in the near futu
 ```
 automaticly determine name of to be testet Class
 
-When executing the plugin from the context-menu oder inside a class, the targetTest and targetClass 
-will be set automaticly. This is handled by default naming conventions. For example, you test the 
-Class "SampleService" with the test "SampleServiceTest", there will no problem setting these values 
-automaticly. The plugin will you the targetTest "SampleServiceTest" and remove the suffix "Test", 
+When executing the plugin from the context-menu oder inside a class, the targetTest and targetClass
+will be set automaticly. This is handled by default naming conventions. For example, you test the
+Class "SampleService" with the test "SampleServiceTest", there will no problem setting these values
+automaticly. The plugin will you the targetTest "SampleServiceTest" and remove the suffix "Test",
 and will check if the rest of the string "SampleService" is a valid class.
-If it doesn't, the targetTestClass will be set by the package the test class "SampleServiceTest" is in. 
-You can always update the correct names by hand. If you might have different namingConventions relating 
+If it doesn't, the targetTestClass will be set by the package the test class "SampleServiceTest" is in.
+You can always update the correct names by hand. If you might have different namingConventions relating
 the application and testclass let us know, so we can add it to the automated process.
 ```
 
@@ -140,6 +140,7 @@ Also the Icon (mutation.png) is based on an icon from flaticon by Freepik.
 - <b>1.1.0</b> - 2022-07: Enables untilBuild to the newest. Enabled Support for IntelliJ IDE since 2020.3.4
 - <b>1.1.1</b> - 2022-08: Fixed issue https://github.com/valantic/mutation-tester/issues/7
 - <b>1.2.0</b> - 2022-12: Commandline fixed for windows. Updated pitest version to 1.10.0. Updated test reports. corrected classpath for missing jar.
+- <b>1.2.1</b> - 2023-05: Removed tabs icon in the Running configuration screen that prevent the edit configuration in recent versions of Intellij IDEA. Capitalize context menu entries.
 
 
 ## Roadmap
