@@ -18,8 +18,8 @@
 package com.valantic.intellij.plugin.mutation.services.impl;
 
 import com.intellij.ide.DataManager;
+import com.intellij.openapi.actionSystem.CommonDataKeys;
 import com.intellij.openapi.actionSystem.DataContext;
-import com.intellij.openapi.actionSystem.PlatformDataKeys;
 import com.intellij.openapi.application.ReadAction;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.project.ProjectManager;
@@ -61,7 +61,7 @@ public class ProjectServiceTest {
     private MockedStatic<ProjectScope> projectScopeMockedStatic;
     private MockedStatic<ReadAction> readActionMockedStatic;
     private MockedStatic<DataManager> dataManagerMockedStatic;
-    private MockedStatic<PlatformDataKeys> platformDataKeysMockedStatic;
+    private MockedStatic<CommonDataKeys> commonDataKeysMockedStatic;
 
 
     @Before
@@ -71,7 +71,7 @@ public class ProjectServiceTest {
         projectScopeMockedStatic = mockStatic(ProjectScope.class);
         readActionMockedStatic = mockStatic(ReadAction.class);
         dataManagerMockedStatic = mockStatic(DataManager.class);
-        platformDataKeysMockedStatic = mockStatic(PlatformDataKeys.class);
+        commonDataKeysMockedStatic = mockStatic(CommonDataKeys.class);
         underTest = spy(new ProjectService());
     }
 
@@ -106,7 +106,7 @@ public class ProjectServiceTest {
             resultContext[0] = DataManager.getInstance().getDataContextFromFocusAsync().blockingGet(5, TimeUnit.SECONDS);
             return null;
         });
-        platformDataKeysMockedStatic.when(() -> PlatformDataKeys.PROJECT.getData(dataContext)).thenReturn(project);
+        commonDataKeysMockedStatic.when(() -> CommonDataKeys.PROJECT.getData(dataContext)).thenReturn(project);
         doReturn(resultContext).when(underTest).createDataContext();
 
         final Project result = underTest.getCurrentProject();
@@ -157,6 +157,6 @@ public class ProjectServiceTest {
         projectScopeMockedStatic.close();
         readActionMockedStatic.close();
         dataManagerMockedStatic.close();
-        platformDataKeysMockedStatic.close();
+        commonDataKeysMockedStatic.close();
     }
 }
