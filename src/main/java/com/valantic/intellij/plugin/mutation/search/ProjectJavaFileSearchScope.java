@@ -48,12 +48,12 @@ public class ProjectJavaFileSearchScope extends GlobalSearchScope {
 
     @Override
     public boolean isSearchInModuleContent(@NotNull Module module) {
-        return Boolean.FALSE;
+        return false;
     }
 
     @Override
     public boolean isSearchInLibraries() {
-        return Boolean.FALSE;
+        return false;
     }
 
     @Override

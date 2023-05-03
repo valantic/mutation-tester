@@ -138,9 +138,7 @@ public class MutationSettingsEditorTest {
         verify(underTest.jvmArgs).setComponent(any());
         verify(underTest.jvmPath).setComponent(any());
         verify(underTest.failWhenNoMutations).setComponent(any());
-        verify(underTest.classPath).setComponent(any());
         verify(underTest.mutableCodePaths).setComponent(any());
-        verify(underTest.testPlugin).setComponent(any());
         verify(underTest.includedGroups).setComponent(any());
         verify(underTest.excludedGroups).setComponent(any());
         verify(underTest.detectInlinedCode).setComponent(any());
@@ -148,6 +146,10 @@ public class MutationSettingsEditorTest {
         verify(underTest.coverageThreshold).setComponent(any());
         verify(underTest.historyInputLocation).setComponent(any());
         verify(underTest.historyOutputLocation).setComponent(any());
+        verify(underTest.skipFailingTests).setComponent(any());
+        verify(underTest.useClasspathJar).setComponent(any());
+        verify(underTest.classpathFile).setComponent(any());
+        verify(underTest.deleteCpFile).setComponent(any());
     }
 
     @After

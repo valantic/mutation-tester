@@ -19,10 +19,12 @@ package com.valantic.intellij.plugin.mutation.services.impl;
 
 import com.intellij.execution.RunManager;
 import com.intellij.execution.RunnerAndConfigurationSettings;
+import com.intellij.execution.configurations.RunConfiguration;
 import com.intellij.openapi.project.Project;
 import com.valantic.intellij.plugin.mutation.configuration.MutationConfiguration;
 import com.valantic.intellij.plugin.mutation.configuration.MutationConfigurationFactory;
 import com.valantic.intellij.plugin.mutation.configuration.option.MutationConfigurationOptions;
+import com.valantic.intellij.plugin.mutation.exception.MutationConfigurationException;
 import com.valantic.intellij.plugin.mutation.services.Services;
 import org.junit.After;
 import org.junit.Before;
@@ -37,6 +39,7 @@ import java.util.Arrays;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertSame;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doReturn;
@@ -82,7 +85,7 @@ public class ConfigurationServiceTest {
         when(mutationConfiguration.getMutationConfigurationOptions()).thenReturn(mutationConfigurationOptions);
         when(mutationConfigurationOptions.getTargetTests()).thenReturn("targetTestClassName");
 
-        MutationConfiguration result = underTest.getOrCreateMutationConfiguration(project, targetTests);
+        final MutationConfiguration result = underTest.getOrCreateMutationConfiguration(project, targetTests);
 
         assertNotNull(result);
         verify(psiService).getClassName("targetTests");
@@ -107,7 +110,8 @@ public class ConfigurationServiceTest {
         when(mutationConfiguration.getFactory()).thenReturn(mutationConfigurationFactory);
         when(runManager.createConfiguration(any(MutationConfiguration.class), eq(mutationConfigurationFactory))).thenReturn(runnerAndConfigurationSettings);
         doReturn(mutationConfiguration).when(underTest).createNewMutationConfiguration(project, mutationConfigurationFactory, "targetTestClassName");
-        MutationConfiguration result = underTest.getOrCreateMutationConfiguration(project, targetTests);
+
+        final MutationConfiguration result = underTest.getOrCreateMutationConfiguration(project, targetTests);
 
         assertNotNull(result);
         verify(psiService, times(2)).getClassName("targetTests");
@@ -134,7 +138,8 @@ public class ConfigurationServiceTest {
         when(mutationConfiguration.getFactory()).thenReturn(mutationConfigurationFactory);
         when(runManager.createConfiguration(any(MutationConfiguration.class), eq(mutationConfigurationFactory))).thenReturn(runnerAndConfigurationSettings);
         doReturn(mutationConfiguration).when(underTest).createNewMutationConfiguration(project, mutationConfigurationFactory, "targetpackage");
-        MutationConfiguration result = underTest.getOrCreateMutationConfiguration(project, targetTests);
+
+        final MutationConfiguration result = underTest.getOrCreateMutationConfiguration(project, targetTests);
 
         assertNotNull(result);
         verify(psiService).getClassName("targetpackage.*");
@@ -161,13 +166,49 @@ public class ConfigurationServiceTest {
 
         when(runManager.createConfiguration(any(MutationConfiguration.class), any(MutationConfigurationFactory.class))).thenReturn(runnerAndConfigurationSettings);
         doReturn(mutationConfiguration).when(underTest).createNewMutationConfiguration(eq(project), any(MutationConfigurationFactory.class), eq("targetTestClassName"));
-        MutationConfiguration result = underTest.getOrCreateMutationConfiguration(project, targetTests);
+
+        final MutationConfiguration result = underTest.getOrCreateMutationConfiguration(project, targetTests);
 
         assertNotNull(result);
         verify(psiService, times(2)).getClassName("targetTests");
         verify(mutationConfiguration).getFactory();
         verify(runManager).addConfiguration(runnerAndConfigurationSettings);
         assertEquals(mutationConfiguration, result);
+    }
+
+    @Test
+    public void testCreateNewMutationConfiguration() {
+        final Project project = mock(Project.class);
+        final RunManager runManager = mock(RunManager.class);
+        final MutationConfigurationFactory factory = mock(MutationConfigurationFactory.class);
+        final RunnerAndConfigurationSettings runnerAndConfigurationSettings = mock(RunnerAndConfigurationSettings.class);
+        final RunConfiguration runConfiguration = mock(RunConfiguration.class);
+        final MutationConfiguration mutationConfiguration = mock(MutationConfiguration.class);
+
+        runManagerMockedStatic.when(() -> RunManager.getInstance(project)).thenReturn(runManager);
+        when(runManager.getConfigurationTemplate(factory)).thenReturn(runnerAndConfigurationSettings);
+        when(runnerAndConfigurationSettings.getConfiguration()).thenReturn(runConfiguration);
+        when(factory.createConfiguration("configName", runConfiguration)).thenReturn(mutationConfiguration);
+
+        final MutationConfiguration result = underTest.createNewMutationConfiguration(project, factory, "configName");
+
+        assertSame(mutationConfiguration, result);
+    }
+
+    @Test(expected = MutationConfigurationException.class)
+    public void testCreateNewMutationConfiguration_hasError() {
+        final Project project = mock(Project.class);
+        final RunManager runManager = mock(RunManager.class);
+        final MutationConfigurationFactory factory = mock(MutationConfigurationFactory.class);
+        final RunnerAndConfigurationSettings runnerAndConfigurationSettings = mock(RunnerAndConfigurationSettings.class);
+        final RunConfiguration runConfiguration = mock(RunConfiguration.class);
+
+        runManagerMockedStatic.when(() -> RunManager.getInstance(project)).thenReturn(runManager);
+        when(runManager.getConfigurationTemplate(factory)).thenReturn(runnerAndConfigurationSettings);
+        when(runnerAndConfigurationSettings.getConfiguration()).thenReturn(runConfiguration);
+        when(factory.createConfiguration("configName", runConfiguration)).thenReturn(runConfiguration);
+
+        underTest.createNewMutationConfiguration(project, factory, "configName");
     }
 
     @After

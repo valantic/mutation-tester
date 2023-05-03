@@ -17,7 +17,6 @@
  */
 package com.valantic.intellij.plugin.mutation.commandline;
 
-import com.intellij.execution.CantRunException;
 import com.intellij.execution.DefaultExecutionResult;
 import com.intellij.execution.ExecutionException;
 import com.intellij.execution.ExecutionResult;
@@ -34,24 +33,26 @@ import com.intellij.execution.runners.ProgramRunner;
 import com.intellij.execution.ui.ConsoleView;
 import com.intellij.execution.util.JavaParametersUtil;
 import com.intellij.ide.browsers.OpenUrlHyperlinkInfo;
-import com.intellij.openapi.module.ModuleManager;
+import com.intellij.openapi.util.io.FileUtilRt;
 import com.intellij.util.PathUtil;
-import com.intellij.util.PathsList;
 import com.valantic.intellij.plugin.mutation.action.MutationAction;
 import com.valantic.intellij.plugin.mutation.configuration.MutationConfiguration;
 import com.valantic.intellij.plugin.mutation.configuration.option.MutationConfigurationOptions;
 import com.valantic.intellij.plugin.mutation.enums.MutationConstants;
+import com.valantic.intellij.plugin.mutation.exception.MutationClasspathException;
+import com.valantic.intellij.plugin.mutation.exception.MutationConfigurationException;
 import com.valantic.intellij.plugin.mutation.localization.Messages;
 import com.valantic.intellij.plugin.mutation.services.Services;
+import com.valantic.intellij.plugin.mutation.services.impl.ClassPathService;
 import com.valantic.intellij.plugin.mutation.services.impl.ProjectService;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.TestOnly;
-import org.junit.runners.JUnit4;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.Date;
 import java.util.Optional;
 
@@ -64,10 +65,14 @@ public class MutationCommandLineState extends JavaCommandLineState {
     private static final String DATE_FORMAT = "yyyy-MM-dd-HH-mm-ss";
     private static final String INDEX_FILE = "index.html";
     private static final String MAIN_CLASS = "org.pitest.mutationtest.commandline.MutationCoverageReport";
+    private static final String CP_FILE_NAME = "pitcp";
+    private static final String CP_FILE_SUFFIX = ".txt";
+
+    private ProjectService projectService = Services.getService(ProjectService.class);
+    private ClassPathService classPathService = Services.getService(ClassPathService.class);
 
     private String creationTime;
     private MutationConfigurationOptions options;
-    private ProjectService projectService = Services.getService(ProjectService.class);
 
     public MutationCommandLineState(final ExecutionEnvironment environment) {
         super(environment);
@@ -118,7 +123,7 @@ public class MutationCommandLineState extends JavaCommandLineState {
                 .map(stringBuilder -> stringBuilder.append(MutationConstants.PATH_SEPARATOR.getValue()))
                 .map(stringBuilder -> stringBuilder.append(creationTime))
                 .map(StringBuilder::toString)
-                .orElse(null); // TODO default value can not be null
+                .orElseThrow(() -> new MutationConfigurationException("Reportdir can not be null"));
     }
 
     /**
@@ -132,26 +137,16 @@ public class MutationCommandLineState extends JavaCommandLineState {
     protected JavaParameters createJavaParameters() throws ExecutionException {
         final JavaParameters javaParameters = new JavaParameters();
         javaParameters.setMainClass(MAIN_CLASS);
-        configureModule(javaParameters);
+        javaParameters.setJdk(JavaParametersUtil.createProjectJdk(projectService.getCurrentProject(), null));
         Optional.of(javaParameters)
                 .map(JavaParameters::getProgramParametersList)
                 .ifPresent(this::populateParameterList);
         Optional.ofNullable(javaParameters)
                 .map(JavaParameters::getClassPath)
-                .ifPresent(this::populateClassPathList);
-        javaParameters.setUseDynamicClasspath(true);
+                .ifPresent(pathsList -> pathsList.add(PathUtil.getJarPathForClass(this.getClass())));
         return javaParameters;
     }
 
-    /**
-     * populates classpath list with pitest class path entries.
-     *
-     * @param pathsList
-     */
-    protected void populateClassPathList(final PathsList pathsList) {
-        pathsList.addFirst(PathUtil.getJarPathForClass(this.getClass()));
-        pathsList.addFirst(PathUtil.getJarPathForClass(JUnit4.class));
-    }
 
     /**
      * populates parameter list with values from mutationConfigurationOptions.
@@ -177,9 +172,7 @@ public class MutationCommandLineState extends JavaCommandLineState {
         addParameterIfExists(parametersList, "--maxMutationsPerClass", options.getMaxMutationsPerClass());
         addParameterIfExists(parametersList, "--jvmArgs", options.getJvmArgs());
         addParameterIfExists(parametersList, "--jvmPath", options.getJvmPath());
-        addParameterIfExists(parametersList, "--classPath", options.getClassPath());
         addParameterIfExists(parametersList, "--mutableCodePaths", options.getMutableCodePaths());
-        addParameterIfExists(parametersList, "--testPlugin", options.getTestPlugin());
         addParameterIfExists(parametersList, "--includedGroups", options.getIncludedGroups());
         addParameterIfExists(parametersList, "--excludedGroups", options.getExcludedGroups());
         addParameterIfExists(parametersList, "--detectInlinedCode", options.getDetectInlinedCode());
@@ -187,6 +180,9 @@ public class MutationCommandLineState extends JavaCommandLineState {
         addParameterIfExists(parametersList, "--coverageThreshold", options.getCoverageThreshold());
         addParameterIfExists(parametersList, "--historyInputLocation", options.getHistoryInputLocation());
         addParameterIfExists(parametersList, "--historyOutputLocation", options.getHistoryOutputLocation());
+        addParameterIfExists(parametersList, "--useClasspathJar", options.getUseClasspathJar());
+        addParameterIfExists(parametersList, "--skipFailingTests", options.getSkipFailingTests());
+        addParameterIfExists(parametersList, "--classPathFile", createClassPathFile());
 
         // these parameters can be empty but not null
         if (options.getTimestampedReports() != null) {
@@ -217,24 +213,21 @@ public class MutationCommandLineState extends JavaCommandLineState {
     }
 
     /**
-     * configures modules in the current project for the javaparameters.
+     * creates a classpath file for all modules in the project
      *
-     * @param javaParameters
+     * @return classpath file in txt format
      */
-    private void configureModule(final JavaParameters javaParameters) {
-        Optional.of(projectService.getCurrentProject())
-                .map(ModuleManager::getInstance)
-                .map(ModuleManager::getModules)
-                .map(Arrays::asList)
-                .orElseGet(Collections::emptyList)
-                .stream()
-                .forEach(module -> {
-                    try {
-                        JavaParametersUtil.configureModule(module, javaParameters, JavaParameters.JDK_AND_CLASSES_AND_TESTS, null);
-                    } catch (CantRunException e) {
-                        throw new RuntimeException(e);
-                    }
-                });
+    private String createClassPathFile() {
+        try {
+            final File file = FileUtilRt.createTempFile(CP_FILE_NAME, CP_FILE_SUFFIX, Boolean.parseBoolean(options.getDeleteCpFile()));
+            final FileWriter fileWriter = new FileWriter(file);
+            fileWriter.write(String.join(System.getProperty("line.separator"),
+                    classPathService.getClassPathForModules()));
+            fileWriter.close();
+            return file.getPath();
+        } catch (IOException e) {
+            throw new MutationClasspathException("Could not create classpath file",e);
+        }
     }
 
     /**

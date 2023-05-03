@@ -151,7 +151,7 @@
                 <properties/>
                 <border type="none"/>
                 <children>
-                  <grid id="df09d" layout-manager="GridLayoutManager" row-count="28" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                  <grid id="df09d" layout-manager="GridLayoutManager" row-count="30" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                     <margin top="2" left="2" bottom="2" right="2"/>
                     <constraints/>
                     <properties/>
@@ -178,7 +178,7 @@
                       </component>
                       <component id="64eab" class="com.intellij.openapi.ui.LabeledComponent" binding="timestampedReports" custom-create="true">
                         <constraints>
-                          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                          <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
                             <preferred-size width="-1" height="20"/>
                           </grid>
                         </constraints>
@@ -190,7 +190,7 @@
                       </component>
                       <component id="62eab" class="com.intellij.openapi.ui.LabeledComponent" binding="timeoutConst" custom-create="true">
                         <constraints>
-                          <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                          <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
                             <preferred-size width="-1" height="20"/>
                           </grid>
                         </constraints>
@@ -202,7 +202,7 @@
                       </component>
                       <component id="63eab" class="com.intellij.openapi.ui.LabeledComponent" binding="outputFormats" custom-create="true">
                         <constraints>
-                          <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                          <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
                             <preferred-size width="-1" height="20"/>
                           </grid>
                         </constraints>
@@ -210,18 +210,6 @@
                           <labelLocation value="North"/>
                           <text resource-bundle="messages/MessageBundle" key="pit.settings.editor.component.text.outputformats"/>
                           <toolTipText resource-bundle="messages/MessageBundle" key="pit.settings.editor.component.tooltiptext.outputformats"/>
-                        </properties>
-                      </component>
-                      <component id="107b" class="com.intellij.openapi.ui.LabeledComponent" binding="includeLaunchClasspath" custom-create="true">
-                        <constraints>
-                          <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
-                            <preferred-size width="-1" height="20"/>
-                          </grid>
-                        </constraints>
-                        <properties>
-                          <labelLocation value="North"/>
-                          <text resource-bundle="messages/MessageBundle" key="pit.settings.editor.component.text.includelaunchclasspath"/>
-                          <toolTipText resource-bundle="messages/MessageBundle" key="pit.settings.editor.component.tooltiptext.includelaunchclasspath"/>
                         </properties>
                       </component>
                       <component id="3bfa5" class="com.intellij.openapi.ui.LabeledComponent" binding="dependencyDistance" custom-create="true">
@@ -238,7 +226,7 @@
                       </component>
                       <component id="acd65" class="com.intellij.openapi.ui.LabeledComponent" binding="threads" custom-create="true">
                         <constraints>
-                          <grid row="7" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                          <grid row="11" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
                             <preferred-size width="-1" height="20"/>
                           </grid>
                         </constraints>
@@ -250,7 +238,7 @@
                       </component>
                       <component id="9f898" class="com.intellij.openapi.ui.LabeledComponent" binding="excludedMethods" custom-create="true">
                         <constraints>
-                          <grid row="8" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                          <grid row="12" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
                             <preferred-size width="-1" height="20"/>
                           </grid>
                         </constraints>
@@ -262,7 +250,7 @@
                       </component>
                       <component id="3a584" class="com.intellij.openapi.ui.LabeledComponent" binding="excludedClasses" custom-create="true">
                         <constraints>
-                          <grid row="9" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                          <grid row="13" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
                             <preferred-size width="-1" height="20"/>
                           </grid>
                         </constraints>
@@ -274,7 +262,7 @@
                       </component>
                       <component id="74d25" class="com.intellij.openapi.ui.LabeledComponent" binding="excludedTests" custom-create="true">
                         <constraints>
-                          <grid row="10" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                          <grid row="14" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
                             <preferred-size width="-1" height="20"/>
                           </grid>
                         </constraints>
@@ -286,7 +274,7 @@
                       </component>
                       <component id="44c7e" class="com.intellij.openapi.ui.LabeledComponent" binding="avoidCallsTo" custom-create="true">
                         <constraints>
-                          <grid row="11" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                          <grid row="15" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
                             <preferred-size width="-1" height="20"/>
                           </grid>
                         </constraints>
@@ -298,7 +286,7 @@
                       </component>
                       <component id="c07a3" class="com.intellij.openapi.ui.LabeledComponent" binding="verbose" custom-create="true">
                         <constraints>
-                          <grid row="12" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                          <grid row="16" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
                             <preferred-size width="-1" height="20"/>
                           </grid>
                         </constraints>
@@ -310,7 +298,7 @@
                       </component>
                       <component id="74e90" class="com.intellij.openapi.ui.LabeledComponent" binding="timeoutFactor" custom-create="true">
                         <constraints>
-                          <grid row="13" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                          <grid row="17" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
                             <preferred-size width="-1" height="20"/>
                           </grid>
                         </constraints>
@@ -322,7 +310,7 @@
                       </component>
                       <component id="55489" class="com.intellij.openapi.ui.LabeledComponent" binding="maxMutationsPerClass" custom-create="true">
                         <constraints>
-                          <grid row="14" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                          <grid row="18" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
                             <preferred-size width="-1" height="20"/>
                           </grid>
                         </constraints>
@@ -334,7 +322,7 @@
                       </component>
                       <component id="44f7d" class="com.intellij.openapi.ui.LabeledComponent" binding="jvmArgs" custom-create="true">
                         <constraints>
-                          <grid row="15" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                          <grid row="19" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
                             <preferred-size width="-1" height="20"/>
                           </grid>
                         </constraints>
@@ -346,7 +334,7 @@
                       </component>
                       <component id="ef0a8" class="com.intellij.openapi.ui.LabeledComponent" binding="jvmPath" custom-create="true">
                         <constraints>
-                          <grid row="16" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                          <grid row="20" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
                             <preferred-size width="-1" height="20"/>
                           </grid>
                         </constraints>
@@ -358,7 +346,7 @@
                       </component>
                       <component id="ade4d" class="com.intellij.openapi.ui.LabeledComponent" binding="failWhenNoMutations" custom-create="true">
                         <constraints>
-                          <grid row="17" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                          <grid row="21" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
                             <preferred-size width="-1" height="20"/>
                           </grid>
                         </constraints>
@@ -368,21 +356,9 @@
                           <toolTipText resource-bundle="messages/MessageBundle" key="pit.settings.editor.component.tooltiptext.failwhennomutations"/>
                         </properties>
                       </component>
-                      <component id="bc9e8" class="com.intellij.openapi.ui.LabeledComponent" binding="classPath" custom-create="true">
-                        <constraints>
-                          <grid row="18" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
-                            <preferred-size width="-1" height="20"/>
-                          </grid>
-                        </constraints>
-                        <properties>
-                          <labelLocation value="North"/>
-                          <text resource-bundle="messages/MessageBundle" key="pit.settings.editor.component.text.classpath"/>
-                          <toolTipText resource-bundle="messages/MessageBundle" key="pit.settings.editor.component.tooltiptext.classpath"/>
-                        </properties>
-                      </component>
                       <component id="ea07c" class="com.intellij.openapi.ui.LabeledComponent" binding="mutableCodePaths" custom-create="true">
                         <constraints>
-                          <grid row="19" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                          <grid row="22" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
                             <preferred-size width="-1" height="20"/>
                           </grid>
                         </constraints>
@@ -392,21 +368,9 @@
                           <toolTipText resource-bundle="messages/MessageBundle" key="pit.settings.editor.component.tooltiptext.mutablecodepaths"/>
                         </properties>
                       </component>
-                      <component id="a86fa" class="com.intellij.openapi.ui.LabeledComponent" binding="testPlugin" custom-create="true">
-                        <constraints>
-                          <grid row="20" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
-                            <preferred-size width="-1" height="20"/>
-                          </grid>
-                        </constraints>
-                        <properties>
-                          <labelLocation value="North"/>
-                          <text resource-bundle="messages/MessageBundle" key="pit.settings.editor.component.text.testplugin"/>
-                          <toolTipText resource-bundle="messages/MessageBundle" key="pit.settings.editor.component.tooltiptext.testplugin"/>
-                        </properties>
-                      </component>
                       <component id="de753" class="com.intellij.openapi.ui.LabeledComponent" binding="includedGroups" custom-create="true">
                         <constraints>
-                          <grid row="21" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                          <grid row="23" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
                             <preferred-size width="-1" height="20"/>
                           </grid>
                         </constraints>
@@ -418,7 +382,7 @@
                       </component>
                       <component id="ac451" class="com.intellij.openapi.ui.LabeledComponent" binding="excludedGroups" custom-create="true">
                         <constraints>
-                          <grid row="22" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                          <grid row="24" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
                             <preferred-size width="-1" height="20"/>
                           </grid>
                         </constraints>
@@ -430,7 +394,7 @@
                       </component>
                       <component id="4f6ee" class="com.intellij.openapi.ui.LabeledComponent" binding="detectInlinedCode" custom-create="true">
                         <constraints>
-                          <grid row="23" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                          <grid row="25" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
                             <preferred-size width="-1" height="20"/>
                           </grid>
                         </constraints>
@@ -442,7 +406,7 @@
                       </component>
                       <component id="dfc72" class="com.intellij.openapi.ui.LabeledComponent" binding="mutationThreshold" custom-create="true">
                         <constraints>
-                          <grid row="24" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                          <grid row="26" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
                             <preferred-size width="-1" height="20"/>
                           </grid>
                         </constraints>
@@ -454,7 +418,7 @@
                       </component>
                       <component id="e3350" class="com.intellij.openapi.ui.LabeledComponent" binding="coverageThreshold" custom-create="true">
                         <constraints>
-                          <grid row="25" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                          <grid row="27" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
                             <preferred-size width="-1" height="20"/>
                           </grid>
                         </constraints>
@@ -466,8 +430,8 @@
                       </component>
                       <component id="eb40b" class="com.intellij.openapi.ui.LabeledComponent" binding="historyInputLocation" custom-create="true">
                         <constraints>
-                          <grid row="26" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
-                            <preferred-size width="-1" height="20"/>
+                          <grid row="28" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                            <preferred-size width="128" height="19"/>
                           </grid>
                         </constraints>
                         <properties>
@@ -478,7 +442,7 @@
                       </component>
                       <component id="97d77" class="com.intellij.openapi.ui.LabeledComponent" binding="historyOutputLocation" custom-create="true">
                         <constraints>
-                          <grid row="27" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                          <grid row="29" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
                             <preferred-size width="-1" height="20"/>
                           </grid>
                         </constraints>
@@ -486,6 +450,68 @@
                           <labelLocation value="North"/>
                           <text resource-bundle="messages/MessageBundle" key="pit.settings.editor.component.text.historyoutputlocation"/>
                           <toolTipText resource-bundle="messages/MessageBundle" key="pit.settings.editor.component.tooltiptext.historyoutputlocation"/>
+                        </properties>
+                      </component>
+                      <component id="107b" class="com.intellij.openapi.ui.LabeledComponent" binding="includeLaunchClasspath" custom-create="true">
+                        <constraints>
+                          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                            <preferred-size width="-1" height="20"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <labelLocation value="North"/>
+                          <text resource-bundle="messages/MessageBundle" key="pit.settings.editor.component.text.includelaunchclasspath"/>
+                          <toolTipText resource-bundle="messages/MessageBundle" key="pit.settings.editor.component.tooltiptext.includelaunchclasspath"/>
+                        </properties>
+                      </component>
+                      <component id="ccb37" class="com.intellij.openapi.ui.LabeledComponent" binding="skipFailingTests" custom-create="true">
+                        <constraints>
+                          <grid row="10" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                            <preferred-size width="-1" height="20"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <labelLocation value="North"/>
+                          <text resource-bundle="messages/MessageBundle" key="pit.settings.editor.component.text.skipFailingTests"/>
+                          <toolTipText resource-bundle="messages/MessageBundle" key="pit.settings.editor.component.tooltiptext.skipFailingTests"/>
+                        </properties>
+                      </component>
+                      <component id="f0a98" class="com.intellij.openapi.ui.LabeledComponent" binding="useClasspathJar" custom-create="true">
+                        <constraints>
+                          <grid row="9" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                            <preferred-size width="-1" height="20"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <enabled value="false"/>
+                          <labelLocation value="North"/>
+                          <text resource-bundle="messages/MessageBundle" key="pit.settings.editor.component.text.useClasspathJar"/>
+                          <toolTipText resource-bundle="messages/MessageBundle" key="pit.settings.editor.component.tooltiptext.useClasspathJar"/>
+                        </properties>
+                      </component>
+                      <component id="ba439" class="com.intellij.openapi.ui.LabeledComponent" binding="deleteCpFile" custom-create="true">
+                        <constraints>
+                          <grid row="8" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                            <preferred-size width="-1" height="20"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <labelLocation value="North"/>
+                          <text resource-bundle="messages/MessageBundle" key="pit.settings.editor.component.text.deleteCpFile"/>
+                          <toolTipText resource-bundle="messages/MessageBundle" key="pit.settings.editor.component.tooltiptext.deleteCpFile"/>
+                        </properties>
+                      </component>
+                      <component id="f302a" class="com.intellij.openapi.ui.LabeledComponent" binding="classpathFile" custom-create="true">
+                        <constraints>
+                          <grid row="7" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                            <preferred-size width="-1" height="20"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <enabled value="false"/>
+                          <labelLocation value="North"/>
+                          <text resource-bundle="messages/MessageBundle" key="pit.settings.editor.component.text.classpathFile"/>
+                          <toolTipText resource-bundle="messages/MessageBundle" key="pit.settings.editor.component.tooltiptext.classpathFile"/>
                         </properties>
                       </component>
                     </children>

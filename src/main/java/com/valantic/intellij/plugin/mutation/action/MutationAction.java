@@ -24,8 +24,8 @@ import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.CommonDataKeys;
 import com.intellij.openapi.actionSystem.DataContext;
-import com.intellij.openapi.application.NonBlockingReadAction;
 import com.intellij.openapi.application.ReadAction;
+import com.intellij.openapi.module.Module;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiClass;
 import com.intellij.psi.PsiElement;
@@ -38,6 +38,7 @@ import com.valantic.intellij.plugin.mutation.icons.Icons;
 import com.valantic.intellij.plugin.mutation.localization.Messages;
 import com.valantic.intellij.plugin.mutation.services.Services;
 import com.valantic.intellij.plugin.mutation.services.impl.ConfigurationService;
+import com.valantic.intellij.plugin.mutation.services.impl.ProjectService;
 import com.valantic.intellij.plugin.mutation.services.impl.PsiService;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
@@ -58,6 +59,9 @@ public class MutationAction extends AnAction {
 
     private String targetClass;
     private String targetTest;
+    private Module module;
+
+    private ProjectService projectService = Services.getService(ProjectService.class);
 
     private ConfigurationService configurationService = Services.getService(ConfigurationService.class);
     private PsiService psiService = Services.getService(PsiService.class);

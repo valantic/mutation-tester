@@ -23,7 +23,6 @@ import org.apache.commons.lang3.StringUtils;
 
 
 /**
- *
  * created by fabian.huesig on 2022-02-01
  * <p>
  * Pit mutation run configuration options.
@@ -42,6 +41,9 @@ public class MutationConfigurationOptions extends ModuleBasedConfigurationOption
     private static final String DEFAULT_VALUE_FAIL_WHEN_NO_MUTATIONS = "true";
     private static final String DEFAULT_VALUE_TEST_PLUGIN = "junit";
     private static final String DEFAULT_VALUE_EXCLUDED_CLASSES = "*Test*";
+    private static final String DEFAULT_VALUE_SKIP_FAILING_TESTS = "false";
+    private static final String DEFAULT_VALUE_USE_CLASSPATH_JAR = "true";
+    private static final String DEFAULT_VALUE_DELETE_CP_FILE = "true";
 
     /**
      * The classes to be mutated. This is expressed as a comma separated list of globs.
@@ -180,22 +182,11 @@ public class MutationConfigurationOptions extends ModuleBasedConfigurationOption
     private final StoredProperty<String> failWhenNoMutations = string(DEFAULT_VALUE_FAIL_WHEN_NO_MUTATIONS).provideDelegate(this, "failWhenNoMutations");
 
     /**
-     * Comma separated list (yes comma separated - this is admittedly a bit weird for a classpath) of additional classpath entries to use when looking for tests and mutable code.
-     * These will be used in addition to the classpath with which PIT is launched.
-     */
-    private final StoredProperty<String> classPath = string(StringUtils.EMPTY).provideDelegate(this, "classPath");
-
-    /**
      * List of classpaths which should be considered to contain mutable code.
      * If your build maintains separate output directories for tests and production classes this parameter should be set to your code output directory in order to avoid mutating test helper classes
      * etc.
      */
     private final StoredProperty<String> mutableCodePaths = string(StringUtils.EMPTY).provideDelegate(this, "mutableCodePaths");
-
-    /**
-     * Plugin to use to run tests. Defaults to junit.
-     */
-    private final StoredProperty<String> testPlugin = string(DEFAULT_VALUE_TEST_PLUGIN).provideDelegate(this, "testPlugin");
 
     /**
      * Comma separated list of TestNG groups/JUnit categories to include in mutation analysis. Note that only class level categories are supported.
@@ -251,6 +242,30 @@ public class MutationConfigurationOptions extends ModuleBasedConfigurationOption
      * Path to write history information for incremental analysis. May be the same as historyInputLocation.
      */
     private final StoredProperty<String> historyOutputLocation = string(StringUtils.EMPTY).provideDelegate(this, "historyOutputLocation");
+
+
+    /**
+     * Determines if failling tests should be skipped or not. Default value is false.
+     */
+    private final StoredProperty<String> skipFailingTests = string(DEFAULT_VALUE_SKIP_FAILING_TESTS).provideDelegate(this, "skipFailingTests");
+
+    /**
+     * A generated classpath file for all modules of the existing project.
+     * Currently this value can not be changed.
+     */
+    private final StoredProperty<String> classPathFile = string("// WILL BE GENERATED. THIS VALUE IS NOT USED").provideDelegate(this, "classPathFile");
+
+    /**
+     * Determines if the minion process should create a classpath jar. Default value is true.
+     * Currently this value can not be changed.
+     */
+    private final StoredProperty<String> useClasspathJar = string(DEFAULT_VALUE_USE_CLASSPATH_JAR).provideDelegate(this, "useClasspathJar");
+
+    /**
+     * A classpath file will be generated. Determine if the file should be deleted after running the tests.
+     * Default is set to true.
+     */
+    private final StoredProperty<String> deleteCpFile = string(DEFAULT_VALUE_DELETE_CP_FILE).provideDelegate(this, "deleteCpFile");
 
 
     // getter & setter
@@ -423,28 +438,12 @@ public class MutationConfigurationOptions extends ModuleBasedConfigurationOption
         this.failWhenNoMutations.setValue(this, failWhenNoMutations);
     }
 
-    public String getClassPath() {
-        return classPath.getValue(this);
-    }
-
-    public void setClassPath(String classPath) {
-        this.classPath.setValue(this, classPath);
-    }
-
     public String getMutableCodePaths() {
         return mutableCodePaths.getValue(this);
     }
 
     public void setMutableCodePaths(String mutableCodePaths) {
         this.mutableCodePaths.setValue(this, mutableCodePaths);
-    }
-
-    public String getTestPlugin() {
-        return testPlugin.getValue(this);
-    }
-
-    public void setTestPlugin(String testPlugin) {
-        this.testPlugin.setValue(this, testPlugin);
     }
 
     public String getIncludedGroups() {
@@ -501,6 +500,38 @@ public class MutationConfigurationOptions extends ModuleBasedConfigurationOption
 
     public void setHistoryOutputLocation(String historyOutputLocation) {
         this.historyOutputLocation.setValue(this, historyOutputLocation);
+    }
+
+    public String getSkipFailingTests() {
+        return skipFailingTests.getValue(this);
+    }
+
+    public void setSkipFailingTests(String skipFailingTests) {
+        this.skipFailingTests.setValue(this, skipFailingTests);
+    }
+
+    public String getClasspathFile() {
+        return classPathFile.getValue(this);
+    }
+
+    public void setClassPathFile(String classPathFile) {
+        this.classPathFile.setValue(this, classPathFile);
+    }
+
+    public String getUseClasspathJar() {
+        return useClasspathJar.getValue(this);
+    }
+
+    public void setUseClasspathJar(String useClasspathJar) {
+        this.useClasspathJar.setValue(this, useClasspathJar);
+    }
+
+    public String getDeleteCpFile() {
+        return deleteCpFile.getValue(this);
+    }
+
+    public void setDeleteCpFile(String deleteCpFile) {
+        this.deleteCpFile.setValue(this, deleteCpFile);
     }
 
     @Override
