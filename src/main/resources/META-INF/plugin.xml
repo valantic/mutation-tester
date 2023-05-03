@@ -61,6 +61,7 @@ Written by Fabian Hüsig, February, 2022
             <li><b>1.1.0</b> - 2022-07: Enables untilBuild to the newest. Enabled Support for IntelliJ IDE since 2020.3.4</li>
             <li><b>1.1.1</b> - 2022-08: Fixed issue https://github.com/valantic/mutation-tester/issues/7</li>
             <li><b>1.2.0</b> - 2022-12: Commandline fixed for windows. Updated pitest version to 1.10.0. Updated test reports. corrected classpath for missing jar.</li>
+            <li><b>1.2.1</b> - 2023-05: Removed tabs icon in the Running configuration screen that prevent the edit configuration in recent versions of Intellij. Capitalize context menu entries.</li>
 		  </ul>
 		]]>
     </change-notes>
