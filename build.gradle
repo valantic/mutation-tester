@@ -19,8 +19,8 @@ plugins {
     id "java"
     id "org.jetbrains.intellij" version "$intellijPluginVersion"
     id "info.solidsoft.pitest" version "$pitGradleVersion"
-    id "org.sonarqube" version "$sonarqubeVersion"
     id "jacoco"
+    id "org.sonarqube" version "$sonarqubeVersion"
 }
 
 group "com.valantic"

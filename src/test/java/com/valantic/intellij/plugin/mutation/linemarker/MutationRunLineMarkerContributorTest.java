@@ -84,7 +84,7 @@ public class MutationRunLineMarkerContributorTest {
         assertNotNull(result.tooltipProvider);
         assertEquals(Icons.MUTATIONx12, result.icon);
         assertArrayEquals(mutationActions, result.actions);
-        assertEquals(result.tooltipProvider.apply(null), "Run Text");
+        assertEquals("Run Text", result.tooltipProvider.apply(null));
         verify(psiService).determineTargetTest(psiClass);
         verify(psiService).determineTargetClass("targetTest", psiClass);
         verify(messageService).executionMessage("run.text");
