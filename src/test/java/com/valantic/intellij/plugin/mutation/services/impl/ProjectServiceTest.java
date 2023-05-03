@@ -17,11 +17,16 @@
  */
 package com.valantic.intellij.plugin.mutation.services.impl;
 
+import com.intellij.ide.DataManager;
+import com.intellij.openapi.actionSystem.DataContext;
+import com.intellij.openapi.actionSystem.PlatformDataKeys;
+import com.intellij.openapi.application.ReadAction;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.project.ProjectManager;
 import com.intellij.openapi.roots.ProjectRootManager;
 import com.intellij.psi.search.GlobalSearchScope;
 import com.intellij.psi.search.ProjectScope;
+import org.jetbrains.concurrency.Promise;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -29,10 +34,17 @@ import org.junit.runner.RunWith;
 import org.mockito.MockedStatic;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
+
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertSame;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.mockStatic;
+import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -47,6 +59,9 @@ public class ProjectServiceTest {
     private MockedStatic<ProjectManager> projectManagerMockedStatic;
     private MockedStatic<ProjectRootManager> projectRootManagerMockedStatic;
     private MockedStatic<ProjectScope> projectScopeMockedStatic;
+    private MockedStatic<ReadAction> readActionMockedStatic;
+    private MockedStatic<DataManager> dataManagerMockedStatic;
+    private MockedStatic<PlatformDataKeys> platformDataKeysMockedStatic;
 
 
     @Before
@@ -54,27 +69,55 @@ public class ProjectServiceTest {
         projectManagerMockedStatic = mockStatic(ProjectManager.class);
         projectRootManagerMockedStatic = mockStatic(ProjectRootManager.class);
         projectScopeMockedStatic = mockStatic(ProjectScope.class);
-        underTest = new ProjectService();
+        readActionMockedStatic = mockStatic(ReadAction.class);
+        dataManagerMockedStatic = mockStatic(DataManager.class);
+        platformDataKeysMockedStatic = mockStatic(PlatformDataKeys.class);
+        underTest = spy(new ProjectService());
     }
 
     @Test
-    public void testGetCurrentProject_found() {
-        Project project = mock(Project.class);
-        ProjectManager projectManager = mock(ProjectManager.class);
+    public void testGetCurrentProject_default() {
+        final Project project = mock(Project.class);
+        final ProjectManager projectManager = mock(ProjectManager.class);
 
+        readActionMockedStatic.when(() -> ReadAction.run(any())).thenThrow(new Exception("random exception"));
         projectManagerMockedStatic.when(() -> ProjectManager.getInstance()).thenReturn(projectManager);
         when(projectManager.getOpenProjects()).thenReturn(new Project[]{project});
 
-        Project result = underTest.getCurrentProject();
+        final Project result = underTest.getCurrentProject();
 
         verify(projectManager).getOpenProjects();
         assertNotNull(result);
         assertSame(project, result);
     }
 
+    @Test
+    public void testGetCurrentProject_foundInDataContext() throws ExecutionException, TimeoutException {
+        final Project project = mock(Project.class);
+        final DataManager dataManager = mock(DataManager.class);
+        final Promise<DataContext> promise = mock(Promise.class);
+        final DataContext dataContext = mock(DataContext.class);
+        final DataContext[] resultContext = new DataContext[1];
+
+        dataManagerMockedStatic.when(() -> DataManager.getInstance()).thenReturn(dataManager);
+        when(dataManager.getDataContextFromFocusAsync()).thenReturn(promise);
+        when(promise.blockingGet(5, TimeUnit.SECONDS)).thenReturn(dataContext);
+        readActionMockedStatic.when(() -> ReadAction.run(any())).thenAnswer(invocation -> {
+            resultContext[0] = DataManager.getInstance().getDataContextFromFocusAsync().blockingGet(5, TimeUnit.SECONDS);
+            return null;
+        });
+        platformDataKeysMockedStatic.when(() -> PlatformDataKeys.PROJECT.getData(dataContext)).thenReturn(project);
+        doReturn(resultContext).when(underTest).createDataContext();
+
+        final Project result = underTest.getCurrentProject();
+
+        assertNotNull(result);
+        assertSame(project, result);
+    }
+
     @Test(expected = IndexOutOfBoundsException.class)
     public void testGetCurrentProject_notFound() {
-        ProjectManager projectManager = mock(ProjectManager.class);
+        final ProjectManager projectManager = mock(ProjectManager.class);
 
         projectManagerMockedStatic.when(() -> ProjectManager.getInstance()).thenReturn(projectManager);
         when(projectManager.getOpenProjects()).thenReturn(new Project[]{});
@@ -84,12 +127,12 @@ public class ProjectServiceTest {
 
     @Test
     public void testGetProjectRootManager() {
-        Project project = mock(Project.class);
-        ProjectRootManager projectRootManager = mock(ProjectRootManager.class);
+        final Project project = mock(Project.class);
+        final ProjectRootManager projectRootManager = mock(ProjectRootManager.class);
 
         projectRootManagerMockedStatic.when(() -> ProjectRootManager.getInstance(project)).thenReturn(projectRootManager);
 
-        ProjectRootManager result = underTest.getProjectRootManager(project);
+        final ProjectRootManager result = underTest.getProjectRootManager(project);
 
         assertSame(projectRootManager, result);
         projectRootManagerMockedStatic.verify(() -> ProjectRootManager.getInstance(project));
@@ -97,11 +140,11 @@ public class ProjectServiceTest {
 
     @Test
     public void testGetJavaFileProjectSearchScope() {
-        Project project = mock(Project.class);
-        GlobalSearchScope globalSearchScope = mock(GlobalSearchScope.class);
+        final Project project = mock(Project.class);
+        final GlobalSearchScope globalSearchScope = mock(GlobalSearchScope.class);
         projectScopeMockedStatic.when(() -> ProjectScope.getProjectScope(project)).thenReturn(globalSearchScope);
 
-        GlobalSearchScope result = underTest.getSearchScope(project);
+        final GlobalSearchScope result = underTest.getSearchScope(project);
 
         assertSame(globalSearchScope, result);
         projectScopeMockedStatic.verify(() -> ProjectScope.getProjectScope(project));
@@ -112,5 +155,8 @@ public class ProjectServiceTest {
         projectManagerMockedStatic.close();
         projectRootManagerMockedStatic.close();
         projectScopeMockedStatic.close();
+        readActionMockedStatic.close();
+        dataManagerMockedStatic.close();
+        platformDataKeysMockedStatic.close();
     }
 }

@@ -101,14 +101,8 @@ public class MutationConfigurationOptionsTest {
         underTest.setFailWhenNoMutations("failWhenNoMutations");
         assertEquals("failWhenNoMutations", underTest.getFailWhenNoMutations());
 
-        underTest.setClassPath("classPath");
-        assertEquals("classPath", underTest.getClassPath());
-
         underTest.setMutableCodePaths("mutableCodePaths");
         assertEquals("mutableCodePaths", underTest.getMutableCodePaths());
-
-        underTest.setTestPlugin("testPlugin");
-        assertEquals("testPlugin", underTest.getTestPlugin());
 
         underTest.setIncludedGroups("includedGroups");
         assertEquals("includedGroups", underTest.getIncludedGroups());
@@ -130,6 +124,18 @@ public class MutationConfigurationOptionsTest {
 
         underTest.setHistoryOutputLocation("historyOutputLocation");
         assertEquals("historyOutputLocation", underTest.getHistoryOutputLocation());
+
+        underTest.setSkipFailingTests("true");
+        assertEquals("true", underTest.getSkipFailingTests());
+
+        underTest.setUseClasspathJar("true");
+        assertEquals("true", underTest.getUseClasspathJar());
+
+        underTest.setClassPathFile("cp.txt");
+        assertEquals("cp.txt", underTest.getClasspathFile());
+
+        underTest.setDeleteCpFile("true");
+        assertEquals("true", underTest.getDeleteCpFile());
     }
 
 }

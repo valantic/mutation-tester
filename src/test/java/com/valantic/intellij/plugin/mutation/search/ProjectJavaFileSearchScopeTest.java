@@ -70,14 +70,14 @@ public class ProjectJavaFileSearchScopeTest {
     public void testIsSearchInModuleContent() {
         final Module module = mock(Module.class);
 
-        boolean result = underTest.isSearchInModuleContent(module);
+        final boolean result = underTest.isSearchInModuleContent(module);
 
         assertFalse(result);
     }
 
     @Test
     public void testIsSearchInLibraries() {
-        boolean result = underTest.isSearchInLibraries();
+        final boolean result = underTest.isSearchInLibraries();
 
         assertFalse(result);
     }
@@ -87,7 +87,7 @@ public class ProjectJavaFileSearchScopeTest {
         final VirtualFile virtualFile = mock(VirtualFile.class);
 
         when(projectFileIndex.isInSourceContent(virtualFile)).thenReturn(true);
-        boolean result = underTest.contains(virtualFile);
+        final boolean result = underTest.contains(virtualFile);
 
         assertTrue(result);
     }
@@ -95,9 +95,9 @@ public class ProjectJavaFileSearchScopeTest {
     @Test
     public void testContains_shouldBeFalse() {
         final VirtualFile virtualFile = mock(VirtualFile.class);
-
         when(projectFileIndex.isInSourceContent(virtualFile)).thenReturn(false);
-        boolean result = underTest.contains(virtualFile);
+
+        final boolean result = underTest.contains(virtualFile);
 
         assertFalse(result);
     }

@@ -96,7 +96,7 @@ public class PsiServiceTest {
         when(projectService.getCurrentProject()).thenReturn(project);
         when(projectService.getSearchScope(project)).thenReturn(searchScope);
 
-        boolean result = underTest.doesClassExists(fullyQualifiedClassName);
+        final boolean result = underTest.doesClassExists(fullyQualifiedClassName);
 
         verify(classNameService).processClassNames(eq(project), eq(searchScope), processorArgumentCaptor.capture());
         assertFalse(processorArgumentCaptor.getValue().process("fullyQualifiedClassName"));
@@ -115,7 +115,7 @@ public class PsiServiceTest {
         when(projectService.getSearchScope(project)).thenReturn(searchScope);
         doReturn("notTheExpectedClassName").when(underTest).getClassName(fullyQualifiedClassName);
 
-        boolean result = underTest.doesClassExists(fullyQualifiedClassName);
+        final boolean result = underTest.doesClassExists(fullyQualifiedClassName);
 
         verify(classNameService).processClassNames(eq(project), eq(searchScope), processorArgumentCaptor.capture());
         assertTrue(processorArgumentCaptor.getValue().process("notAFittingClassName"));
@@ -173,7 +173,7 @@ public class PsiServiceTest {
         when(javaPsiFacade.findClass(eq("ClassName"), any(ProjectJavaFileSearchScope.class))).thenReturn(psiClass);
         when(psiClass.getContainingFile()).thenReturn(psiFile);
 
-        PsiFile result = underTest.getPsiFile(qualifiedName);
+        final PsiFile result = underTest.getPsiFile(qualifiedName);
 
         assertSame(psiFile, result);
     }
@@ -193,7 +193,7 @@ public class PsiServiceTest {
         when(psiPackage.getClasses()).thenReturn(new PsiClass[]{psiClass});
         when(psiClass.getContainingFile()).thenReturn(psiFile);
 
-        PsiFile result = underTest.getPsiFile(qualifiedName);
+        final PsiFile result = underTest.getPsiFile(qualifiedName);
 
         assertSame(psiFile, result);
     }
@@ -216,7 +216,7 @@ public class PsiServiceTest {
         when(subPackage.getClasses()).thenReturn(new PsiClass[]{psiClass});
         when(psiClass.getContainingFile()).thenReturn(psiFile);
 
-        PsiFile result = underTest.getPsiFile(qualifiedName);
+        final PsiFile result = underTest.getPsiFile(qualifiedName);
 
         assertSame(psiFile, result);
     }
@@ -233,7 +233,7 @@ public class PsiServiceTest {
         javaPsiFacadeMockedStatic.when(() -> JavaPsiFacade.getInstance(project)).thenReturn(javaPsiFacade);
         when(javaPsiFacade.findPackage("var.package.not.existing")).thenReturn(null);
 
-        PsiFile result = underTest.getPsiFile(qualifiedName);
+        final PsiFile result = underTest.getPsiFile(qualifiedName);
 
         assertSame(null, result);
     }

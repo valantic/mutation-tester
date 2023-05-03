@@ -31,16 +31,20 @@ import com.intellij.execution.runners.ProgramRunner;
 import com.intellij.execution.ui.ConsoleView;
 import com.intellij.execution.util.JavaParametersUtil;
 import com.intellij.ide.browsers.OpenUrlHyperlinkInfo;
-import com.intellij.openapi.module.Module;
 import com.intellij.openapi.module.ModuleManager;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.projectRoots.Sdk;
 import com.intellij.psi.search.ExecutionSearchScopes;
 import com.intellij.psi.search.GlobalSearchScope;
+import com.intellij.util.PathUtil;
 import com.valantic.intellij.plugin.mutation.action.MutationAction;
 import com.valantic.intellij.plugin.mutation.configuration.MutationConfiguration;
 import com.valantic.intellij.plugin.mutation.configuration.option.MutationConfigurationOptions;
+import com.valantic.intellij.plugin.mutation.exception.MutationClasspathException;
+import com.valantic.intellij.plugin.mutation.exception.MutationConfigurationException;
 import com.valantic.intellij.plugin.mutation.localization.Messages;
 import com.valantic.intellij.plugin.mutation.services.Services;
+import com.valantic.intellij.plugin.mutation.services.impl.ClassPathService;
 import com.valantic.intellij.plugin.mutation.services.impl.ProjectService;
 import org.junit.After;
 import org.junit.Before;
@@ -51,9 +55,10 @@ import org.mockito.Mock;
 import org.mockito.MockedStatic;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import java.util.Arrays;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
@@ -75,13 +80,13 @@ public class MutationCommandLineStateTest {
 
     @Mock
     private ProjectService projectService;
+    @Mock
+    private ClassPathService classPathService;
 
     @Mock
     private ExecutionEnvironment environment;
     @Mock
     private MutationConfigurationOptions mutationConfigurationOptions;
-    @Mock
-    private Module module;
 
 
     private MockedStatic<Services> servicesMockedStatic;
@@ -90,6 +95,7 @@ public class MutationCommandLineStateTest {
     private MockedStatic<JavaParametersUtil> javaParametersUtilMockedStatic;
     private MockedStatic<ExecutionSearchScopes> executionSearchScopesMockedStatic;
     private MockedStatic<ModuleManager> moduleManagerMockedStatic;
+    private MockedStatic<PathUtil> pathUtilMockedStatic;
 
     @Before
     public void setUp() {
@@ -103,6 +109,7 @@ public class MutationCommandLineStateTest {
         messagesMockedStatic = mockStatic(Messages.class);
         servicesMockedStatic = mockStatic(Services.class);
         servicesMockedStatic.when(() -> Services.getService(ProjectService.class)).thenReturn(projectService);
+        servicesMockedStatic.when(() -> Services.getService(ClassPathService.class)).thenReturn(classPathService);
         executionSearchScopesMockedStatic = mockStatic(ExecutionSearchScopes.class);
         executionSearchScopesMockedStatic.when(() -> ExecutionSearchScopes.executionScope(any(), any())).thenReturn(searchScope);
         textConsoleBuilderFactoryMockedStatic = mockStatic(TextConsoleBuilderFactory.class);
@@ -113,7 +120,7 @@ public class MutationCommandLineStateTest {
         when(mutationConfigurationOptions.getTargetTests()).thenReturn("targetTests");
         when(environment.getRunProfile()).thenReturn(mutationConfiguration);
         when(projectService.getCurrentProject()).thenReturn(project);
-        when(moduleManager.getModules()).thenReturn(new Module[]{module});
+        pathUtilMockedStatic = mockStatic(PathUtil.class);
 
         underTest = spy(new MutationCommandLineState(environment));
     }
@@ -133,7 +140,7 @@ public class MutationCommandLineStateTest {
         when(textConsoleBuilder.getConsole()).thenReturn(consoleView);
         doReturn(processHandler).when(underTest).startProcess();
 
-        ExecutionResult result = underTest.execute(executor, programRunner);
+        final ExecutionResult result = underTest.execute(executor, programRunner);
         verify(processHandler).addProcessListener(processAdapterArgumentCaptor.capture());
         final ProcessAdapter processAdapter = processAdapterArgumentCaptor.getValue();
         when(mutationConfigurationOptions.getReportDir()).thenReturn("reportDir");
@@ -191,13 +198,18 @@ public class MutationCommandLineStateTest {
         assertTrue(result.matches("^var\\/temp\\/reportDir\\/\\d\\d\\d\\d-\\d\\d-\\d\\d-\\d\\d-\\d\\d-\\d\\d$"));
     }
 
-    @Test
-    public void testGetReport_null() {
-        assertNull(underTest.getReport(null));
+    @Test(expected = MutationConfigurationException.class)
+    public void testGetReport_notFound() {
+        underTest.getReport(null);
     }
+
 
     @Test
     public void testCreateJavaParameters() throws ExecutionException {
+        final Project project = mock(Project.class);
+        final Sdk sdk = mock(Sdk.class);
+
+        javaParametersUtilMockedStatic.when(() -> JavaParametersUtil.createProjectJdk(project, null)).thenReturn(sdk);
         when(mutationConfigurationOptions.getTargetClasses()).thenReturn("targetClasses");
         when(mutationConfigurationOptions.getTargetTests()).thenReturn("targetTests");
         when(mutationConfigurationOptions.getReportDir()).thenReturn("reportDir");
@@ -221,9 +233,7 @@ public class MutationCommandLineStateTest {
         when(mutationConfigurationOptions.getMaxMutationsPerClass()).thenReturn("maxMutationsPerClass");
         when(mutationConfigurationOptions.getJvmArgs()).thenReturn("jvmArgs");
         when(mutationConfigurationOptions.getJvmPath()).thenReturn("jvmPath");
-        when(mutationConfigurationOptions.getClassPath()).thenReturn("classPath");
         when(mutationConfigurationOptions.getMutableCodePaths()).thenReturn("mutableCodePaths");
-        when(mutationConfigurationOptions.getTestPlugin()).thenReturn("testPlugin");
         when(mutationConfigurationOptions.getIncludedGroups()).thenReturn("includedGroups");
         when(mutationConfigurationOptions.getExcludedGroups()).thenReturn("excludedGroups");
         when(mutationConfigurationOptions.getDetectInlinedCode()).thenReturn("detectInlinedCode");
@@ -231,19 +241,25 @@ public class MutationCommandLineStateTest {
         when(mutationConfigurationOptions.getCoverageThreshold()).thenReturn("coverageThreshold");
         when(mutationConfigurationOptions.getHistoryInputLocation()).thenReturn("historyInputLocation");
         when(mutationConfigurationOptions.getHistoryOutputLocation()).thenReturn("historyOutputLocation");
+        when(mutationConfigurationOptions.getSkipFailingTests()).thenReturn("true");
+        when(mutationConfigurationOptions.getUseClasspathJar()).thenReturn("true");
+        when(mutationConfigurationOptions.getDeleteCpFile()).thenReturn("true");
+        when(classPathService.getClassPathForModules()).thenReturn(Arrays.asList("cplistentry1", "cplistentry2"));
+        when(projectService.getCurrentProject()).thenReturn(project);
+        pathUtilMockedStatic.when(() -> PathUtil.getJarPathForClass(MutationCommandLineState.class)).thenReturn("cpentry1");
 
-        JavaParameters result = underTest.createJavaParameters();
+        final JavaParameters result = underTest.createJavaParameters();
 
         assertEquals("org.pitest.mutationtest.commandline.MutationCoverageReport", result.getMainClass());
+        assertSame(sdk, result.getJdk());
         javaParametersUtilMockedStatic.verify(() ->
-                JavaParametersUtil.configureModule(eq(module), any(JavaParameters.class), eq(JavaParameters.JDK_AND_CLASSES_AND_TESTS), eq(null)));
-        assertTrue(result.getProgramParametersList().toString().matches("\\[--targetClasses, targetClasses, --targetTests, targetTests, --reportDir, reportDir\\/\\d\\d\\d\\d-\\d\\d-\\d\\d-\\d\\d-\\d\\d-\\d\\d, --sourceDirs, sourceDirs, --mutators, mutators, --timeoutConst, timeoutConst, --outputFormats, outputFormats, --dependencyDistance, dependencyDistance, --threads, threads, --excludedMethods, excludedMethods, --excludedClasses, excludedClasses, --excludedTests, excludedTests, --avoidCallsTo, avoidCallsTo, --timeoutFactor, timeoutFactor, --maxMutationsPerClass, maxMutationsPerClass, --jvmArgs, jvmArgs, --jvmPath, jvmPath, --classPath, classPath, --mutableCodePaths, mutableCodePaths, --testPlugin, testPlugin, --includedGroups, includedGroups, --excludedGroups, excludedGroups, --detectInlinedCode, detectInlinedCode, --mutationThreshold, mutationThreshold, --coverageThreshold, coverageThreshold, --historyInputLocation, historyInputLocation, --historyOutputLocation, historyOutputLocation, --timestampedReports=true, --includeLaunchClasspath=true, --verbose=verbose, --failWhenNoMutations=true]"));
-        assertTrue(result.getClassPath().getPathList().stream()
-                .filter(pathListEntry -> pathListEntry.endsWith("/junit4.jar")).findFirst().isPresent());
+                JavaParametersUtil.createProjectJdk(project, null));
+        pathUtilMockedStatic.verify(() -> PathUtil.getJarPathForClass(MutationCommandLineState.class));
+        assertTrue(result.getProgramParametersList().toString().matches("\\[--targetClasses, targetClasses, --targetTests, targetTests, --reportDir, reportDir\\/\\d\\d\\d\\d-\\d\\d-\\d\\d-\\d\\d-\\d\\d-\\d\\d, --sourceDirs, sourceDirs, --mutators, mutators, --timeoutConst, timeoutConst, --outputFormats, outputFormats, --dependencyDistance, dependencyDistance, --threads, threads, --excludedMethods, excludedMethods, --excludedClasses, excludedClasses, --excludedTests, excludedTests, --avoidCallsTo, avoidCallsTo, --timeoutFactor, timeoutFactor, --maxMutationsPerClass, maxMutationsPerClass, --jvmArgs, jvmArgs, --jvmPath, jvmPath, --mutableCodePaths, mutableCodePaths, --includedGroups, includedGroups, --excludedGroups, excludedGroups, --detectInlinedCode, detectInlinedCode, --mutationThreshold, mutationThreshold, --coverageThreshold, coverageThreshold, --historyInputLocation, historyInputLocation, --historyOutputLocation, historyOutputLocation, --useClasspathJar, true, --skipFailingTests, true, --classPathFile, .*?pitcp.*?.txt, --timestampedReports=true, --includeLaunchClasspath=true, --verbose=verbose, --failWhenNoMutations=true]"));
         // running pitest inside the plugin would normally add the completed plugin jar to classpath
         assertTrue(result.getClassPath().getPathList().stream()
-                .filter(pathListEntry -> pathListEntry.endsWith("/build/instrumented")).findFirst().isPresent());
-        assertEquals(2, result.getClassPath().getPathList().size());
+                .filter(pathListEntry -> pathListEntry.equals("cpentry1")).findFirst().isPresent());
+        assertEquals(1, result.getClassPath().getPathList().size());
     }
 
     @After
@@ -254,5 +270,6 @@ public class MutationCommandLineStateTest {
         javaParametersUtilMockedStatic.close();
         executionSearchScopesMockedStatic.close();
         moduleManagerMockedStatic.close();
+        pathUtilMockedStatic.close();
     }
 }

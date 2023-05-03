@@ -18,7 +18,7 @@
 plugins {
     id "java"
     id "org.jetbrains.intellij" version "$intellijPluginVersion"
-    id "info.solidsoft.pitest" version "$pitestGradleVersion"
+    id "info.solidsoft.pitest" version "$pitGradleVersion"
     id "org.sonarqube" version "$sonarqubeVersion"
     id "jacoco"
 }
@@ -62,6 +62,7 @@ jar {
         configurations.libImplementation.collect { it.isDirectory() ? it : zipTree(it) }
     }
     dependsOn "instrumentTestCode"
+    duplicatesStrategy(DuplicatesStrategy.EXCLUDE)
 }
 
 jacocoTestReport {
@@ -72,19 +73,22 @@ jacocoTestReport {
 
 dependencies {
     // https://mvnrepository.com/artifact/org.pitest/pitest
-    libImplementation group: "org.pitest", name: "pitest", version: "$pitestVersion"
+    libImplementation group: "org.pitest", name: "pitest", version: "$pitVersion"
 
     // https://mvnrepository.com/artifact/org.pitest/pitest-entry
-    libImplementation group: "org.pitest", name: "pitest-entry", version: "$pitestVersion"
+    libImplementation group: "org.pitest", name: "pitest-entry", version: "$pitVersion"
 
     // https://mvnrepository.com/artifact/org.pitest/pitest-command-line
-    libImplementation group: "org.pitest", name: "pitest-command-line", version: "$pitestVersion"
+    libImplementation group: "org.pitest", name: "pitest-command-line", version: "$pitVersion"
+
+    // https://mvnrepository.com/artifact/junit/junit
+    libImplementation group: "junit", name: "junit", version: "$junit4Version"
 
     // https://mvnrepository.com/artifact/org.mockito/mockito-core
-    testImplementation group: "org.mockito", name: "mockito-core", version: "$jUnitVersion"
+    testImplementation group: "org.mockito", name: "mockito-core", version: "$mockitoVersion"
 
     // https://mvnrepository.com/artifact/org.mockito/mockito-inline
-    testImplementation group: "org.mockito", name: "mockito-inline", version: "$jUnitVersion"
+    testImplementation group: "org.mockito", name: "mockito-inline", version: "$mockitoVersion"
 }
 
 buildSearchableOptions {
@@ -96,7 +100,19 @@ patchPluginXml {
     intellij.updateSinceUntilBuild = false
 }
 
-
 publishPlugin {
     token = System.getenv("ORG_GRADLE_PROJECT_intellijPublishToken")
+}
+
+pitest {
+    pitestVersion = "$pitVersion"
+}
+
+task deleteOldReports(type:Delete) {
+    delete 'samples/pitreport'
+}
+
+task copyPitestReport(type:Copy) {
+    from "$buildDir/reports/pitest"
+    into "samples/pitreport"
 }

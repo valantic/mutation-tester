@@ -50,6 +50,13 @@ public final class ModuleService {
         return ModuleUtilCore.findModuleForFile(psiFile);
     }
 
+    public Module findModule(final String qualifiedName) {
+        return Optional.ofNullable(qualifiedName)
+                .map(psiService::getPsiFile)
+                .map(this::findModule)
+                .orElseGet(this::getFallbackModule);
+    }
+
     public ModuleManager getModuleManager(final Project project) {
         return ModuleManager.getInstance(project);
     }
@@ -79,10 +86,7 @@ public final class ModuleService {
      * Determines the correct moule based by package of the test
      */
     private void updateModule(final JavaRunConfigurationModule configurationModule, final String targetTests) {
-        Module module = Optional.ofNullable(targetTests)
-                .map(psiService::getPsiFile)
-                .map(this::findModule)
-                .orElseGet(this::getFallbackModule);
+        Module module = findModule(targetTests);
         configurationModule.setModule(module);
         configurationModule.setModuleName(module.getName());
     }

@@ -76,13 +76,14 @@ public class ModuleServiceTest {
 
     @Test
     public void testGetModules() {
-        Project project = mock(Project.class);
-        ModuleManager moduleManager = mock(ModuleManager.class);
-        Module module = mock(Module.class);
+        final Project project = mock(Project.class);
+        final ModuleManager moduleManager = mock(ModuleManager.class);
+        final Module module = mock(Module.class);
 
         moduleManagerMockedStatic.when(() -> ModuleManager.getInstance(project)).thenReturn(moduleManager);
         when(moduleManager.getModules()).thenReturn(new Module[]{module});
-        Collection<Module> result = underTest.getModules(project);
+
+        final Collection<Module> result = underTest.getModules(project);
 
         moduleManagerMockedStatic.verify(() -> ModuleManager.getInstance(project));
         assertEquals(1, result.size());
@@ -91,12 +92,12 @@ public class ModuleServiceTest {
 
     @Test
     public void testFindModule() {
-        PsiFile psiFile = mock(PsiFile.class);
-        Module module = mock(Module.class);
+        final PsiFile psiFile = mock(PsiFile.class);
+        final Module module = mock(Module.class);
 
         moduleUtilCoreMockedStatic.when(() -> ModuleUtil.findModuleForFile(psiFile)).thenReturn(module);
 
-        Module result = underTest.findModule(psiFile);
+        final Module result = underTest.findModule(psiFile);
 
         moduleUtilCoreMockedStatic.verify(() -> ModuleUtil.findModuleForFile(psiFile));
         assertSame(module, result);
@@ -104,11 +105,11 @@ public class ModuleServiceTest {
 
     @Test
     public void testGetModuleManager() {
-        Project project = mock(Project.class);
-        ModuleManager moduleManager = mock(ModuleManager.class);
+        final Project project = mock(Project.class);
+        final ModuleManager moduleManager = mock(ModuleManager.class);
 
         moduleManagerMockedStatic.when(() -> ModuleManager.getInstance(project)).thenReturn(moduleManager);
-        ModuleManager result = underTest.getModuleManager(project);
+        final ModuleManager result = underTest.getModuleManager(project);
 
         moduleManagerMockedStatic.verify(() -> ModuleManager.getInstance(project));
         assertSame(moduleManager, result);
@@ -127,7 +128,7 @@ public class ModuleServiceTest {
         when(module.getName()).thenReturn("moduleName");
         doReturn(Arrays.asList(module)).when(underTest).getModules(project);
 
-        JavaRunConfigurationModule result = underTest.getOrCreateRunConfigurationModule(mutationConfiguration, targetTests);
+        final JavaRunConfigurationModule result = underTest.getOrCreateRunConfigurationModule(mutationConfiguration, targetTests);
 
         verify(projectService).getCurrentProject();
         assertSame(javaRunConfigurationModule, result);
@@ -147,13 +148,25 @@ public class ModuleServiceTest {
         doReturn(Arrays.asList(module)).when(underTest).getModules(project);
         doReturn(javaRunConfigurationModule).when(underTest).createJavaRunConfigurationModule();
 
-        JavaRunConfigurationModule result = underTest.getOrCreateRunConfigurationModule(mutationConfiguration, targetTests);
+        final JavaRunConfigurationModule result = underTest.getOrCreateRunConfigurationModule(mutationConfiguration, targetTests);
 
         verify(projectService).getCurrentProject();
         assertNotNull(result);
         assertSame(javaRunConfigurationModule, result);
         verify(javaRunConfigurationModule).setModule(module);
         verify(javaRunConfigurationModule).setModuleName("moduleName");
+    }
+
+    @Test
+    public void testCreateJavaRunConfigurationModule() {
+        final Project project = mock(Project.class);
+
+        when(projectService.getCurrentProject()).thenReturn(project);
+
+        final JavaRunConfigurationModule result = underTest.createJavaRunConfigurationModule();
+
+        assertNotNull(result);
+        assertSame(project, result.getProject());
     }
 
     @After

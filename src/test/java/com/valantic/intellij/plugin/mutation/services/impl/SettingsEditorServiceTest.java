@@ -84,15 +84,15 @@ public class SettingsEditorServiceTest {
 
         underTest.resetEditorFrom(mutationSettingsEditor, mutationConfiguration);
 
-        verify(comboBox, times(4)).addItem(Boolean.FALSE.toString());
-        verify(comboBox, times(4)).addItem(Boolean.TRUE.toString());
+        verify(comboBox, times(7)).addItem(Boolean.FALSE.toString());
+        verify(comboBox, times(7)).addItem(Boolean.TRUE.toString());
         verify(comboBox, times(1)).addItem(Mutations.DEFAULTS.getValue());
         verify(comboBox, times(1)).addItem(Mutations.ALL.getValue());
         verify(comboBox, times(1)).addItem(Mutations.STRONGER.getValue());
         verify(comboBox, times(1)).addItem(Mutations.OLD_DEFAULTS.getValue());
         verify(comboBox, times(1)).setEditable(Boolean.TRUE);
-        verify(comboBox, times(5)).setSelectedItem(any());
-        verify(editorTextField, times(24)).setText(null);
+        verify(comboBox, times(8)).setSelectedItem(any());
+        verify(editorTextField, times(23)).setText(null);
         verify(textFieldWithBrowseButton, times(2)).setText(null);
         verify(textFieldWithBrowseButton, times(2)).addBrowseFolderListener(eq(null), eq(null), eq(null), fileChooserDescriptorArgumentCaptor.capture());
         insertPathActionMockedStatic.verify(() -> InsertPathAction.addTo(textField, fileChooserDescriptorArgumentCaptor.getValue()));
@@ -151,9 +151,7 @@ public class SettingsEditorServiceTest {
         verify(mutationConfigurationOptions).setJvmArgs(anyString());
         verify(mutationConfigurationOptions).setJvmPath(anyString());
         verify(mutationConfigurationOptions).setFailWhenNoMutations(anyString());
-        verify(mutationConfigurationOptions).setClassPath(anyString());
         verify(mutationConfigurationOptions).setMutableCodePaths(anyString());
-        verify(mutationConfigurationOptions).setTestPlugin(anyString());
         verify(mutationConfigurationOptions).setIncludedGroups(anyString());
         verify(mutationConfigurationOptions).setExcludedGroups(anyString());
         verify(mutationConfigurationOptions).setDetectInlinedCode(anyString());
@@ -188,9 +186,7 @@ public class SettingsEditorServiceTest {
         final LabeledComponent<EditorTextField> jvmArgs = mock(LabeledComponent.class);
         final LabeledComponent<EditorTextField> jvmPath = mock(LabeledComponent.class);
         final LabeledComponent<ComboBox<String>> failWhenNoMutations = mock(LabeledComponent.class);
-        final LabeledComponent<EditorTextField> classPath = mock(LabeledComponent.class);
         final LabeledComponent<EditorTextField> mutableCodePaths = mock(LabeledComponent.class);
-        final LabeledComponent<EditorTextField> testPlugin = mock(LabeledComponent.class);
         final LabeledComponent<EditorTextField> includedGroups = mock(LabeledComponent.class);
         final LabeledComponent<EditorTextField> excludedGroups = mock(LabeledComponent.class);
         final LabeledComponent<EditorTextField> detectInlinedCode = mock(LabeledComponent.class);
@@ -198,6 +194,10 @@ public class SettingsEditorServiceTest {
         final LabeledComponent<EditorTextField> coverageThreshold = mock(LabeledComponent.class);
         final LabeledComponent<EditorTextField> historyInputLocation = mock(LabeledComponent.class);
         final LabeledComponent<EditorTextField> historyOutputLocation = mock(LabeledComponent.class);
+        final LabeledComponent<ComboBox<String>> skipFailingTests = mock(LabeledComponent.class);
+        final LabeledComponent<ComboBox<String>> useClasspathJar = mock(LabeledComponent.class);
+        final LabeledComponent<EditorTextField> classpathFile = mock(LabeledComponent.class);
+        final LabeledComponent<ComboBox<String>> deleteCpFile = mock(LabeledComponent.class);
 
         when(targetClasses.getComponent()).thenReturn(editorTextField);
         when(targetTests.getComponent()).thenReturn(editorTextField);
@@ -220,9 +220,7 @@ public class SettingsEditorServiceTest {
         when(jvmArgs.getComponent()).thenReturn(editorTextField);
         when(jvmPath.getComponent()).thenReturn(editorTextField);
         when(failWhenNoMutations.getComponent()).thenReturn(comboBox);
-        when(classPath.getComponent()).thenReturn(editorTextField);
         when(mutableCodePaths.getComponent()).thenReturn(editorTextField);
-        when(testPlugin.getComponent()).thenReturn(editorTextField);
         when(includedGroups.getComponent()).thenReturn(editorTextField);
         when(excludedGroups.getComponent()).thenReturn(editorTextField);
         when(detectInlinedCode.getComponent()).thenReturn(editorTextField);
@@ -230,6 +228,10 @@ public class SettingsEditorServiceTest {
         when(coverageThreshold.getComponent()).thenReturn(editorTextField);
         when(historyInputLocation.getComponent()).thenReturn(editorTextField);
         when(historyOutputLocation.getComponent()).thenReturn(editorTextField);
+        when(skipFailingTests.getComponent()).thenReturn(comboBox);
+        when(useClasspathJar.getComponent()).thenReturn(comboBox);
+        when(classpathFile.getComponent()).thenReturn(editorTextField);
+        when(deleteCpFile.getComponent()).thenReturn(comboBox);
 
         mutationSettingsEditor.jPanel = jPanel;
         mutationSettingsEditor.targetClasses = targetClasses;
@@ -253,9 +255,7 @@ public class SettingsEditorServiceTest {
         mutationSettingsEditor.jvmArgs = jvmArgs;
         mutationSettingsEditor.jvmPath = jvmPath;
         mutationSettingsEditor.failWhenNoMutations = failWhenNoMutations;
-        mutationSettingsEditor.classPath = classPath;
         mutationSettingsEditor.mutableCodePaths = mutableCodePaths;
-        mutationSettingsEditor.testPlugin = testPlugin;
         mutationSettingsEditor.includedGroups = includedGroups;
         mutationSettingsEditor.excludedGroups = excludedGroups;
         mutationSettingsEditor.detectInlinedCode = detectInlinedCode;
@@ -263,6 +263,10 @@ public class SettingsEditorServiceTest {
         mutationSettingsEditor.coverageThreshold = coverageThreshold;
         mutationSettingsEditor.historyInputLocation = historyInputLocation;
         mutationSettingsEditor.historyOutputLocation = historyOutputLocation;
+        mutationSettingsEditor.skipFailingTests = skipFailingTests;
+        mutationSettingsEditor.useClasspathJar = useClasspathJar;
+        mutationSettingsEditor.classpathFile = classpathFile;
+        mutationSettingsEditor.deleteCpFile = deleteCpFile;
 
         return mutationSettingsEditor;
     }

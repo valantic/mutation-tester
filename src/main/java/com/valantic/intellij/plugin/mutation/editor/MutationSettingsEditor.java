@@ -61,9 +61,7 @@ public class MutationSettingsEditor extends SettingsEditor<MutationConfiguration
     public LabeledComponent<EditorTextField> jvmArgs;
     public LabeledComponent<EditorTextField> jvmPath;
     public LabeledComponent<ComboBox<String>> failWhenNoMutations;
-    public LabeledComponent<EditorTextField> classPath;
     public LabeledComponent<EditorTextField> mutableCodePaths;
-    public LabeledComponent<EditorTextField> testPlugin;
     public LabeledComponent<EditorTextField> includedGroups;
     public LabeledComponent<EditorTextField> excludedGroups;
     public LabeledComponent<EditorTextField> detectInlinedCode;
@@ -71,6 +69,10 @@ public class MutationSettingsEditor extends SettingsEditor<MutationConfiguration
     public LabeledComponent<EditorTextField> coverageThreshold;
     public LabeledComponent<EditorTextField> historyInputLocation;
     public LabeledComponent<EditorTextField> historyOutputLocation;
+    public LabeledComponent<ComboBox<String>> skipFailingTests;
+    public LabeledComponent<EditorTextField> classpathFile;
+    public LabeledComponent<ComboBox<String>> useClasspathJar;
+    public LabeledComponent<ComboBox<String>> deleteCpFile;
 
     @Override
     protected void resetEditorFrom(MutationConfiguration mutationConfiguration) {
@@ -115,9 +117,7 @@ public class MutationSettingsEditor extends SettingsEditor<MutationConfiguration
         jvmArgs = new LabeledComponent<>();
         jvmPath = new LabeledComponent<>();
         failWhenNoMutations = new LabeledComponent<>();
-        classPath = new LabeledComponent<>();
         mutableCodePaths = new LabeledComponent<>();
-        testPlugin = new LabeledComponent<>();
         includedGroups = new LabeledComponent<>();
         excludedGroups = new LabeledComponent<>();
         detectInlinedCode = new LabeledComponent<>();
@@ -125,6 +125,10 @@ public class MutationSettingsEditor extends SettingsEditor<MutationConfiguration
         coverageThreshold = new LabeledComponent<>();
         historyInputLocation = new LabeledComponent<>();
         historyOutputLocation = new LabeledComponent<>();
+        skipFailingTests = new LabeledComponent<>();
+        classpathFile = new LabeledComponent<>();
+        useClasspathJar = new LabeledComponent<>();
+        deleteCpFile = new LabeledComponent<>();
 
         setUIComponents();
     }
@@ -156,9 +160,7 @@ public class MutationSettingsEditor extends SettingsEditor<MutationConfiguration
         jvmArgs.setComponent(new EditorTextField());
         jvmPath.setComponent(new EditorTextField());
         failWhenNoMutations.setComponent(new ComboBox<>());
-        classPath.setComponent(new EditorTextField());
         mutableCodePaths.setComponent(new EditorTextField());
-        testPlugin.setComponent(new EditorTextField());
         includedGroups.setComponent(new EditorTextField());
         excludedGroups.setComponent(new EditorTextField());
         detectInlinedCode.setComponent(new EditorTextField());
@@ -166,6 +168,10 @@ public class MutationSettingsEditor extends SettingsEditor<MutationConfiguration
         coverageThreshold.setComponent(new EditorTextField());
         historyInputLocation.setComponent(new EditorTextField());
         historyOutputLocation.setComponent(new EditorTextField());
+        skipFailingTests.setComponent(new ComboBox());
+        classpathFile.setComponent(new EditorTextField());
+        useClasspathJar.setComponent(new ComboBox());
+        deleteCpFile.setComponent(new ComboBox());
     }
 
 }

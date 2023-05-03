@@ -3,7 +3,8 @@ This Plugin enables mutation testing in your IDE based on <a href="https://pites
 
 ![build workflow](https://github.com/valantic/mutation-tester/actions/workflows/gradle-build.yml/badge.svg)
 [![Software License](https://img.shields.io/badge/license-Apache%202-green.svg?style=flat-square)](LICENSE.md)
-[![MutationReport](https://img.shields.io/badge/mutation%20coverage-91%25-green.svg?style=flat-square)](https://htmlpreview.github.io/?https://github.com/valantic/mutation-tester/blob/main/samples/pitreport-v.1.0.0/index.html)
+[![MutationReport](https://img.shields.io/badge/mutation%20coverage-94%25-green94.svg?style=flat-square)](https://htmlpreview.github.io/?https://github.com/valantic/mutation-tester/blob/main/samples/pitreport/index.html)
+[![MutationReport](https://img.shields.io/badge/test%20strength-95%25-green95.svg?style=flat-square)](https://htmlpreview.github.io/?https://github.com/valantic/mutation-tester/blob/main/samples/pitreport/index.html)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=valantic_mutation-tester&metric=coverage)](https://sonarcloud.io/summary/new_code?id=valantic_mutation-tester)
 [![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=valantic_mutation-tester&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=valantic_mutation-tester)
 [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=valantic_mutation-tester&metric=bugs)](https://sonarcloud.io/summary/new_code?id=valantic_mutation-tester)
@@ -25,12 +26,12 @@ This kind of testing helps you to produce better testing results, not only based
 
 This Plugin will help you as developer to run mutation tests easy and fast in your IDE without wasting time in configurations.
 
-For example is a full Pit Mutation Testing report of this plugin <a href="https://htmlpreview.github.io/?https://github.com/valantic/mutation-tester/blob/main/samples/pitreport-v.1.0.0/index.html">here</a>
+For example is a full Pit Mutation Testing report of this plugin <a href="https://htmlpreview.github.io/?https://github.com/valantic/mutation-tester/blob/main/samples/pitreport/index.html">here</a>
 
 #### Versions
 | Tool          | Supported / Used Version |
 |---------------|--------------------------|
-| PIT           | 1.10.0                   |
+| PIT           | 1.13.0                   |
 | IntelliJ Idea | 2020.3.4 - now           |
 
 
@@ -140,10 +141,9 @@ Also the Icon (mutation.png) is based on an icon from flaticon by Freepik.
 - <b>1.1.0</b> - 2022-07: Enables untilBuild to the newest. Enabled Support for IntelliJ IDE since 2020.3.4
 - <b>1.1.1</b> - 2022-08: Fixed issue https://github.com/valantic/mutation-tester/issues/7
 - <b>1.2.0</b> - 2022-12: Commandline fixed for windows. Updated pitest version to 1.10.0. Updated test reports. corrected classpath for missing jar.
+- <b>1.3.0</b> - 2023-05: Adjusted the command line tool to use a generated classpath file to support all OS. Fixed Issue with configuration template. Fixed issue with command line wrapper. Fixed issue with problems of multiple IDE windows. Updated pitest version to 1.13.0
 
 
-## Roadmap
-- [x] fix beta issues
-- [x] add to IntelliJ Marketplace
-- [ ] cross module testing
-- [ ] caching
+## Known Issues
+- No custom classpath entries / file
+- Junit5 Support not working 

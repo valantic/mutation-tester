@@ -57,7 +57,7 @@ public class ClassNameServiceTest {
 
         allClassesSearchExecutorMockedStatic.when(() -> AllClassesSearchExecutor.processClassNames(project, globalSearchScope, processor)).thenReturn(true);
 
-        boolean result = underTest.processClassNames(project, globalSearchScope, processor);
+        final boolean result = underTest.processClassNames(project, globalSearchScope, processor);
 
         allClassesSearchExecutorMockedStatic.verify(() -> AllClassesSearchExecutor.processClassNames(project, globalSearchScope, processor));
         assertTrue(result);
@@ -71,7 +71,7 @@ public class ClassNameServiceTest {
 
         allClassesSearchExecutorMockedStatic.when(() -> AllClassesSearchExecutor.processClassNames(project, globalSearchScope, processor)).thenReturn(false);
 
-        boolean result = underTest.processClassNames(project, globalSearchScope, processor);
+        final boolean result = underTest.processClassNames(project, globalSearchScope, processor);
 
         allClassesSearchExecutorMockedStatic.verify(() -> AllClassesSearchExecutor.processClassNames(project, globalSearchScope, processor));
         assertFalse(result);

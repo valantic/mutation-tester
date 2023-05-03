@@ -47,8 +47,8 @@ public class ServicesTest {
 
     @Test
     public void testGetService() {
-        Application application = mock(Application.class);
-        ProjectService projectService = mock(ProjectService.class);
+        final Application application = mock(Application.class);
+        final ProjectService projectService = mock(ProjectService.class);
         applicationManagerMockedStatic.when(ApplicationManager::getApplication).thenReturn(application);
         when(application.getService(ProjectService.class)).thenReturn(projectService);
 

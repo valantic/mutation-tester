@@ -18,6 +18,7 @@
 package com.valantic.intellij.plugin.mutation.services.impl;
 
 import com.intellij.execution.RunManager;
+import com.intellij.execution.RunnerAndConfigurationSettings;
 import com.intellij.openapi.components.Service;
 import com.intellij.openapi.project.Project;
 import com.valantic.intellij.plugin.mutation.configuration.MutationConfiguration;
@@ -25,6 +26,7 @@ import com.valantic.intellij.plugin.mutation.configuration.MutationConfiguration
 import com.valantic.intellij.plugin.mutation.configuration.MutationConfigurationType;
 import com.valantic.intellij.plugin.mutation.configuration.option.MutationConfigurationOptions;
 import com.valantic.intellij.plugin.mutation.enums.MutationConstants;
+import com.valantic.intellij.plugin.mutation.exception.MutationConfigurationException;
 import com.valantic.intellij.plugin.mutation.services.Services;
 import org.apache.commons.lang3.StringUtils;
 
@@ -120,7 +122,21 @@ public final class ConfigurationService {
                 .orElseGet(() -> psiService.getClassName(name));
     }
 
+    /**
+     * create MutationConfiguration based on template
+     *
+     * @param project
+     * @param factory
+     * @param configurationName
+     * @return
+     */
     protected MutationConfiguration createNewMutationConfiguration(final Project project, final MutationConfigurationFactory factory, final String configurationName) {
-        return new MutationConfiguration(project, factory, configurationName);
+        return Optional.of(RunManager.getInstance(project))
+                .map(runManager -> runManager.getConfigurationTemplate(factory))
+                .map(RunnerAndConfigurationSettings::getConfiguration)
+                .map(runConfiguration -> factory.createConfiguration(configurationName, runConfiguration))
+                .filter(MutationConfiguration.class::isInstance)
+                .map(MutationConfiguration.class::cast)
+                .orElseThrow(() -> new MutationConfigurationException("Could not create mutation configuration"));
     }
 }
