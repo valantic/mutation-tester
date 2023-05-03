@@ -39,7 +39,6 @@ public class MutationConfigurationOptions extends ModuleBasedConfigurationOption
     private static final String DEFAULT_VALUE_TIMEOUT_FACTOR = "1.25";
     private static final String DEFAULT_VALUE_MAX_MUTATIONS_PER_CLASS = "0";
     private static final String DEFAULT_VALUE_FAIL_WHEN_NO_MUTATIONS = "true";
-    private static final String DEFAULT_VALUE_TEST_PLUGIN = "junit";
     private static final String DEFAULT_VALUE_EXCLUDED_CLASSES = "*Test*";
     private static final String DEFAULT_VALUE_SKIP_FAILING_TESTS = "false";
     private static final String DEFAULT_VALUE_USE_CLASSPATH_JAR = "true";

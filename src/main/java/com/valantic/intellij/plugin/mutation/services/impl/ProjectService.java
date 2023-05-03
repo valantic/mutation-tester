@@ -18,8 +18,8 @@
 package com.valantic.intellij.plugin.mutation.services.impl;
 
 import com.intellij.ide.DataManager;
+import com.intellij.openapi.actionSystem.CommonDataKeys;
 import com.intellij.openapi.actionSystem.DataContext;
-import com.intellij.openapi.actionSystem.PlatformDataKeys;
 import com.intellij.openapi.application.ReadAction;
 import com.intellij.openapi.components.Service;
 import com.intellij.openapi.project.Project;
@@ -45,7 +45,7 @@ public final class ProjectService {
         try {
             final DataContext[] dataContext = createDataContext();
             ReadAction.run(() -> dataContext[0] = DataManager.getInstance().getDataContextFromFocusAsync().blockingGet(5, TimeUnit.SECONDS));
-            return PlatformDataKeys.PROJECT.getData(dataContext[0]);
+            return CommonDataKeys.PROJECT.getData(dataContext[0]);
         } catch (Exception e) {
             return ProjectManager.getInstance().getOpenProjects()[0];
         }

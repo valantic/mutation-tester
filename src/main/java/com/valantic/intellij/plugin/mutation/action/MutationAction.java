@@ -59,10 +59,6 @@ public class MutationAction extends AnAction {
 
     private String targetClass;
     private String targetTest;
-    private Module module;
-
-    private ProjectService projectService = Services.getService(ProjectService.class);
-
     private ConfigurationService configurationService = Services.getService(ConfigurationService.class);
     private PsiService psiService = Services.getService(PsiService.class);
 

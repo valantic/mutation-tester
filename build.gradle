@@ -70,6 +70,7 @@ jacocoTestReport {
         xml.enabled true
     }
 }
+test.finalizedBy jacocoTestReport
 
 dependencies {
     // https://mvnrepository.com/artifact/org.pitest/pitest
