@@ -40,6 +40,7 @@ intellij {
 
 pitest {
     timestampedReports = false
+    pitestVersion = "$pitVersion"
 }
 
 sonarqube {
@@ -104,10 +105,6 @@ patchPluginXml {
 
 publishPlugin {
     token = System.getenv("ORG_GRADLE_PROJECT_intellijPublishToken")
-}
-
-pitest {
-    pitestVersion = "$pitVersion"
 }
 
 task deleteOldReports(type:Delete) {
