@@ -41,6 +41,8 @@ intellij {
 pitest {
     timestampedReports = false
     pitestVersion = "$pitVersion"
+    jvmArgs.add("--add-opens")
+    jvmArgs.add("java.base/java.io=ALL-UNNAMED")
 }
 
 sonarqube {
@@ -67,11 +69,16 @@ jar {
     duplicatesStrategy(DuplicatesStrategy.EXCLUDE)
 }
 
+test {
+    useJUnitPlatform()
+}
+
 jacocoTestReport {
     reports {
         xml.enabled true
     }
 }
+
 test.finalizedBy jacocoTestReport
 
 dependencies {
@@ -84,14 +91,24 @@ dependencies {
     // https://mvnrepository.com/artifact/org.pitest/pitest-command-line
     libImplementation group: "org.pitest", name: "pitest-command-line", version: "$pitVersion"
 
-    // https://mvnrepository.com/artifact/junit/junit
-    libImplementation group: "junit", name: "junit", version: "$junit4Version"
+    // https://mvnrepository.com/artifact/org.pitest/pitest-junit5-plugin
+    libImplementation group: "org.pitest", name: "pitest-junit5-plugin", version: "$pitJunitVersion"
 
-    // https://mvnrepository.com/artifact/org.mockito/mockito-core
-    testImplementation group: "org.mockito", name: "mockito-core", version: "$mockitoVersion"
+    // https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api
+    testImplementation group: "org.junit.jupiter", name: "junit-jupiter-api", version: "$junitVersion"
+
+    // https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-engine
+    testImplementation group: "org.junit.jupiter", name: "junit-jupiter-engine", version: "$junitVersion"
+
+    // https://mvnrepository.com/artifact/org.junit.platform/junit-platform-launcher
+    testImplementation group: "org.junit.platform", name: "junit-platform-launcher", version: "$junitPlatformVersion"
+
+    // https://mvnrepository.com/artifact/org.mockito/mockito-junit-jupiter
+    testImplementation group: "org.mockito", name: "mockito-junit-jupiter", version: "$mockitoVersion"
 
     // https://mvnrepository.com/artifact/org.mockito/mockito-inline
-    testImplementation group: "org.mockito", name: "mockito-inline", version: "$mockitoVersion"
+    testImplementation group: "org.mockito", name: "mockito-inline", version: "$mockitoInlineVersion"
+
 }
 
 buildSearchableOptions {
@@ -107,11 +124,11 @@ publishPlugin {
     token = System.getenv("ORG_GRADLE_PROJECT_intellijPublishToken")
 }
 
-task deleteOldReports(type:Delete) {
-    delete 'samples/pitreport'
+task deleteOldReports(type: Delete) {
+    delete "samples/pitreport"
 }
 
-task copyPitestReport(type:Copy) {
+task copyPitestReport(type: Copy) {
     from "$buildDir/reports/pitest"
     into "samples/pitreport"
 }

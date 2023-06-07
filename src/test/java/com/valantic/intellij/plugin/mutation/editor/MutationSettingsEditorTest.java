@@ -25,15 +25,16 @@ import com.intellij.ui.EditorTextField;
 import com.valantic.intellij.plugin.mutation.configuration.MutationConfiguration;
 import com.valantic.intellij.plugin.mutation.services.Services;
 import com.valantic.intellij.plugin.mutation.services.impl.SettingsEditorService;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.MockedConstruction;
 import org.mockito.MockedStatic;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 import java.awt.Container;
@@ -48,8 +49,8 @@ import static org.mockito.Mockito.verify;
 /**
  * created by fabian.huesig on 2022-02-01
  */
-@RunWith(MockitoJUnitRunner.class)
-public class MutationSettingsEditorTest {
+@ExtendWith(MockitoExtension.class)
+class MutationSettingsEditorTest {
 
     private MutationSettingsEditor underTest;
 
@@ -65,9 +66,13 @@ public class MutationSettingsEditorTest {
     private MockedConstruction<Container> containerMockedConstruction;
     private MockedConstruction<JScrollPane> jScrollPaneMockedConstruction;
     private MockedConstruction<JTextPane> jTextPaneMockedConstruction;
+    private MockedConstruction<MutationSettingsEditor> mutationSettingsEditorMockedConstruction;
 
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
+        final MutationSettingsEditor mutationSettingsEditor = mock(MutationSettingsEditor.class);
+        mutationSettingsEditor.jPanel = new JPanel();
+        mutationSettingsEditor.settingsEditorService = settingsEditorService;
         servicesMockedStatic = mockStatic(Services.class);
         servicesMockedStatic.when(() -> Services.getService(SettingsEditorService.class)).thenReturn(settingsEditorService);
         disposerMockedStatic = mockStatic(Disposer.class);
@@ -78,11 +83,12 @@ public class MutationSettingsEditorTest {
         containerMockedConstruction = mockConstruction(Container.class);
         jScrollPaneMockedConstruction = mockConstruction(JScrollPane.class);
         jTextPaneMockedConstruction = mockConstruction(JTextPane.class);
-        underTest = spy(new MutationSettingsEditor());
+        mutationSettingsEditorMockedConstruction = mockConstruction(MutationSettingsEditor.class);
+        underTest = spy(mutationSettingsEditor);
     }
 
     @Test
-    public void testResetEditorFrom() {
+    void testResetEditorFrom() {
         final MutationConfiguration mutationConfiguration = mock(MutationConfiguration.class);
 
         underTest.resetEditorFrom(mutationConfiguration);
@@ -91,7 +97,7 @@ public class MutationSettingsEditorTest {
     }
 
     @Test
-    public void testApplyEditorTo() {
+    void testApplyEditorTo() {
         final MutationConfiguration mutationConfiguration = mock(MutationConfiguration.class);
 
         underTest.applyEditorTo(mutationConfiguration);
@@ -100,14 +106,14 @@ public class MutationSettingsEditorTest {
     }
 
     @Test
-    public void testCreateEditor() {
+    void testCreateEditor() {
         underTest.createEditor();
         verify(underTest).createEditor();
     }
 
 
     @Test
-    public void testCreateUiComponents_majorSettings() {
+    void testCreateUiComponents_majorSettings() {
         underTest.createUIComponents();
 
         verify(underTest).setUIComponents();
@@ -122,7 +128,7 @@ public class MutationSettingsEditorTest {
     }
 
     @Test
-    public void testCreateUiComponents_advancedSettings() {
+    void testCreateUiComponents_advancedSettings() {
         underTest.createUIComponents();
 
         verify(underTest.includeLaunchClasspath).setComponent(any());
@@ -152,8 +158,8 @@ public class MutationSettingsEditorTest {
         verify(underTest.deleteCpFile).setComponent(any());
     }
 
-    @After
-    public void tearDown() throws Exception {
+    @AfterEach
+    void tearDown() throws Exception {
         servicesMockedStatic.close();
         disposerMockedStatic.close();
         labeledComponentMockedConstruction.close();
@@ -163,5 +169,6 @@ public class MutationSettingsEditorTest {
         containerMockedConstruction.close();
         jScrollPaneMockedConstruction.close();
         jTextPaneMockedConstruction.close();
+        mutationSettingsEditorMockedConstruction.close();
     }
 }

@@ -34,8 +34,10 @@ import java.util.stream.Collectors;
 public final class ClassPathService {
     private static final String ECLIPSE_BIN = "/eclipsebin";
     private static final String CLASSES = "/classes";
+    private static final String JUNIT5_PITEST_SUPPORT_PLUGIN_EXPRESSION = "pitest\\-junit5\\-plugin\\-\\d.*";
 
     private ProjectService projectService = Services.getService(ProjectService.class);
+    private DependencyService dependencyService = Services.getService(DependencyService.class);
 
     /**
      * creates the classpath in a List of Strings for all modules of the current project
@@ -43,11 +45,22 @@ public final class ClassPathService {
      * @return List of classpath entries
      */
     public List<String> getClassPathForModules() {
-        return Arrays.stream(ModuleManager.getInstance(projectService.getCurrentProject()).getModules())
+        final List<String> result = Arrays.stream(ModuleManager.getInstance(projectService.getCurrentProject()).getModules())
                 .map(this::getClassPathForModule)
                 .flatMap(List::stream)
                 .distinct()
                 .collect(Collectors.toList());
+        result.add(getJunit5PitestJar());
+        return result;
+    }
+
+    /**
+     * adds the pitest-junit5-plugin jar to the classpath file to support junit5 tests.
+     *
+     * @return pitest junit5 jar as stirng
+     */
+    private String getJunit5PitestJar() {
+        return dependencyService.getThirdPartyDependency(JUNIT5_PITEST_SUPPORT_PLUGIN_EXPRESSION).getAbsolutePath();
     }
 
     /**

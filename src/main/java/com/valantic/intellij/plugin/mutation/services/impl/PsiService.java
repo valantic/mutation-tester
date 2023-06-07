@@ -57,10 +57,10 @@ public final class PsiService {
         final Project project = projectService.getCurrentProject();
         classNameService.processClassNames(project, projectService.getSearchScope(project), name -> {
             if (getClassName(fullyQualifiedClassName).equals(name)) {
-                exists[0] = Boolean.TRUE;
-                return Boolean.FALSE;
+                exists[0] = true;
+                return false;
             }
-            return Boolean.TRUE;
+            return true;
 
         });
         return exists[0];

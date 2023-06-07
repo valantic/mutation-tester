@@ -27,14 +27,14 @@ import com.valantic.intellij.plugin.mutation.configuration.MutationConfiguration
 import com.valantic.intellij.plugin.mutation.configuration.option.MutationConfigurationOptions;
 import com.valantic.intellij.plugin.mutation.editor.MutationSettingsEditor;
 import com.valantic.intellij.plugin.mutation.enums.Mutations;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.MockedStatic;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -51,8 +51,8 @@ import static org.mockito.Mockito.when;
 /**
  * created by fabian.huesig on 2022-02-01
  */
-@RunWith(MockitoJUnitRunner.class)
-public class SettingsEditorServiceTest {
+@ExtendWith(MockitoExtension.class)
+class SettingsEditorServiceTest {
 
     private SettingsEditorService underTest;
 
@@ -65,14 +65,14 @@ public class SettingsEditorServiceTest {
 
     private MockedStatic<InsertPathAction> insertPathActionMockedStatic;
 
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         insertPathActionMockedStatic = mockStatic(InsertPathAction.class);
         underTest = new SettingsEditorService();
     }
 
     @Test
-    public void testResetEditorFrom() {
+    void testResetEditorFrom() {
         MutationConfiguration mutationConfiguration = mock(MutationConfiguration.class);
         MutationConfigurationOptions mutationConfigurationOptions = mock(MutationConfigurationOptions.class);
         ArgumentCaptor<FileChooserDescriptor> fileChooserDescriptorArgumentCaptor = ArgumentCaptor.forClass(FileChooserDescriptor.class);
@@ -99,7 +99,7 @@ public class SettingsEditorServiceTest {
     }
 
     @Test
-    public void testApplyEditorTo_majorSettings() {
+    void testApplyEditorTo_majorSettings() {
         MutationConfiguration mutationConfiguration = mock(MutationConfiguration.class);
         MutationConfigurationOptions mutationConfigurationOptions = mock(MutationConfigurationOptions.class);
         MutationSettingsEditor mutationSettingsEditor = mockMutationSettingsEditor();
@@ -124,7 +124,7 @@ public class SettingsEditorServiceTest {
     }
 
     @Test
-    public void testApplyEditorTo_advancedSettings() {
+    void testApplyEditorTo_advancedSettings() {
         MutationConfiguration mutationConfiguration = mock(MutationConfiguration.class);
         MutationConfigurationOptions mutationConfigurationOptions = mock(MutationConfigurationOptions.class);
         MutationSettingsEditor mutationSettingsEditor = mockMutationSettingsEditor();
@@ -159,6 +159,10 @@ public class SettingsEditorServiceTest {
         verify(mutationConfigurationOptions).setCoverageThreshold(anyString());
         verify(mutationConfigurationOptions).setHistoryInputLocation(anyString());
         verify(mutationConfigurationOptions).setHistoryOutputLocation(anyString());
+        verify(mutationConfigurationOptions).setSkipFailingTests(anyString());
+        verify(mutationConfigurationOptions).setUseClasspathJar(anyString());
+        verify(mutationConfigurationOptions).setDeleteCpFile(anyString());
+        verify(mutationConfigurationOptions).setClassPathFile(anyString());
     }
 
     private MutationSettingsEditor mockMutationSettingsEditor() {
@@ -271,8 +275,8 @@ public class SettingsEditorServiceTest {
         return mutationSettingsEditor;
     }
 
-    @After
-    public void tearDown() {
+    @AfterEach
+    void tearDown() {
         insertPathActionMockedStatic.close();
     }
 }

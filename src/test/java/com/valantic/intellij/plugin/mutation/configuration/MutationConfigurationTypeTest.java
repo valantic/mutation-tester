@@ -19,36 +19,36 @@ package com.valantic.intellij.plugin.mutation.configuration;
 
 import com.valantic.intellij.plugin.mutation.icons.Icons;
 import com.valantic.intellij.plugin.mutation.localization.Messages;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.MockedStatic;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertSame;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.mockito.Mockito.mockStatic;
 
 /**
  * created by fabian.huesig on 2022-02-01
  */
-@RunWith(MockitoJUnitRunner.class)
-public class MutationConfigurationTypeTest {
+@ExtendWith(MockitoExtension.class)
+class MutationConfigurationTypeTest {
 
     private MutationConfigurationType underTest;
 
     private MockedStatic<Messages> messagesMockedStatic;
 
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         messagesMockedStatic = mockStatic(Messages.class);
         underTest = new MutationConfigurationType();
     }
 
     @Test
-    public void testGetDisplayName() {
+    void testGetDisplayName() {
         messagesMockedStatic.when(() -> Messages.getMessage("plugin.name")).thenReturn("pluginName");
 
         assertEquals("pluginName", underTest.getDisplayName());
@@ -57,7 +57,7 @@ public class MutationConfigurationTypeTest {
     }
 
     @Test
-    public void testGetConfigurationTypeDescription() {
+    void testGetConfigurationTypeDescription() {
         messagesMockedStatic.when(() -> Messages.getMessage("plugin.description")).thenReturn("pluginDescription");
 
         assertEquals("pluginDescription", underTest.getConfigurationTypeDescription());
@@ -66,22 +66,22 @@ public class MutationConfigurationTypeTest {
     }
 
     @Test
-    public void testGetIcon() {
+    void testGetIcon() {
         assertSame(Icons.MUTATIONx16, underTest.getIcon());
     }
 
     @Test
-    public void testGetId() {
+    void testGetId() {
         assertEquals("MutationConfiguration", underTest.getId());
     }
 
     @Test
-    public void testGetConfigurationFactories() {
+    void testGetConfigurationFactories() {
         assertNotNull(underTest.getConfigurationFactories());
     }
 
-    @After
-    public void tearDown() {
+    @AfterEach
+    void tearDown() {
         messagesMockedStatic.close();
     }
 

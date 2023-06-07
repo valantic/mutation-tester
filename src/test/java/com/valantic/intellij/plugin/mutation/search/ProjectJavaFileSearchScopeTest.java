@@ -24,16 +24,16 @@ import com.intellij.openapi.roots.ProjectRootManager;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.valantic.intellij.plugin.mutation.services.Services;
 import com.valantic.intellij.plugin.mutation.services.impl.ProjectService;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.MockedStatic;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.mockStatic;
 import static org.mockito.Mockito.when;
@@ -41,8 +41,8 @@ import static org.mockito.Mockito.when;
 /**
  * created by fabian.huesig on 2022-02-01
  */
-@RunWith(MockitoJUnitRunner.class)
-public class ProjectJavaFileSearchScopeTest {
+@ExtendWith(MockitoExtension.class)
+class ProjectJavaFileSearchScopeTest {
 
     private ProjectJavaFileSearchScope underTest;
 
@@ -53,8 +53,8 @@ public class ProjectJavaFileSearchScopeTest {
 
     private MockedStatic<Services> servicesMockedStatic;
 
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         final Project project = mock(Project.class);
         final ProjectRootManager projectRootManager = mock(ProjectRootManager.class);
 
@@ -67,7 +67,7 @@ public class ProjectJavaFileSearchScopeTest {
     }
 
     @Test
-    public void testIsSearchInModuleContent() {
+    void testIsSearchInModuleContent() {
         final Module module = mock(Module.class);
 
         final boolean result = underTest.isSearchInModuleContent(module);
@@ -76,14 +76,14 @@ public class ProjectJavaFileSearchScopeTest {
     }
 
     @Test
-    public void testIsSearchInLibraries() {
+    void testIsSearchInLibraries() {
         final boolean result = underTest.isSearchInLibraries();
 
         assertFalse(result);
     }
 
     @Test
-    public void testContains_shouldBeTrue() {
+    void testContains_shouldBeTrue() {
         final VirtualFile virtualFile = mock(VirtualFile.class);
 
         when(projectFileIndex.isInSourceContent(virtualFile)).thenReturn(true);
@@ -93,7 +93,7 @@ public class ProjectJavaFileSearchScopeTest {
     }
 
     @Test
-    public void testContains_shouldBeFalse() {
+    void testContains_shouldBeFalse() {
         final VirtualFile virtualFile = mock(VirtualFile.class);
         when(projectFileIndex.isInSourceContent(virtualFile)).thenReturn(false);
 
@@ -102,8 +102,8 @@ public class ProjectJavaFileSearchScopeTest {
         assertFalse(result);
     }
 
-    @After
-    public void tearDown() {
+    @AfterEach
+    void tearDown() {
         servicesMockedStatic.close();
     }
 }

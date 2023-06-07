@@ -17,20 +17,20 @@
  */
 package com.valantic.intellij.plugin.mutation.enums;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * created by fabian.huesig on 2022-02-01
  */
-@RunWith(MockitoJUnitRunner.class)
-public class MutationConstantsTest {
+@ExtendWith(MockitoExtension.class)
+class MutationConstantsTest {
 
     @Test
-    public void testMutationConstants() {
+    void testMutationConstants() {
         assertEquals(".", MutationConstants.PACKAGE_SEPARATOR.getValue());
         assertEquals("/", MutationConstants.PATH_SEPARATOR.getValue());
         assertEquals("/*$", MutationConstants.TRAILING_SLASH_REGEX.getValue());

@@ -36,7 +36,7 @@ import javax.swing.JPanel;
  */
 @SuppressWarnings({"java:S1104", "java:S3740"})
 public class MutationSettingsEditor extends SettingsEditor<MutationConfiguration> {
-    private SettingsEditorService settingsEditorService = Services.getService(SettingsEditorService.class);
+    protected SettingsEditorService settingsEditorService = Services.getService(SettingsEditorService.class);
 
     public JPanel jPanel;
     public LabeledComponent<EditorTextField> targetClasses;

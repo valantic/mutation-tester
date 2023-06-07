@@ -17,18 +17,18 @@
  */
 package com.valantic.intellij.plugin.mutation.icons;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 
 /**
  * created by fabian.huesig on 2022-02-01
  */
-public class IconsTest {
+class IconsTest {
     @Test
-    public void staticIcons() {
+    void staticIcons() {
         assertNotNull(Icons.MUTATION);
         assertNotNull(Icons.MUTATIONx12);
         assertNotNull(Icons.MUTATIONx13);
@@ -39,6 +39,7 @@ public class IconsTest {
         assertNotNull(Icons.MUTATION_DISABLEDx13);
         assertNotNull(Icons.MUTATION_DISABLEDx16);
         assertNotNull(Icons.MUTATION_DISABLEDx40);
+        assertNotNull(Icons.createPNGImageIcon("/icons/mutation/disabled/mutation-disabledx40.png"));
         assertNull(Icons.createPNGImageIcon(null));
     }
 

@@ -21,31 +21,31 @@ import com.intellij.openapi.project.Project;
 import com.valantic.intellij.plugin.mutation.configuration.option.MutationConfigurationOptions;
 import com.valantic.intellij.plugin.mutation.services.Services;
 import com.valantic.intellij.plugin.mutation.services.impl.ModuleService;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.MockedStatic;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertSame;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.mockStatic;
 
 /**
  * created by fabian.huesig on 2022-02-01
  */
-@RunWith(MockitoJUnitRunner.class)
-public class MutationConfigurationFactoryTest {
+@ExtendWith(MockitoExtension.class)
+class MutationConfigurationFactoryTest {
 
     private MutationConfigurationFactory underTest;
 
     private MockedStatic<Services> servicesMockedStatic;
 
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         final MutationConfigurationType mutationConfigurationType = mock(MutationConfigurationType.class);
         servicesMockedStatic = mockStatic(Services.class);
         servicesMockedStatic.when(() -> Services.getService(ModuleService.class)).thenReturn(mock(ModuleService.class));
@@ -53,23 +53,23 @@ public class MutationConfigurationFactoryTest {
     }
 
     @Test
-    public void testGetId() {
+    void testGetId() {
         assertEquals("MutationConfiguration", underTest.getId());
     }
 
     @Test
-    public void testCreateTemplateConfiguration() {
+    void testCreateTemplateConfiguration() {
         final Project project = mock(Project.class);
         assertNotNull(underTest.createTemplateConfiguration(project));
     }
 
     @Test
-    public void testGetOptionClass() {
+    void testGetOptionClass() {
         assertSame(MutationConfigurationOptions.class, underTest.getOptionsClass());
     }
 
-    @After
-    public void tearDown() {
+    @AfterEach
+    void tearDown() {
         servicesMockedStatic.close();
     }
 

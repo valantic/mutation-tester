@@ -26,20 +26,21 @@ import com.valantic.intellij.plugin.mutation.configuration.MutationConfiguration
 import com.valantic.intellij.plugin.mutation.configuration.option.MutationConfigurationOptions;
 import com.valantic.intellij.plugin.mutation.exception.MutationConfigurationException;
 import com.valantic.intellij.plugin.mutation.services.Services;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Arrays;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertSame;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doReturn;
@@ -52,8 +53,8 @@ import static org.mockito.Mockito.when;
 /**
  * created by fabian.huesig on 2022-02-01
  */
-@RunWith(MockitoJUnitRunner.class)
-public class ConfigurationServiceTest {
+@ExtendWith(MockitoExtension.class)
+class ConfigurationServiceTest {
 
     private ConfigurationService underTest;
 
@@ -63,8 +64,8 @@ public class ConfigurationServiceTest {
     private MockedStatic<Services> servicesMockedStatic;
     private MockedStatic<RunManager> runManagerMockedStatic;
 
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         servicesMockedStatic = mockStatic(Services.class);
         servicesMockedStatic.when(() -> Services.getService(PsiService.class)).thenReturn(psiService);
         runManagerMockedStatic = mockStatic(RunManager.class);
@@ -72,7 +73,7 @@ public class ConfigurationServiceTest {
     }
 
     @Test
-    public void testGetOrCreateMutationConfiguration_foundMatchingConfiguration() {
+    void testGetOrCreateMutationConfiguration_foundMatchingConfiguration() {
         final String targetTests = "targetTests";
         final Project project = mock(Project.class);
         final RunManager runManager = mock(RunManager.class);
@@ -93,7 +94,7 @@ public class ConfigurationServiceTest {
     }
 
     @Test
-    public void testGetOrCreateMutationConfiguration_existingConfigurationFactory_createNewConfiguration() {
+    void testGetOrCreateMutationConfiguration_existingConfigurationFactory_createNewConfiguration() {
         final String targetTests = "targetTests";
         final Project project = mock(Project.class);
         final RunManager runManager = mock(RunManager.class);
@@ -121,7 +122,7 @@ public class ConfigurationServiceTest {
     }
 
     @Test
-    public void testGetOrCreateMutationConfiguration_existingConfigurationFactory_createNewConfigurationFromPackageName() {
+    void testGetOrCreateMutationConfiguration_existingConfigurationFactory_createNewConfigurationFromPackageName() {
         final String targetTests = "targetpackage.*";
         final Project project = mock(Project.class);
         final RunManager runManager = mock(RunManager.class);
@@ -149,7 +150,7 @@ public class ConfigurationServiceTest {
     }
 
     @Test
-    public void testGetOrCreateMutationConfiguration_newConfigurationFactory_createNewConfiguration() {
+    void testGetOrCreateMutationConfiguration_newConfigurationFactory_createNewConfiguration() {
         final String targetTests = "targetTests";
         final Project project = mock(Project.class);
         final RunManager runManager = mock(RunManager.class);
@@ -177,7 +178,7 @@ public class ConfigurationServiceTest {
     }
 
     @Test
-    public void testCreateNewMutationConfiguration() {
+    void testCreateNewMutationConfiguration() {
         final Project project = mock(Project.class);
         final RunManager runManager = mock(RunManager.class);
         final MutationConfigurationFactory factory = mock(MutationConfigurationFactory.class);
@@ -195,8 +196,8 @@ public class ConfigurationServiceTest {
         assertSame(mutationConfiguration, result);
     }
 
-    @Test(expected = MutationConfigurationException.class)
-    public void testCreateNewMutationConfiguration_hasError() {
+    @Test
+    void testCreateNewMutationConfiguration_hasError() {
         final Project project = mock(Project.class);
         final RunManager runManager = mock(RunManager.class);
         final MutationConfigurationFactory factory = mock(MutationConfigurationFactory.class);
@@ -208,11 +209,13 @@ public class ConfigurationServiceTest {
         when(runnerAndConfigurationSettings.getConfiguration()).thenReturn(runConfiguration);
         when(factory.createConfiguration("configName", runConfiguration)).thenReturn(runConfiguration);
 
-        underTest.createNewMutationConfiguration(project, factory, "configName");
+        assertThrows(MutationConfigurationException.class, () -> {
+            underTest.createNewMutationConfiguration(project, factory, "configName");
+        });
     }
 
-    @After
-    public void tearDown() {
+    @AfterEach
+    void tearDown() {
         servicesMockedStatic.close();
         runManagerMockedStatic.close();
     }

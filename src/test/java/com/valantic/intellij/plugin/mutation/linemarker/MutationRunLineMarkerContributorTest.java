@@ -25,25 +25,25 @@ import com.valantic.intellij.plugin.mutation.icons.Icons;
 import com.valantic.intellij.plugin.mutation.services.Services;
 import com.valantic.intellij.plugin.mutation.services.impl.MessageService;
 import com.valantic.intellij.plugin.mutation.services.impl.PsiService;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.MockedStatic;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.mockStatic;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
-public class MutationRunLineMarkerContributorTest {
+@ExtendWith(MockitoExtension.class)
+class MutationRunLineMarkerContributorTest {
 
     private MutationRunLineMarkerContributor underTest;
 
@@ -55,8 +55,8 @@ public class MutationRunLineMarkerContributorTest {
     private MockedStatic<Services> servicesMockedStatic;
     private MockedStatic<MutationAction> mutationActionMockedStatic;
 
-    @Before
-    public void setUp() throws Exception {
+    @BeforeEach
+    void setUp() throws Exception {
         servicesMockedStatic = mockStatic(Services.class);
         mutationActionMockedStatic = mockStatic(MutationAction.class);
         servicesMockedStatic.when(() -> Services.getService(PsiService.class)).thenReturn(psiService);
@@ -66,7 +66,7 @@ public class MutationRunLineMarkerContributorTest {
 
 
     @Test
-    public void testGetInfo() {
+    void testGetInfo() {
         final PsiIdentifier psiIdentifier = mock(PsiIdentifier.class);
         final PsiClass psiClass = mock(PsiClass.class);
         final MutationAction[] mutationActions = new MutationAction[]{mock(MutationAction.class)};
@@ -91,8 +91,8 @@ public class MutationRunLineMarkerContributorTest {
         mutationActionMockedStatic.verify(() -> MutationAction.getSingletonActions("targetClass", "targetTest"));
     }
 
-    @After
-    public void tearDown() throws Exception {
+    @AfterEach
+    void tearDown() throws Exception {
         servicesMockedStatic.close();
         mutationActionMockedStatic.close();
     }

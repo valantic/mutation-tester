@@ -3,8 +3,8 @@ This Plugin enables mutation testing in your IDE based on <a href="https://pites
 
 ![build workflow](https://github.com/valantic/mutation-tester/actions/workflows/gradle-build.yml/badge.svg)
 [![Software License](https://img.shields.io/badge/license-Apache%202-green.svg?style=flat-square)](LICENSE.md)
-[![MutationReport](https://img.shields.io/badge/mutation%20coverage-94%25-green94.svg?style=flat-square)](https://htmlpreview.github.io/?https://github.com/valantic/mutation-tester/blob/main/samples/pitreport/index.html)
-[![MutationReport](https://img.shields.io/badge/test%20strength-95%25-green95.svg?style=flat-square)](https://htmlpreview.github.io/?https://github.com/valantic/mutation-tester/blob/main/samples/pitreport/index.html)
+[![MutationReport](https://img.shields.io/badge/mutation%20coverage-92%25-green94.svg?style=flat-square)](https://htmlpreview.github.io/?https://github.com/valantic/mutation-tester/blob/main/samples/pitreport/index.html)
+[![MutationReport](https://img.shields.io/badge/test%20strength-97%25-green95.svg?style=flat-square)](https://htmlpreview.github.io/?https://github.com/valantic/mutation-tester/blob/main/samples/pitreport/index.html)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=valantic_mutation-tester&metric=coverage)](https://sonarcloud.io/summary/new_code?id=valantic_mutation-tester)
 [![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=valantic_mutation-tester&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=valantic_mutation-tester)
 [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=valantic_mutation-tester&metric=bugs)](https://sonarcloud.io/summary/new_code?id=valantic_mutation-tester)
@@ -32,7 +32,7 @@ For example is a full Pit Mutation Testing report of this plugin <a href="https:
 | Tool          | Supported / Used Version |
 |---------------|--------------------------|
 | PIT           | 1.13.0                   |
-| IntelliJ Idea | 2020.3.4 - now           |
+| IntelliJ Idea | 2021.2 - now             |
 
 
 ## Installation
@@ -119,7 +119,7 @@ limitations under the License.
 
 
 ## Contact Information
-For any issue with plugin please use the our <a href="https://github.com/valantic/mutation-tester/issues">issueboard on github</a>.
+For any issue with plugin please use our <a href="https://github.com/valantic/mutation-tester/issues">issueboard on github</a>.
 
 For any information about our company go to <a href="https://valantic.com">valantic.com</a>.
 
@@ -132,19 +132,19 @@ Also the Icon (mutation.png) is based on an icon from flaticon by Freepik.
 <a href="https://www.flaticon.com/de/kostenlose-icons/gen" title="gen Icons">Gen Icons erstellt von Freepik - Flaticon</a>
 
 ## Change Notes
-- <b>0.1.0</b> - 2022-02: Published Beta Version with primary focused on SAP Commerce
-- <b>0.1.1</b> - 2022-02: Raised Testcoverage. Fixed issue with missing module on run configuration
-- <b>0.1.2</b> - 2022-02: Setting up Sonarcube and refactoring classes
-- <b>0.1.3</b> - 2022-06: Enabled support for 2022.1. Include libs into jar for NoClassDefException. Updated Pitest to 1.9.0. Updated info.solidsoft.pitest to 1.7.4. Updated org.jetbrains.intellij to 1.6.0. Fixed Bug with JacocoTestReports
-- <b>end of beta</b>
-- <b>1.0.0</b> - 2022-07: Updated Unittests. Enabled Upload to Marketplace. Fixed Bug with NoModuleDefinied Error.
-- <b>1.1.0</b> - 2022-07: Enables untilBuild to the newest. Enabled Support for IntelliJ IDE since 2020.3.4
-- <b>1.1.1</b> - 2022-08: Fixed issue https://github.com/valantic/mutation-tester/issues/7
-- <b>1.2.0</b> - 2022-12: Commandline fixed for windows. Updated pitest version to 1.10.0. Updated test reports. corrected classpath for missing jar.
-- <b>1.2.1</b> - 2023-05: Removed tabs icon in the Running configuration screen that prevent the edit configuration in recent versions of Intellij IDEA. Capitalize context menu entries.
+- <b>1.4.0</b> - 2023-06: Added Junit5 Support. Updated Pitest to 1.14.1. Updated min. supported IDE version to 2021.2. Updated Tests from Junit4 to Junit5.
 - <b>1.3.0</b> - 2023-05: Adjusted the command line tool to use a generated classpath file to support all OS. Fixed Issue with configuration template. Fixed issue with command line wrapper. Fixed issue with problems of multiple IDE windows. Updated pitest version to 1.13.0
+- <b>1.2.1</b> - 2023-05: Removed tabs icon in the Running configuration screen that prevent the edit configuration in recent versions of Intellij IDEA. Capitalize context menu entries.
+- <b>1.2.0</b> - 2022-12: Commandline fixed for windows. Updated pitest version to 1.10.0. Updated test reports. corrected classpath for missing jar.
+- <b>1.1.1</b> - 2022-08: Fixed issue https://github.com/valantic/mutation-tester/issues/7
+- <b>1.1.0</b> - 2022-07: Enables untilBuild to the newest. Enabled Support for IntelliJ IDE since 2020.3.4
+- <b>1.0.0</b> - 2022-07: Updated Unittests. Enabled Upload to Marketplace. Fixed Bug with NoModuleDefinied Error.
+- <b>end of beta</b>
+- <b>0.1.3</b> - 2022-06: Enabled support for 2022.1. Include libs into jar for NoClassDefException. Updated Pitest to 1.9.0. Updated info.solidsoft.pitest to 1.7.4. Updated org.jetbrains.intellij to 1.6.0. Fixed Bug with JacocoTestReports
+- <b>0.1.2</b> - 2022-02: Setting up Sonarcube and refactoring classes
+- <b>0.1.1</b> - 2022-02: Raised Testcoverage. Fixed issue with missing module on run configuration
+- <b>0.1.0</b> - 2022-02: Published Beta Version with primary focused on SAP Commerce
 
 
 ## Known Issues
 - No custom classpath entries / file
-- Junit5 Support not working 

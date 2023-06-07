@@ -36,33 +36,36 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.projectRoots.Sdk;
 import com.intellij.psi.search.ExecutionSearchScopes;
 import com.intellij.psi.search.GlobalSearchScope;
-import com.intellij.util.PathUtil;
+import com.intellij.util.PathsList;
 import com.valantic.intellij.plugin.mutation.action.MutationAction;
 import com.valantic.intellij.plugin.mutation.configuration.MutationConfiguration;
 import com.valantic.intellij.plugin.mutation.configuration.option.MutationConfigurationOptions;
-import com.valantic.intellij.plugin.mutation.exception.MutationClasspathException;
 import com.valantic.intellij.plugin.mutation.exception.MutationConfigurationException;
 import com.valantic.intellij.plugin.mutation.localization.Messages;
 import com.valantic.intellij.plugin.mutation.services.Services;
 import com.valantic.intellij.plugin.mutation.services.impl.ClassPathService;
+import com.valantic.intellij.plugin.mutation.services.impl.DependencyService;
 import com.valantic.intellij.plugin.mutation.services.impl.ProjectService;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.MockedStatic;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.io.File;
 import java.util.Arrays;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.mockStatic;
@@ -73,8 +76,8 @@ import static org.mockito.Mockito.when;
 /**
  * created by fabian.huesig on 2022-02-01
  */
-@RunWith(MockitoJUnitRunner.class)
-public class MutationCommandLineStateTest {
+@ExtendWith(MockitoExtension.class)
+class MutationCommandLineStateTest {
 
     private MutationCommandLineState underTest;
 
@@ -82,6 +85,8 @@ public class MutationCommandLineStateTest {
     private ProjectService projectService;
     @Mock
     private ClassPathService classPathService;
+    @Mock
+    private DependencyService dependencyService;
 
     @Mock
     private ExecutionEnvironment environment;
@@ -95,10 +100,9 @@ public class MutationCommandLineStateTest {
     private MockedStatic<JavaParametersUtil> javaParametersUtilMockedStatic;
     private MockedStatic<ExecutionSearchScopes> executionSearchScopesMockedStatic;
     private MockedStatic<ModuleManager> moduleManagerMockedStatic;
-    private MockedStatic<PathUtil> pathUtilMockedStatic;
 
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         final MutationConfiguration mutationConfiguration = mock(MutationConfiguration.class);
         final GlobalSearchScope searchScope = mock(GlobalSearchScope.class);
         final TextConsoleBuilderFactory textConsoleBuilderFactory = mock(TextConsoleBuilderFactory.class);
@@ -110,6 +114,7 @@ public class MutationCommandLineStateTest {
         servicesMockedStatic = mockStatic(Services.class);
         servicesMockedStatic.when(() -> Services.getService(ProjectService.class)).thenReturn(projectService);
         servicesMockedStatic.when(() -> Services.getService(ClassPathService.class)).thenReturn(classPathService);
+        servicesMockedStatic.when(() -> Services.getService(DependencyService.class)).thenReturn(dependencyService);
         executionSearchScopesMockedStatic = mockStatic(ExecutionSearchScopes.class);
         executionSearchScopesMockedStatic.when(() -> ExecutionSearchScopes.executionScope(any(), any())).thenReturn(searchScope);
         textConsoleBuilderFactoryMockedStatic = mockStatic(TextConsoleBuilderFactory.class);
@@ -117,17 +122,15 @@ public class MutationCommandLineStateTest {
         moduleManagerMockedStatic = mockStatic(ModuleManager.class);
         moduleManagerMockedStatic.when(() -> ModuleManager.getInstance(project)).thenReturn(moduleManager);
         when(mutationConfiguration.getMutationConfigurationOptions()).thenReturn(mutationConfigurationOptions);
-        when(mutationConfigurationOptions.getTargetTests()).thenReturn("targetTests");
+
         when(environment.getRunProfile()).thenReturn(mutationConfiguration);
-        when(projectService.getCurrentProject()).thenReturn(project);
-        pathUtilMockedStatic = mockStatic(PathUtil.class);
 
         underTest = spy(new MutationCommandLineState(environment));
     }
 
 
     @Test
-    public void testExecute_noTimestamps() throws ExecutionException {
+    void testExecute_noTimestamps() throws ExecutionException {
         final Executor executor = mock(Executor.class);
         final ProgramRunner programRunner = mock(ProgramRunner.class);
         final TextConsoleBuilder textConsoleBuilder = mock(TextConsoleBuilder.class);
@@ -161,7 +164,7 @@ public class MutationCommandLineStateTest {
     }
 
     @Test
-    public void testExecute_withTimestamps() throws ExecutionException {
+    void testExecute_withTimestamps() throws ExecutionException {
         final Executor executor = mock(Executor.class);
         final ProgramRunner programRunner = mock(ProgramRunner.class);
         final TextConsoleBuilder textConsoleBuilder = mock(TextConsoleBuilder.class);
@@ -190,7 +193,7 @@ public class MutationCommandLineStateTest {
     }
 
     @Test
-    public void testGetReport_withString() {
+    void testGetReport_withString() {
         final String reportDir = "var/temp/reportDir/";
 
         final String result = underTest.getReport(reportDir);
@@ -198,14 +201,15 @@ public class MutationCommandLineStateTest {
         assertTrue(result.matches("^var\\/temp\\/reportDir\\/\\d\\d\\d\\d-\\d\\d-\\d\\d-\\d\\d-\\d\\d-\\d\\d$"));
     }
 
-    @Test(expected = MutationConfigurationException.class)
-    public void testGetReport_notFound() {
-        underTest.getReport(null);
+    @Test
+    void testGetReport_notFound() {
+        assertThrows(MutationConfigurationException.class, () ->
+                underTest.getReport(null));
     }
 
 
     @Test
-    public void testCreateJavaParameters() throws ExecutionException {
+    void testCreateJavaParameters() throws ExecutionException {
         final Project project = mock(Project.class);
         final Sdk sdk = mock(Sdk.class);
 
@@ -246,30 +250,51 @@ public class MutationCommandLineStateTest {
         when(mutationConfigurationOptions.getDeleteCpFile()).thenReturn("true");
         when(classPathService.getClassPathForModules()).thenReturn(Arrays.asList("cplistentry1", "cplistentry2"));
         when(projectService.getCurrentProject()).thenReturn(project);
-        pathUtilMockedStatic.when(() -> PathUtil.getJarPathForClass(MutationCommandLineState.class)).thenReturn("cpentry1");
+        doNothing().when(underTest).addPitestJars(any(PathsList.class));
 
         final JavaParameters result = underTest.createJavaParameters();
 
+        verify(underTest).addPitestJars(any(PathsList.class));
         assertEquals("org.pitest.mutationtest.commandline.MutationCoverageReport", result.getMainClass());
         assertSame(sdk, result.getJdk());
         javaParametersUtilMockedStatic.verify(() ->
                 JavaParametersUtil.createProjectJdk(project, null));
-        pathUtilMockedStatic.verify(() -> PathUtil.getJarPathForClass(MutationCommandLineState.class));
         assertTrue(result.getProgramParametersList().toString().matches("\\[--targetClasses, targetClasses, --targetTests, targetTests, --reportDir, reportDir\\/\\d\\d\\d\\d-\\d\\d-\\d\\d-\\d\\d-\\d\\d-\\d\\d, --sourceDirs, sourceDirs, --mutators, mutators, --timeoutConst, timeoutConst, --outputFormats, outputFormats, --dependencyDistance, dependencyDistance, --threads, threads, --excludedMethods, excludedMethods, --excludedClasses, excludedClasses, --excludedTests, excludedTests, --avoidCallsTo, avoidCallsTo, --timeoutFactor, timeoutFactor, --maxMutationsPerClass, maxMutationsPerClass, --jvmArgs, jvmArgs, --jvmPath, jvmPath, --mutableCodePaths, mutableCodePaths, --includedGroups, includedGroups, --excludedGroups, excludedGroups, --detectInlinedCode, detectInlinedCode, --mutationThreshold, mutationThreshold, --coverageThreshold, coverageThreshold, --historyInputLocation, historyInputLocation, --historyOutputLocation, historyOutputLocation, --useClasspathJar, true, --skipFailingTests, true, --classPathFile, .*?pitcp.*?.txt, --timestampedReports=true, --includeLaunchClasspath=true, --verbose=verbose, --failWhenNoMutations=true]"));
         // running pitest inside the plugin would normally add the completed plugin jar to classpath
-        assertTrue(result.getClassPath().getPathList().stream()
-                .filter(pathListEntry -> pathListEntry.equals("cpentry1")).findFirst().isPresent());
-        assertEquals(1, result.getClassPath().getPathList().size());
     }
 
-    @After
-    public void tearDown() {
+    @Test
+    void testAddPitestJars() {
+        final PathsList pathsList = mock(PathsList.class);
+        final File file1 = mock(File.class);
+        final File file2 = mock(File.class);
+        final File file3 = mock(File.class);
+        final File file4 = mock(File.class);
+
+        when(dependencyService.getThirdPartyDependency("pitest\\-\\d.*")).thenReturn(file1);
+        when(dependencyService.getThirdPartyDependency("pitest\\-entry\\-\\d.*")).thenReturn(file2);
+        when(dependencyService.getThirdPartyDependency("pitest\\-command\\-line\\-\\d.*")).thenReturn(file3);
+        when(dependencyService.getThirdPartyDependency("pitest\\-junit5\\-plugin\\-\\d.*")).thenReturn(file4);
+
+        underTest.addPitestJars(pathsList);
+
+        verify(dependencyService).getThirdPartyDependency("pitest\\-\\d.*");
+        verify(dependencyService).getThirdPartyDependency("pitest\\-entry\\-\\d.*");
+        verify(dependencyService).getThirdPartyDependency("pitest\\-command\\-line\\-\\d.*");
+        verify(dependencyService).getThirdPartyDependency("pitest\\-junit5\\-plugin\\-\\d.*");
+        verify(pathsList).add(file1);
+        verify(pathsList).add(file2);
+        verify(pathsList).add(file3);
+        verify(pathsList).add(file4);
+    }
+
+    @AfterEach
+    void tearDown() {
         messagesMockedStatic.close();
         servicesMockedStatic.close();
         textConsoleBuilderFactoryMockedStatic.close();
         javaParametersUtilMockedStatic.close();
         executionSearchScopesMockedStatic.close();
         moduleManagerMockedStatic.close();
-        pathUtilMockedStatic.close();
     }
 }
