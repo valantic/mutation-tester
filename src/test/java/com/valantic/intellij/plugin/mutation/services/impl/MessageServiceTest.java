@@ -18,35 +18,35 @@
 package com.valantic.intellij.plugin.mutation.services.impl;
 
 import com.intellij.execution.ExecutionBundle;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * created by fabian.huesig on 2022-07-02
  */
-@RunWith(MockitoJUnitRunner.class)
-public class MessageServiceTest {
+@ExtendWith(MockitoExtension.class)
+class MessageServiceTest {
 
     @InjectMocks
     private MessageService underTest;
 
     private MockedStatic<ExecutionBundle> executionBundleMockedStatic;
 
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         executionBundleMockedStatic = Mockito.mockStatic(ExecutionBundle.class);
     }
 
     @Test
-    public void testExecutionMessage() {
+    void testExecutionMessage() {
         final String messageKey = "messageKey";
 
         executionBundleMockedStatic.when(() -> ExecutionBundle.message(messageKey)).thenReturn("messageValue");
@@ -58,8 +58,8 @@ public class MessageServiceTest {
     }
 
 
-    @After
-    public void tearDown() {
+    @AfterEach
+    void tearDown() {
         executionBundleMockedStatic.close();
     }
 

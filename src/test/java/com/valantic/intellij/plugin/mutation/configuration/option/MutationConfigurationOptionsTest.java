@@ -17,24 +17,25 @@
  */
 package com.valantic.intellij.plugin.mutation.configuration.option;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 
 /**
  * created by fabian.huesig on 2022-02-01
  */
-@RunWith(MockitoJUnitRunner.class)
-public class MutationConfigurationOptionsTest {
+@ExtendWith(MockitoExtension.class)
+class MutationConfigurationOptionsTest {
 
     @InjectMocks
     private MutationConfigurationOptions underTest;
 
     @Test
-    public void testSetterAndGetter_majorSettings() {
+    void testSetterAndGetter_majorSettings() {
         underTest.setTargetClasses("targetClasses");
         assertEquals("targetClasses", underTest.getTargetClasses());
 
@@ -61,7 +62,7 @@ public class MutationConfigurationOptionsTest {
     }
 
     @Test
-    public void testSetterAndGetter_advancedSettings() {
+    void testSetterAndGetter_advancedSettings() {
         underTest.setIncludeLaunchClasspath("includeLaunchClasspath");
         assertEquals("includeLaunchClasspath", underTest.getIncludeLaunchClasspath());
 

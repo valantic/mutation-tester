@@ -20,14 +20,14 @@ package com.valantic.intellij.plugin.mutation.services;
 import com.intellij.openapi.application.Application;
 import com.intellij.openapi.application.ApplicationManager;
 import com.valantic.intellij.plugin.mutation.services.impl.ProjectService;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.MockedStatic;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.junit.Assert.assertSame;
+import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.mockStatic;
 import static org.mockito.Mockito.when;
@@ -36,17 +36,17 @@ import static org.mockito.Mockito.when;
 /**
  * created by fabian.huesig on 2022-02-01
  */
-@RunWith(MockitoJUnitRunner.class)
-public class ServicesTest {
+@ExtendWith(MockitoExtension.class)
+class ServicesTest {
     private MockedStatic<ApplicationManager> applicationManagerMockedStatic;
 
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         applicationManagerMockedStatic = mockStatic(ApplicationManager.class);
     }
 
     @Test
-    public void testGetService() {
+    void testGetService() {
         final Application application = mock(Application.class);
         final ProjectService projectService = mock(ProjectService.class);
         applicationManagerMockedStatic.when(ApplicationManager::getApplication).thenReturn(application);
@@ -55,8 +55,8 @@ public class ServicesTest {
         assertSame(projectService, Services.getService(ProjectService.class));
     }
 
-    @After
-    public void tearDown() {
+    @AfterEach
+    void tearDown() {
         applicationManagerMockedStatic.close();
     }
 }

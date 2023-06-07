@@ -26,20 +26,21 @@ import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiFile;
 import com.valantic.intellij.plugin.mutation.configuration.MutationConfiguration;
 import com.valantic.intellij.plugin.mutation.services.Services;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.apache.commons.lang3.StringUtils;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.MockedStatic;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Arrays;
 import java.util.Collection;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertSame;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.mockStatic;
@@ -50,8 +51,8 @@ import static org.mockito.Mockito.when;
 /**
  * created by fabian.huesig on 2022-02-01
  */
-@RunWith(MockitoJUnitRunner.class)
-public class ModuleServiceTest {
+@ExtendWith(MockitoExtension.class)
+class ModuleServiceTest {
 
     private ModuleService underTest;
 
@@ -64,8 +65,8 @@ public class ModuleServiceTest {
     private MockedStatic<ModuleUtilCore> moduleUtilCoreMockedStatic;
     private MockedStatic<ModuleManager> moduleManagerMockedStatic;
 
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         servicesMockedStatic = mockStatic(Services.class);
         servicesMockedStatic.when(() -> Services.getService(ProjectService.class)).thenReturn(projectService);
         servicesMockedStatic.when(() -> Services.getService(PsiService.class)).thenReturn(psiService);
@@ -75,7 +76,7 @@ public class ModuleServiceTest {
     }
 
     @Test
-    public void testGetModules() {
+    void testGetModules() {
         final Project project = mock(Project.class);
         final ModuleManager moduleManager = mock(ModuleManager.class);
         final Module module = mock(Module.class);
@@ -91,7 +92,7 @@ public class ModuleServiceTest {
     }
 
     @Test
-    public void testFindModule() {
+    void testFindModule() {
         final PsiFile psiFile = mock(PsiFile.class);
         final Module module = mock(Module.class);
 
@@ -104,7 +105,24 @@ public class ModuleServiceTest {
     }
 
     @Test
-    public void testGetModuleManager() {
+    void testFindModule_fallbackModule() {
+        final Project project = mock(Project.class);
+        final Module module1 = mock(Module.class);
+        final Module module2 = mock(Module.class);
+
+        when(psiService.getPsiFile("randomName")).thenReturn(null);
+        when(projectService.getCurrentProject()).thenReturn(project);
+        doReturn(Arrays.asList(module1, module2)).when(underTest).getModules(project);
+        when(module1.getName()).thenReturn(StringUtils.EMPTY);
+        when(module2.getName()).thenReturn("foundFallbackModule");
+
+        final Module result = underTest.findModule("randomName");
+
+        assertSame(module2, result);
+    }
+
+    @Test
+    void testGetModuleManager() {
         final Project project = mock(Project.class);
         final ModuleManager moduleManager = mock(ModuleManager.class);
 
@@ -116,7 +134,7 @@ public class ModuleServiceTest {
     }
 
     @Test
-    public void testGetOrCreateRunConfigurationModule_get() {
+    void testGetOrCreateRunConfigurationModule_get() {
         final MutationConfiguration mutationConfiguration = mock(MutationConfiguration.class);
         final JavaRunConfigurationModule javaRunConfigurationModule = mock(JavaRunConfigurationModule.class);
         final String targetTests = "targetTests";
@@ -135,7 +153,7 @@ public class ModuleServiceTest {
     }
 
     @Test
-    public void testGetOrCreateRunConfigurationModule_create() {
+    void testGetOrCreateRunConfigurationModule_create() {
         final MutationConfiguration mutationConfiguration = mock(MutationConfiguration.class);
         final JavaRunConfigurationModule javaRunConfigurationModule = mock(JavaRunConfigurationModule.class);
         final Project project = mock(Project.class);
@@ -158,7 +176,7 @@ public class ModuleServiceTest {
     }
 
     @Test
-    public void testCreateJavaRunConfigurationModule() {
+    void testCreateJavaRunConfigurationModule() {
         final Project project = mock(Project.class);
 
         when(projectService.getCurrentProject()).thenReturn(project);
@@ -169,8 +187,8 @@ public class ModuleServiceTest {
         assertSame(project, result.getProject());
     }
 
-    @After
-    public void tearDown() {
+    @AfterEach
+    void tearDown() {
         servicesMockedStatic.close();
         moduleUtilCoreMockedStatic.close();
         moduleManagerMockedStatic.close();

@@ -34,7 +34,7 @@ import com.intellij.execution.ui.ConsoleView;
 import com.intellij.execution.util.JavaParametersUtil;
 import com.intellij.ide.browsers.OpenUrlHyperlinkInfo;
 import com.intellij.openapi.util.io.FileUtilRt;
-import com.intellij.util.PathUtil;
+import com.intellij.util.PathsList;
 import com.valantic.intellij.plugin.mutation.action.MutationAction;
 import com.valantic.intellij.plugin.mutation.configuration.MutationConfiguration;
 import com.valantic.intellij.plugin.mutation.configuration.option.MutationConfigurationOptions;
@@ -44,6 +44,7 @@ import com.valantic.intellij.plugin.mutation.exception.MutationConfigurationExce
 import com.valantic.intellij.plugin.mutation.localization.Messages;
 import com.valantic.intellij.plugin.mutation.services.Services;
 import com.valantic.intellij.plugin.mutation.services.impl.ClassPathService;
+import com.valantic.intellij.plugin.mutation.services.impl.DependencyService;
 import com.valantic.intellij.plugin.mutation.services.impl.ProjectService;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
@@ -70,6 +71,7 @@ public class MutationCommandLineState extends JavaCommandLineState {
 
     private ProjectService projectService = Services.getService(ProjectService.class);
     private ClassPathService classPathService = Services.getService(ClassPathService.class);
+    private DependencyService dependencyService = Services.getService(DependencyService.class);
 
     private String creationTime;
     private MutationConfigurationOptions options;
@@ -143,8 +145,15 @@ public class MutationCommandLineState extends JavaCommandLineState {
                 .ifPresent(this::populateParameterList);
         Optional.ofNullable(javaParameters)
                 .map(JavaParameters::getClassPath)
-                .ifPresent(pathsList -> pathsList.add(PathUtil.getJarPathForClass(this.getClass())));
+                .ifPresent(this::addPitestJars);
         return javaParameters;
+    }
+
+    protected void addPitestJars(final PathsList pathsList) {
+        pathsList.add(dependencyService.getThirdPartyDependency("pitest\\-\\d.*"));
+        pathsList.add(dependencyService.getThirdPartyDependency("pitest\\-entry\\-\\d.*"));
+        pathsList.add(dependencyService.getThirdPartyDependency("pitest\\-command\\-line\\-\\d.*"));
+        pathsList.add(dependencyService.getThirdPartyDependency("pitest\\-junit5\\-plugin\\-\\d.*"));
     }
 
 
@@ -226,7 +235,7 @@ public class MutationCommandLineState extends JavaCommandLineState {
             fileWriter.close();
             return file.getPath();
         } catch (IOException e) {
-            throw new MutationClasspathException("Could not create classpath file",e);
+            throw new MutationClasspathException("Could not create classpath file", e);
         }
     }
 

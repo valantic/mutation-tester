@@ -33,19 +33,19 @@ import com.intellij.util.ThrowableRunnable;
 import com.valantic.intellij.plugin.mutation.search.ProjectJavaFileSearchScope;
 import com.valantic.intellij.plugin.mutation.services.Services;
 import org.apache.commons.lang3.StringUtils;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.MockedStatic;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.eq;
@@ -58,8 +58,8 @@ import static org.mockito.Mockito.when;
 /**
  * created by fabian.huesig on 2022-02-01
  */
-@RunWith(MockitoJUnitRunner.class)
-public class PsiServiceTest {
+@ExtendWith(MockitoExtension.class)
+class PsiServiceTest {
 
     private PsiService underTest;
 
@@ -74,8 +74,8 @@ public class PsiServiceTest {
     private MockedStatic<TestFrameworks> testFrameworksMockedStatic;
     private MockedStatic<JavaPsiFacade> javaPsiFacadeMockedStatic;
 
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         servicesMockedStatic = mockStatic(Services.class);
         servicesMockedStatic.when(() -> Services.getService(ClassNameService.class)).thenReturn(classNameService);
         servicesMockedStatic.when(() -> Services.getService(ModuleService.class)).thenReturn(moduleService);
@@ -87,7 +87,7 @@ public class PsiServiceTest {
 
 
     @Test
-    public void testDoesClassExists_processClassNames_equalsClassName() {
+    void testDoesClassExists_processClassNames_equalsClassName() {
         final String fullyQualifiedClassName = "fullyQualifiedClassName";
         final Project project = mock(Project.class);
         final GlobalSearchScope searchScope = mock(GlobalSearchScope.class);
@@ -105,7 +105,7 @@ public class PsiServiceTest {
     }
 
     @Test
-    public void testDoesClassExists_processClassNames_notEqualsClassName() {
+    void testDoesClassExists_processClassNames_notEqualsClassName() {
         final String fullyQualifiedClassName = "package.notAFittingClassName";
         final Project project = mock(Project.class);
         final GlobalSearchScope searchScope = mock(GlobalSearchScope.class);
@@ -124,7 +124,7 @@ public class PsiServiceTest {
     }
 
     @Test
-    public void testIsTestClass_shouldBeTrue() {
+    void testIsTestClass_shouldBeTrue() {
         final PsiClass psiClass = mock(PsiClass.class);
         final TestFrameworks testFrameworks = mock(TestFrameworks.class);
 
@@ -136,7 +136,7 @@ public class PsiServiceTest {
     }
 
     @Test
-    public void testIsTestClass_shouldBeFalse() {
+    void testIsTestClass_shouldBeFalse() {
         final PsiClass psiClass = mock(PsiClass.class);
         final TestFrameworks testFrameworks = mock(TestFrameworks.class);
 
@@ -148,20 +148,20 @@ public class PsiServiceTest {
     }
 
     @Test
-    public void testGetClassName_isClassName() {
+    void testGetClassName_isClassName() {
         final String fullyQualifiedClassName = "fullyQualifiedClassName";
         assertEquals("fullyQualifiedClassName", underTest.getClassName(fullyQualifiedClassName));
     }
 
     @Test
-    public void testGetClassName_isPackage() {
+    void testGetClassName_isPackage() {
         final String fullyQualifiedClassName = "fully.qualified.ClassName";
         assertEquals("ClassName", underTest.getClassName(fullyQualifiedClassName));
     }
 
 
     @Test
-    public void testgetPsiFile_className() {
+    void testgetPsiFile_className() {
         final Project project = mock(Project.class);
         final String qualifiedName = "ClassName";
         final JavaPsiFacade javaPsiFacade = mock(JavaPsiFacade.class);
@@ -179,7 +179,7 @@ public class PsiServiceTest {
     }
 
     @Test
-    public void testUpdateModule_wildcardPackage_packageFound() throws Throwable {
+    void testUpdateModule_wildcardPackage_packageFound() throws Throwable {
         final Project project = mock(Project.class);
         final String qualifiedName = "var.package.*";
         final JavaPsiFacade javaPsiFacade = mock(JavaPsiFacade.class);
@@ -199,7 +199,7 @@ public class PsiServiceTest {
     }
 
     @Test
-    public void testUpdateModule_wildcardPackage_foundInSubpackages() throws Throwable {
+    void testUpdateModule_wildcardPackage_foundInSubpackages() throws Throwable {
         final Project project = mock(Project.class);
         final String qualifiedName = "var.package.*";
         final JavaPsiFacade javaPsiFacade = mock(JavaPsiFacade.class);
@@ -222,7 +222,7 @@ public class PsiServiceTest {
     }
 
     @Test
-    public void testUpdateModule_wildcardPackage_packageDoesNotExists() throws Throwable {
+    void testUpdateModule_wildcardPackage_packageDoesNotExists() throws Throwable {
         final Project project = mock(Project.class);
         final String qualifiedName = "var.package.not.existing.*";
         final JavaRunConfigurationModule configurationModule = mock(JavaRunConfigurationModule.class);
@@ -239,7 +239,7 @@ public class PsiServiceTest {
     }
 
     @Test
-    public void testDetermineTargetTest_classExists() {
+    void testDetermineTargetTest_classExists() {
         final PsiClass psiClass = mock(PsiClass.class);
 
         when(psiClass.getQualifiedName()).thenReturn("qualifiedName");
@@ -249,7 +249,7 @@ public class PsiServiceTest {
     }
 
     @Test
-    public void testDetermineTargetTest_classDoesNotExistsExists() {
+    void testDetermineTargetTest_classDoesNotExistsExists() {
         final PsiClass psiClass = mock(PsiClass.class);
 
         when(psiClass.getQualifiedName()).thenReturn("qualifiedName");
@@ -259,7 +259,7 @@ public class PsiServiceTest {
     }
 
     @Test
-    public void testDetermineTargetClass_classExists() {
+    void testDetermineTargetClass_classExists() {
         final String targetTest = "targetClassTest";
         final PsiClass psiClass = mock(PsiClass.class);
 
@@ -269,7 +269,7 @@ public class PsiServiceTest {
     }
 
     @Test
-    public void testDetermineTargetClass_classDoesNotExists_usePackage() {
+    void testDetermineTargetClass_classDoesNotExists_usePackage() {
         final String targetTest = "targetClassTest";
         final PsiClass psiClass = mock(PsiClass.class);
         final PsiJavaFile psiJavaFile = mock(PsiJavaFile.class);
@@ -282,7 +282,7 @@ public class PsiServiceTest {
     }
 
     @Test
-    public void testDetermineTargetClass_classDoesNotExists_notAJavaDir() {
+    void testDetermineTargetClass_classDoesNotExists_notAJavaDir() {
         final String targetTest = "targetClassTest";
         final PsiClass psiClass = mock(PsiClass.class);
         final PsiFile psiFile = mock(PsiFile.class);
@@ -295,7 +295,7 @@ public class PsiServiceTest {
     }
 
     @Test
-    public void testResolvePackageNameForDir_ChildIsClass() {
+    void testResolvePackageNameForDir_ChildIsClass() {
         final PsiJavaDirectoryImpl dir = mock(PsiJavaDirectoryImpl.class);
         final PsiClass psiClass = mock(PsiClass.class);
         final PsiJavaFile psiJavaFile = mock(PsiJavaFile.class);
@@ -309,7 +309,7 @@ public class PsiServiceTest {
     }
 
     @Test
-    public void testResolvePackageNameForDir_recursiveChildIsClass() {
+    void testResolvePackageNameForDir_recursiveChildIsClass() {
         final PsiJavaDirectoryImpl dir = mock(PsiJavaDirectoryImpl.class);
         final PsiJavaDirectoryImpl subDir = mock(PsiJavaDirectoryImpl.class);
         final PsiClass psiClass = mock(PsiClass.class);
@@ -325,7 +325,7 @@ public class PsiServiceTest {
     }
 
     @Test
-    public void testResolvePackageNameForDir_notAJavaFile_shouldReturnEmptyString() {
+    void testResolvePackageNameForDir_notAJavaFile_shouldReturnEmptyString() {
         final PsiJavaDirectoryImpl dir = mock(PsiJavaDirectoryImpl.class);
         final PsiJavaDirectoryImpl subDir = mock(PsiJavaDirectoryImpl.class);
         final PsiClass psiClass = mock(PsiClass.class);
@@ -339,8 +339,8 @@ public class PsiServiceTest {
         assertEquals(StringUtils.EMPTY, underTest.resolvePackageNameForDir(dir));
     }
 
-    @After
-    public void tearDown() {
+    @AfterEach
+    void tearDown() {
         servicesMockedStatic.close();
         testFrameworksMockedStatic.close();
         javaPsiFacadeMockedStatic.close();

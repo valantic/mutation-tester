@@ -31,22 +31,22 @@ import com.intellij.psi.search.GlobalSearchScope;
 import com.valantic.intellij.plugin.mutation.configuration.option.MutationConfigurationOptions;
 import com.valantic.intellij.plugin.mutation.services.Services;
 import com.valantic.intellij.plugin.mutation.services.impl.ModuleService;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.MockedStatic;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertSame;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.mockStatic;
@@ -55,8 +55,8 @@ import static org.mockito.Mockito.when;
 /**
  * created by fabian.huesig on 2022-02-01
  */
-@RunWith(MockitoJUnitRunner.class)
-public class MutationConfigurationTest {
+@ExtendWith(MockitoExtension.class)
+class MutationConfigurationTest {
 
     private MutationConfiguration underTest;
 
@@ -70,8 +70,8 @@ public class MutationConfigurationTest {
     private MockedStatic<ExecutionSearchScopes> executionSearchScopesMockedStatic;
 
 
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         final ConfigurationFactory factory = mock(ConfigurationFactory.class);
         final String name = "name";
         servicesMockedStatic = mockStatic(Services.class);
@@ -82,17 +82,17 @@ public class MutationConfigurationTest {
     }
 
     @Test
-    public void testGetMutationConfigurationOptions() {
+    void testGetMutationConfigurationOptions() {
         assertNotNull(underTest.getMutationConfigurationOptions());
     }
 
     @Test
-    public void testGetDefaultOptionsClass() {
+    void testGetDefaultOptionsClass() {
         assertSame(MutationConfigurationOptions.class, underTest.getDefaultOptionsClass());
     }
 
     @Test
-    public void testGetState() {
+    void testGetState() {
         final ExecutionEnvironment environment = mock(ExecutionEnvironment.class);
         final Project project = mock(Project.class);
         final RunProfile runProfile = mock(RunProfile.class);
@@ -111,7 +111,7 @@ public class MutationConfigurationTest {
     }
 
     @Test
-    public void testGetValidModules() {
+    void testGetValidModules() {
         Collection<Module> modules = mock(Collection.class);
         when(moduleService.getModules(project)).thenReturn(modules);
 
@@ -119,85 +119,85 @@ public class MutationConfigurationTest {
     }
 
     @Test
-    public void testVMParameters() {
+    void testVMParameters() {
         underTest.setVMParameters("vmParameters");
         assertEquals("vmParameters", underTest.getVMParameters());
     }
 
     @Test
-    public void testAlternativeJrePathEnabled_shouldBeTrue() {
+    void testAlternativeJrePathEnabled_shouldBeTrue() {
         underTest.setAlternativeJrePathEnabled(true);
         assertEquals(true, underTest.isAlternativeJrePathEnabled());
     }
 
     @Test
-    public void testAlternativeJrePathEnabled_shouldBeFalse() {
+    void testAlternativeJrePathEnabled_shouldBeFalse() {
         underTest.setAlternativeJrePathEnabled(false);
         assertEquals(false, underTest.isAlternativeJrePathEnabled());
     }
 
     @Test
-    public void testAlternativeJrePath() {
+    void testAlternativeJrePath() {
         underTest.setAlternativeJrePath("alternativeJrePath");
         assertEquals("alternativeJrePath", underTest.getAlternativeJrePath());
     }
 
     @Test
-    public void testProgramParameter() {
+    void testProgramParameter() {
         underTest.setProgramParameters("programParameters");
         assertEquals("programParameters", underTest.getProgramParameters());
     }
 
     @Test
-    public void testWorkingDirectory() {
+    void testWorkingDirectory() {
         underTest.setWorkingDirectory("workingDir");
         assertEquals("workingDir", underTest.getWorkingDirectory());
     }
 
     @Test
-    public void testEnvs() {
+    void testEnvs() {
         final Map<String, String> envs = new HashMap<>();
         underTest.setEnvs(envs);
         assertSame(envs, underTest.getEnvs());
     }
 
     @Test
-    public void testPassParentEnvs_shouldBeTrue() {
+    void testPassParentEnvs_shouldBeTrue() {
         underTest.setPassParentEnvs(true);
         assertEquals(true, underTest.isPassParentEnvs());
     }
 
     @Test
-    public void testPassParentEnvs_shouldBeFalse() {
+    void testPassParentEnvs_shouldBeFalse() {
         underTest.setPassParentEnvs(false);
         assertEquals(false, underTest.isPassParentEnvs());
     }
 
     @Test
-    public void testShortenCommandLine() {
+    void testShortenCommandLine() {
         final ShortenCommandLine shortenCommandLine = mock(ShortenCommandLine.class);
         underTest.setShortenCommandLine(shortenCommandLine);
         assertSame(shortenCommandLine, underTest.getShortenCommandLine());
     }
 
     @Test
-    public void testCheckConfiguration() {
+    void testCheckConfiguration() {
         // nothing will happen
         underTest.checkConfiguration();
     }
 
     @Test
-    public void testGetRunClass() {
+    void testGetRunClass() {
         assertNull(underTest.getRunClass());
     }
 
     @Test
-    public void testGetPackage() {
+    void testGetPackage() {
         assertNull(underTest.getPackage());
     }
 
-    @After
-    public void tearDown() {
+    @AfterEach
+    void tearDown() {
         servicesMockedStatic.close();
         textConsoleBuilderFactoryMockedStatic.close();
         executionSearchScopesMockedStatic.close();

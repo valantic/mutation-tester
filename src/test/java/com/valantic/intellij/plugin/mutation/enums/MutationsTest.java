@@ -17,20 +17,20 @@
  */
 package com.valantic.intellij.plugin.mutation.enums;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * created by fabian.huesig on 2022-02-01
  */
-@RunWith(MockitoJUnitRunner.class)
-public class MutationsTest {
+@ExtendWith(MockitoExtension.class)
+class MutationsTest {
 
     @Test
-    public void testMutations() {
+    void testMutations() {
         assertEquals("DEFAULTS", Mutations.DEFAULTS.getValue());
         assertEquals("OLD_DEFAULTS", Mutations.OLD_DEFAULTS.getValue());
         assertEquals("STRONGER", Mutations.STRONGER.getValue());

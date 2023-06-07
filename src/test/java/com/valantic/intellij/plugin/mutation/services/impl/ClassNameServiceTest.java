@@ -21,36 +21,36 @@ import com.intellij.openapi.project.Project;
 import com.intellij.psi.impl.search.AllClassesSearchExecutor;
 import com.intellij.psi.search.GlobalSearchScope;
 import com.intellij.util.Processor;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.MockedStatic;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.mockStatic;
 
 /**
  * created by fabian.huesig on 2022-02-01
  */
-@RunWith(MockitoJUnitRunner.class)
-public class ClassNameServiceTest {
+@ExtendWith(MockitoExtension.class)
+class ClassNameServiceTest {
 
     private ClassNameService underTest;
 
     private MockedStatic<AllClassesSearchExecutor> allClassesSearchExecutorMockedStatic;
 
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         allClassesSearchExecutorMockedStatic = mockStatic(AllClassesSearchExecutor.class);
         underTest = new ClassNameService();
     }
 
     @Test
-    public void testProcessClassName_shouldBeTrue() {
+    void testProcessClassName_shouldBeTrue() {
         final Project project = mock(Project.class);
         final GlobalSearchScope globalSearchScope = mock(GlobalSearchScope.class);
         final Processor<String> processor = mock(Processor.class);
@@ -64,7 +64,7 @@ public class ClassNameServiceTest {
     }
 
     @Test
-    public void testProcessClassName_shouldBeFalse() {
+    void testProcessClassName_shouldBeFalse() {
         final Project project = mock(Project.class);
         final GlobalSearchScope globalSearchScope = mock(GlobalSearchScope.class);
         final Processor<String> processor = mock(Processor.class);
@@ -77,8 +77,8 @@ public class ClassNameServiceTest {
         assertFalse(result);
     }
 
-    @After
-    public void tearDown() {
+    @AfterEach
+    void tearDown() {
         allClassesSearchExecutorMockedStatic.close();
     }
 }

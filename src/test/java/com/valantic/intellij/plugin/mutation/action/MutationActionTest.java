@@ -39,19 +39,19 @@ import com.valantic.intellij.plugin.mutation.configuration.option.MutationConfig
 import com.valantic.intellij.plugin.mutation.services.Services;
 import com.valantic.intellij.plugin.mutation.services.impl.ConfigurationService;
 import com.valantic.intellij.plugin.mutation.services.impl.PsiService;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.MockedStatic;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.mockStatic;
@@ -62,8 +62,8 @@ import static org.mockito.Mockito.when;
 /**
  * created by fabian.huesig on 2022-02-01
  */
-@RunWith(MockitoJUnitRunner.class)
-public class MutationActionTest {
+@ExtendWith(MockitoExtension.class)
+class MutationActionTest {
 
     private MutationAction underTest;
 
@@ -80,8 +80,8 @@ public class MutationActionTest {
     private MockedStatic<ReadAction> readActionMockedStatic;
 
 
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         servicesMockedStatic = mockStatic(Services.class);
         servicesMockedStatic.when(() -> Services.getService(ConfigurationService.class)).thenReturn(configurationService);
         servicesMockedStatic.when(() -> Services.getService(PsiService.class)).thenReturn(psiService);
@@ -94,7 +94,7 @@ public class MutationActionTest {
     }
 
     @Test
-    public void testSingletonActionConstructor() {
+    void testSingletonActionConstructor() {
         final MutationAction[] mutationAction = MutationAction.getSingletonActions();
 
         assertNotNull(mutationAction);
@@ -104,7 +104,7 @@ public class MutationActionTest {
     }
 
     @Test
-    public void testSingletonActionConstructor_withParameters() {
+    void testSingletonActionConstructor_withParameters() {
         final MutationAction[] mutationAction = MutationAction.getSingletonActions("targetClass", "targetTest");
 
         assertNotNull(mutationAction);
@@ -114,7 +114,7 @@ public class MutationActionTest {
     }
 
     @Test
-    public void testUpdate_isNotEnabled() throws Throwable {
+    void testUpdate_isNotEnabled() throws Throwable {
         final AnActionEvent anActionEvent = mock(AnActionEvent.class);
         final Presentation presentation = mock(Presentation.class);
         final ArgumentCaptor<ThrowableRunnable> throwableRunnableArgumentCaptor = ArgumentCaptor.forClass(ThrowableRunnable.class);
@@ -132,7 +132,7 @@ public class MutationActionTest {
     }
 
     @Test
-    public void testUpdate_isPsiJavaDirectoryImpl_isEnabled() throws Throwable {
+    void testUpdate_isPsiJavaDirectoryImpl_isEnabled() throws Throwable {
         final AnActionEvent anActionEvent = mock(AnActionEvent.class);
         final Presentation presentation = mock(Presentation.class);
         final PsiElement psiElement = mock(PsiJavaDirectoryImpl.class);
@@ -155,7 +155,7 @@ public class MutationActionTest {
     }
 
     @Test
-    public void testUpdate_isPsiJavaDirectoryImplWithNoChild_isDisabled() throws Throwable {
+    void testUpdate_isPsiJavaDirectoryImplWithNoChild_isDisabled() throws Throwable {
         final AnActionEvent anActionEvent = mock(AnActionEvent.class);
         final Presentation presentation = mock(Presentation.class);
         final PsiElement psiElement = mock(PsiElement.class);
@@ -175,7 +175,7 @@ public class MutationActionTest {
     }
 
     @Test
-    public void testActionPerformed_selectedDir() {
+    void testActionPerformed_selectedDir() {
         final AnActionEvent anActionEvent = mock(AnActionEvent.class);
         final Project project = mock(Project.class);
         final DataContext dataContext = mock(DataContext.class);
@@ -210,7 +210,7 @@ public class MutationActionTest {
     }
 
     @Test
-    public void testActionPerformed_selectedFile() {
+    void testActionPerformed_selectedFile() {
         final AnActionEvent anActionEvent = mock(AnActionEvent.class);
         final Project project = mock(Project.class);
         final DataContext dataContext = mock(DataContext.class);
@@ -248,8 +248,8 @@ public class MutationActionTest {
         verify(executionManager).restartRunProfile(executionEnvironment);
     }
 
-    @After
-    public void tearDown() {
+    @AfterEach
+    void tearDown() {
         servicesMockedStatic.close();
         psiTreeUtilMockedStatic.close();
         defaultRunExecutorMockedStatic.close();

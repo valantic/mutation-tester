@@ -17,18 +17,18 @@
  */
 package com.valantic.intellij.plugin.mutation.localization;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 /**
  * created by fabian.huesig on 2022-02-01
  */
-public class MessagesTest {
+class MessagesTest {
 
     @Test
-    public void getMessages() {
+    void getMessages() {
         assertEquals("test value", Messages.getMessage("key.test"));
         assertEquals("key.does.not.exist", Messages.getMessage("key.does.not.exist"));
     }

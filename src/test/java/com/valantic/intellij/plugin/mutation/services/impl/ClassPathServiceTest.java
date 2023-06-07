@@ -25,20 +25,22 @@ import com.intellij.openapi.roots.OrderEnumerator;
 import com.intellij.openapi.roots.OrderRootsEnumerator;
 import com.intellij.util.PathsList;
 import com.valantic.intellij.plugin.mutation.services.Services;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.mockStatic;
@@ -48,8 +50,8 @@ import static org.mockito.Mockito.when;
 /**
  * created by fabian.huesig on 2023-05-01
  */
-@RunWith(MockitoJUnitRunner.class)
-public class ClassPathServiceTest {
+@ExtendWith(MockitoExtension.class)
+class ClassPathServiceTest {
 
     private ClassPathService underTest;
 
@@ -59,18 +61,21 @@ public class ClassPathServiceTest {
 
     @Mock
     private ProjectService projectService;
+    @Mock
+    private DependencyService dependencyService;
 
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         servicesMockedStatic = mockStatic(Services.class);
         servicesMockedStatic.when(() -> Services.getService(ProjectService.class)).thenReturn(projectService);
+        servicesMockedStatic.when(() -> Services.getService(DependencyService.class)).thenReturn(dependencyService);
         moduleRootManagerMockedStatic = mockStatic(ModuleRootManager.class);
         moduleManagerMockedStatic = mockStatic(ModuleManager.class);
         underTest = Mockito.spy(ClassPathService.class);
     }
 
     @Test
-    public void testGetClassPathForModule() {
+    void testGetClassPathForModule() {
         final Module module = mock(Module.class);
         final ModuleRootManager moduleRootManager = mock(ModuleRootManager.class);
         final OrderEnumerator orderEnumerator = mock(OrderEnumerator.class);
@@ -93,20 +98,21 @@ public class ClassPathServiceTest {
 
         assertNotNull(result);
         assertEquals(4, result.size());
-        assertEquals("entry1/classes", result.get(0));
-        assertEquals("entry2/resources", result.get(1));
-        assertEquals("entry3/test.jar", result.get(2));
-        assertEquals("entry4/classes", result.get(3));
+        assertTrue(result.contains("entry1/classes"));
+        assertTrue(result.contains("entry2/resources"));
+        assertTrue(result.contains("entry3/test.jar"));
+        assertTrue(result.contains("entry4/classes"));
     }
 
     @Test
-    public void testGetClassPathForModules() {
+    void testGetClassPathForModules() {
         final Project project = mock(Project.class);
         final ModuleManager moduleManager = mock(ModuleManager.class);
         final Module module1 = mock(Module.class);
         final Module module2 = mock(Module.class);
         final Module module3 = mock(Module.class);
         final Module[] modules = new Module[]{module1, module2, module3};
+        final File file = mock(File.class);
 
         when(projectService.getCurrentProject()).thenReturn(project);
         moduleManagerMockedStatic.when(() -> ModuleManager.getInstance(project)).thenReturn(moduleManager);
@@ -114,24 +120,28 @@ public class ClassPathServiceTest {
         doReturn(Arrays.asList("external/test.jar", "module1/test.jar", "module1/classes")).when(underTest).getClassPathForModule(module1);
         doReturn(Arrays.asList("module2/resources", "module2/classes")).when(underTest).getClassPathForModule(module2);
         doReturn(Arrays.asList("external/test.jar", "module3/another.jar", "module3/classes")).when(underTest).getClassPathForModule(module3);
+        when(dependencyService.getThirdPartyDependency("pitest\\-junit5\\-plugin\\-\\d.*")).thenReturn(file);
+        when(file.getAbsolutePath()).thenReturn("pitest-junit5.jar");
 
         final List<String> result = underTest.getClassPathForModules();
 
         verify(projectService).getCurrentProject();
+        verify(dependencyService).getThirdPartyDependency("pitest\\-junit5\\-plugin\\-\\d.*");
         verify(moduleManager).getModules();
         assertNotNull(result);
-        assertEquals(7, result.size());
-        assertEquals("external/test.jar", result.get(0));
-        assertEquals("module1/test.jar", result.get(1));
-        assertEquals("module1/classes", result.get(2));
-        assertEquals("module2/resources", result.get(3));
-        assertEquals("module2/classes", result.get(4));
-        assertEquals("module3/another.jar", result.get(5));
-        assertEquals("module3/classes", result.get(6));
+        assertEquals(8, result.size());
+        assertTrue(result.contains("external/test.jar"));
+        assertTrue(result.contains("module1/test.jar"));
+        assertTrue(result.contains("module1/classes"));
+        assertTrue(result.contains("module2/resources"));
+        assertTrue(result.contains("module2/classes"));
+        assertTrue(result.contains("module3/another.jar"));
+        assertTrue(result.contains("module3/classes"));
+        assertTrue(result.contains("pitest-junit5.jar"));
     }
 
-    @After
-    public void tearDown() {
+    @AfterEach
+    void tearDown() {
         servicesMockedStatic.close();
         moduleRootManagerMockedStatic.close();
         moduleManagerMockedStatic.close();
