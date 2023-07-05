@@ -38,14 +38,8 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.mockStatic;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 /**
  * created by fabian.huesig on 2023-05-01
@@ -138,6 +132,36 @@ class ClassPathServiceTest {
         assertTrue(result.contains("module3/another.jar"));
         assertTrue(result.contains("module3/classes"));
         assertTrue(result.contains("pitest-junit5.jar"));
+    }
+
+    @Test
+    void testGetClassPathForModulesWhenJunit5IsNotFound() {
+        final Project project = mock(Project.class);
+        final ModuleManager moduleManager = mock(ModuleManager.class);
+        final Module module1 = mock(Module.class);
+        final Module module2 = mock(Module.class);
+        final Module[] modules = new Module[]{module1, module2};
+
+        when(projectService.getCurrentProject()).thenReturn(project);
+        moduleManagerMockedStatic.when(() -> ModuleManager.getInstance(project)).thenReturn(moduleManager);
+        when(moduleManager.getModules()).thenReturn(modules);
+        doReturn(Arrays.asList("external/test.jar", "module1/test.jar", "module1/classes")).when(underTest).getClassPathForModule(module1);
+        doReturn(Arrays.asList("module2/resources", "module2/classes")).when(underTest).getClassPathForModule(module2);
+        when(dependencyService.getThirdPartyDependency("pitest\\-junit5\\-plugin\\-\\d.*")).thenReturn(null);
+
+        final List<String> result = underTest.getClassPathForModules();
+
+        verify(projectService).getCurrentProject();
+        verify(dependencyService).getThirdPartyDependency("pitest\\-junit5\\-plugin\\-\\d.*");
+        verify(moduleManager).getModules();
+        assertNotNull(result);
+        assertEquals(5, result.size());
+        assertTrue(result.contains("external/test.jar"));
+        assertTrue(result.contains("module1/test.jar"));
+        assertTrue(result.contains("module1/classes"));
+        assertTrue(result.contains("module2/resources"));
+        assertTrue(result.contains("module2/classes"));
+        assertFalse(result.contains("pitest-junit5.jar"));
     }
 
     @AfterEach

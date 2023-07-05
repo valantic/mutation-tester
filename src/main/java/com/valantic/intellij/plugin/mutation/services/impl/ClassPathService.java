@@ -23,6 +23,9 @@ import com.intellij.openapi.module.ModuleManager;
 import com.intellij.openapi.roots.ModuleRootManager;
 import com.valantic.intellij.plugin.mutation.services.Services;
 
+import javax.annotation.Nullable;
+import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -36,8 +39,8 @@ public final class ClassPathService {
     private static final String CLASSES = "/classes";
     private static final String JUNIT5_PITEST_SUPPORT_PLUGIN_EXPRESSION = "pitest\\-junit5\\-plugin\\-\\d.*";
 
-    private ProjectService projectService = Services.getService(ProjectService.class);
-    private DependencyService dependencyService = Services.getService(DependencyService.class);
+    private final ProjectService projectService = Services.getService(ProjectService.class);
+    private final DependencyService dependencyService = Services.getService(DependencyService.class);
 
     /**
      * creates the classpath in a List of Strings for all modules of the current project
@@ -49,25 +52,30 @@ public final class ClassPathService {
                 .map(this::getClassPathForModule)
                 .flatMap(List::stream)
                 .distinct()
-                .collect(Collectors.toList());
-        result.add(getJunit5PitestJar());
+                .collect(Collectors.toCollection(ArrayList::new));
+        final String junit5PitestJar = getJunit5PitestJar();
+        if (junit5PitestJar != null) {
+            result.add(junit5PitestJar);
+        }
         return result;
     }
 
     /**
      * adds the pitest-junit5-plugin jar to the classpath file to support junit5 tests.
      *
-     * @return pitest junit5 jar as stirng
+     * @return pitest junit5 jar as string
      */
+    @Nullable
     private String getJunit5PitestJar() {
-        return dependencyService.getThirdPartyDependency(JUNIT5_PITEST_SUPPORT_PLUGIN_EXPRESSION).getAbsolutePath();
+        final File dependency = dependencyService.getThirdPartyDependency(JUNIT5_PITEST_SUPPORT_PLUGIN_EXPRESSION);
+        if (dependency != null) {
+            return dependency.getAbsolutePath();
+        }
+        return null;
     }
 
     /**
-     * get classpath entries of given module. also replaces /eclipsebin for /classes directory if those exists
-     *
-     * @param module
-     * @return
+     * get classpath entries of given module. also replaces /eclipsebin for /classes directory if those exist
      */
     public List<String> getClassPathForModule(final Module module) {
         return ModuleRootManager.getInstance(module).orderEntries().classes().getPathsList().getPathList().stream().map(entry -> {

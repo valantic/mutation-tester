@@ -22,6 +22,7 @@ import com.intellij.ide.plugins.PluginManagerCore;
 import com.intellij.openapi.components.Service;
 import com.intellij.openapi.extensions.PluginId;
 
+import javax.annotation.Nullable;
 import java.io.File;
 import java.nio.file.Path;
 import java.util.Arrays;
@@ -42,8 +43,9 @@ public final class DependencyService {
      * @param nameExpression regex expression for file name
      * @return jar file from plugin dependencies
      */
+    @Nullable
     public File getThirdPartyDependency(final String nameExpression) {
-        return Arrays.stream(Optional.of(PluginId.findId(PLUGIN_ID))
+        return Arrays.stream(Optional.ofNullable(PluginId.findId(PLUGIN_ID))
                         .map(PluginManagerCore::getPlugin)
                         .map(IdeaPluginDescriptor::getPluginPath)
                         .map(path -> path.resolve(LIB_PATH))
