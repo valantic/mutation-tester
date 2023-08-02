@@ -52,6 +52,7 @@ Written by Fabian Hüsig, February, 2022
     <change-notes>
         <![CDATA[
 		  <ul>
+		    <li><b>1.4.1</b> - 2023-08: Added Junit5 Support. Updated Pitest to 1.14.2. Modified pitest-junit5 dependency to resolve compatibility issue with intellij marketplace. Fixed NullPointerException in ClassPathService.</li>
 		    <li><b>1.4.0</b> - 2023-06: Added Junit5 Support. Updated Pitest to 1.14.1. Updated min. supported IDE version to 2021.2. Updated Tests from Junit4 to Junit5.</li>
 		    <li><b>1.3.0</b> - 2023-05: Adjusted the command line tool to use a generated classpath file to support all OS. Fixed Issue with configuration template. Fixed issue with command line wrapper. Fixed issue with problems of multiple IDE windows. Updated pitest version to 1.13.0</li>
 		    <li><b>1.2.1</b> - 2023-05: Removed tabs icon in the Running configuration screen that prevent the edit configuration in recent versions of Intellij. Capitalize context menu entries.</li>

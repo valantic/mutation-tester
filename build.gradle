@@ -91,8 +91,12 @@ dependencies {
     // https://mvnrepository.com/artifact/org.pitest/pitest-command-line
     libImplementation group: "org.pitest", name: "pitest-command-line", version: "$pitVersion"
 
-    // https://mvnrepository.com/artifact/org.pitest/pitest-junit5-plugin
-    libImplementation group: "org.pitest", name: "pitest-junit5-plugin", version: "$pitJunitVersion"
+    // TODO: UPDATE pitest-junit5-plugin when dependencies get updated
+    // Current release of pitest-junit5-plugin uses pitest-1.9.0 as dependency.
+    // That uses classes which are incompatible with IntelliJ Marketplace dependencies
+    // 1.2.1 is the official 1.2.0 release with modified dependency to use pitest 1.14.2
+    // Created issue for this: https://github.com/pitest/pitest-junit5-plugin/issues/101
+    libImplementation files('lib/pitest-junit5-plugin-1.2.1.jar')
 
     // https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api
     testImplementation group: "org.junit.jupiter", name: "junit-jupiter-api", version: "$junitVersion"
@@ -118,10 +122,16 @@ buildSearchableOptions {
 patchPluginXml {
     version = project.version
     intellij.updateSinceUntilBuild = false
+    sinceBuild = "212.4746.92"
 }
 
 publishPlugin {
     token = System.getenv("ORG_GRADLE_PROJECT_intellijPublishToken")
+}
+
+pitest {
+    junit5PluginVersion = "$pitJunit5Version"
+    pitestVersion = "$pitVersion"
 }
 
 task deleteOldReports(type: Delete) {
