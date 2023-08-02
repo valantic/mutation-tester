@@ -23,8 +23,10 @@ import com.intellij.openapi.module.ModuleManager;
 import com.intellij.openapi.roots.ModuleRootManager;
 import com.valantic.intellij.plugin.mutation.services.Services;
 
+import java.io.File;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -50,17 +52,11 @@ public final class ClassPathService {
                 .flatMap(List::stream)
                 .distinct()
                 .collect(Collectors.toList());
-        result.add(getJunit5PitestJar());
+        Optional.of(JUNIT5_PITEST_SUPPORT_PLUGIN_EXPRESSION)
+                .map(dependencyService::getThirdPartyDependency)
+                .map(File::getAbsolutePath)
+                .ifPresent(result::add);
         return result;
-    }
-
-    /**
-     * adds the pitest-junit5-plugin jar to the classpath file to support junit5 tests.
-     *
-     * @return pitest junit5 jar as stirng
-     */
-    private String getJunit5PitestJar() {
-        return dependencyService.getThirdPartyDependency(JUNIT5_PITEST_SUPPORT_PLUGIN_EXPRESSION).getAbsolutePath();
     }
 
     /**
