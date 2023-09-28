@@ -266,6 +266,12 @@ class PsiServiceTest {
         doReturn(true).when(underTest).doesClassExists("targetClass");
 
         assertEquals("targetClass", underTest.determineTargetClass(targetTest, psiClass));
+
+        final String targetTestWithPrefix = "TestTargetClass";
+
+        doReturn(true).when(underTest).doesClassExists("TargetClass");
+
+        assertEquals("TargetClass", underTest.determineTargetClass(targetTestWithPrefix, psiClass));
     }
 
     @Test

@@ -31,6 +31,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.MockedStatic;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
@@ -89,6 +90,23 @@ class MutationRunLineMarkerContributorTest {
         verify(psiService).determineTargetClass("targetTest", psiClass);
         verify(messageService).executionMessage("run.text");
         mutationActionMockedStatic.verify(() -> MutationAction.getSingletonActions("targetClass", "targetTest"));
+
+        when(psiService.determineTargetTest(psiClass)).thenReturn("TestTarget");
+        when(psiService.determineTargetClass("TestTarget", psiClass)).thenReturn("TargetClass");
+        when(messageService.executionMessage("run.text")).thenReturn("Run Text");
+        mutationActionMockedStatic.when(() -> MutationAction.getSingletonActions("TargetClass", "TestTarget")).thenReturn(mutationActions);
+
+        final RunLineMarkerContributor.Info result2 = underTest.getInfo(psiIdentifier);
+
+        assertNotNull(result2);
+        assertNotNull(result2.tooltipProvider);
+        assertEquals(Icons.MUTATIONx12, result2.icon);
+        assertArrayEquals(mutationActions, result2.actions);
+        assertEquals("Run Text", result2.tooltipProvider.apply(null));
+        verify(psiService, Mockito.times(2)).determineTargetTest(psiClass);
+        verify(psiService).determineTargetClass("TestTarget", psiClass);
+        verify(messageService, Mockito.times(2)).executionMessage("run.text");
+        mutationActionMockedStatic.verify(() -> MutationAction.getSingletonActions("TargetClass", "TestTarget"));
     }
 
     @AfterEach

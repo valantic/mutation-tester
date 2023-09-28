@@ -29,6 +29,7 @@ public enum MutationConstants {
     WILDCARD_SUFFIX_REGEX("\\.\\*"),
     PACKAGE_WILDCARD_SUFFIX(".*"),
     TEST_CLASS_SUFFIX("Test"),
+    TEST_CLASS_PREFIX("Test"),
     WILDCARD_SUFFIX("*");
 
     private String value;

@@ -46,6 +46,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.MockedStatic;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -245,7 +246,20 @@ class MutationActionTest {
         verify(mutationConfigurationOptions).setTargetClasses("packageName.className");
         assertEquals("packageName.classNameTest", underTest.getTargetTest());
         assertEquals("packageName.className", underTest.getTargetClass());
-        verify(executionManager).restartRunProfile(executionEnvironment);
+
+        when(psiJavaFile.getPackageName()).thenReturn("packageName.subPackageName");
+        when(psiJavaFile.getName()).thenReturn("TestClassName.java");
+        when(psiService.doesClassExists("packageName.subPackageName.")).thenReturn(false);
+        when(psiService.doesClassExists("packageName.subPackageName.ClassName")).thenReturn(true);
+        when(configurationService.getOrCreateMutationConfiguration(project, "packageName.subPackageName.TestClassName")).thenReturn(mutationConfiguration);
+
+        underTest.actionPerformed(anActionEvent);
+
+        verify(mutationConfigurationOptions).setTargetTests("packageName.subPackageName.TestClassName");
+        verify(mutationConfigurationOptions).setTargetClasses("packageName.subPackageName.ClassName");
+        assertEquals("packageName.subPackageName.TestClassName", underTest.getTargetTest());
+        assertEquals("packageName.subPackageName.ClassName", underTest.getTargetClass());
+        verify(executionManager, Mockito.times(2)).restartRunProfile(executionEnvironment);
     }
 
     @AfterEach
