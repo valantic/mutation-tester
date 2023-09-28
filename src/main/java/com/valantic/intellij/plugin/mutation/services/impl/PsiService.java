@@ -114,6 +114,7 @@ public final class PsiService {
     public String determineTargetClass(final String targetTest, final PsiClass psiClass) {
         return Optional.ofNullable(targetTest)
                 .map(testClassName -> StringUtils.removeEnd(testClassName, MutationConstants.TEST_CLASS_SUFFIX.getValue()))
+                .map(testClassName -> StringUtils.removeStart(testClassName, MutationConstants.TEST_CLASS_SUFFIX.getValue()))
                 .filter(this::doesClassExists)
                 .orElseGet(() -> Optional.of(psiClass)
                         .map(PsiClass::getContainingFile)

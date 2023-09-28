@@ -140,6 +140,12 @@ public class MutationAction extends AnAction {
                 this.targetClass = this.targetTest;
             } else if (psiService.doesClassExists(this.targetTest.split(MutationConstants.TEST_CLASS_SUFFIX.getValue())[0])) {
                 this.targetClass = this.targetTest.split(MutationConstants.TEST_CLASS_SUFFIX.getValue())[0];
+            } else {
+                String[] testPathAndClass = this.targetTest.split(MutationConstants.TEST_CLASS_PREFIX.getValue());
+
+                if (psiService.doesClassExists(StringUtils.join(testPathAndClass))) {
+                    this.targetClass = StringUtils.join(testPathAndClass);
+                }
             }
         }
     }
