@@ -43,6 +43,7 @@ public class MutationConfigurationOptions extends ModuleBasedConfigurationOption
     private static final String DEFAULT_VALUE_SKIP_FAILING_TESTS = "false";
     private static final String DEFAULT_VALUE_USE_CLASSPATH_JAR = "true";
     private static final String DEFAULT_VALUE_DELETE_CP_FILE = "true";
+    private static final String DEFAULT_VALUE_JVM_ARGS = "--add-opens,java.base/java.io=ALL-UNNAMED";
 
     /**
      * The classes to be mutated. This is expressed as a comma separated list of globs.
@@ -166,7 +167,7 @@ public class MutationConfigurationOptions extends ModuleBasedConfigurationOption
      * Argument string to use when PIT launches child processes.
      * This is most commonly used to increase the amount of memory available to the process, but may be used to pass any valid JVM argument.
      */
-    private final StoredProperty<String> jvmArgs = string(StringUtils.EMPTY).provideDelegate(this, "jvmArgs");
+    private final StoredProperty<String> jvmArgs = string(DEFAULT_VALUE_JVM_ARGS).provideDelegate(this, "jvmArgs");
 
     /**
      * The path to tha java executable to be used to launch test with.
@@ -265,7 +266,6 @@ public class MutationConfigurationOptions extends ModuleBasedConfigurationOption
      * Default is set to true.
      */
     private final StoredProperty<String> deleteCpFile = string(DEFAULT_VALUE_DELETE_CP_FILE).provideDelegate(this, "deleteCpFile");
-
 
     // getter & setter
 

@@ -36,6 +36,7 @@ repositories {
 intellij {
     version = "$intellijVersion"
     plugins = ["JUnit", "com.intellij.java"]
+    updateSinceUntilBuild.set(false)
 }
 
 pitest {
@@ -91,21 +92,16 @@ dependencies {
     // https://mvnrepository.com/artifact/org.pitest/pitest-command-line
     libImplementation group: "org.pitest", name: "pitest-command-line", version: "$pitVersion"
 
-    // TODO: UPDATE pitest-junit5-plugin when dependencies get updated
-    // Current release of pitest-junit5-plugin uses pitest-1.9.0 as dependency.
-    // That uses classes which are incompatible with IntelliJ Marketplace dependencies
-    // 1.2.1 is the official 1.2.0 release with modified dependency to use pitest 1.14.2
-    // Created issue for this: https://github.com/pitest/pitest-junit5-plugin/issues/101
-    libImplementation files('lib/pitest-junit5-plugin-1.2.1.jar')
+    // https://mvnrepository.com/artifact/org.pitest/pitest-junit5-plugin
+    libImplementation group: "org.pitest", name: "pitest-junit5-plugin", version: "1.2.1"
 
-    // https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api
-    testImplementation group: "org.junit.jupiter", name: "junit-jupiter-api", version: "$junitVersion"
+    libImplementation "org.junit.jupiter:junit-jupiter-params:1.11.4"
+    libImplementation "org.junit.jupiter:junit-jupiter-api:1.11.4"
+    libImplementation "org.junit.vintage:junit-vintage-engine:1.11.4"
+    libImplementation "org.junit.jupiter:junit-jupiter-engine:1.11.4"
 
-    // https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-engine
-    testImplementation group: "org.junit.jupiter", name: "junit-jupiter-engine", version: "$junitVersion"
-
-    // https://mvnrepository.com/artifact/org.junit.platform/junit-platform-launcher
-    testImplementation group: "org.junit.platform", name: "junit-platform-launcher", version: "$junitPlatformVersion"
+    // https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter
+    testImplementation group:"org.junit.jupiter", name:"junit-jupiter", version:"$junitVersion"
 
     // https://mvnrepository.com/artifact/org.mockito/mockito-junit-jupiter
     testImplementation group: "org.mockito", name: "mockito-junit-jupiter", version: "$mockitoVersion"
@@ -120,9 +116,8 @@ buildSearchableOptions {
 }
 
 patchPluginXml {
-    version = project.version
-    intellij.updateSinceUntilBuild = false
-    sinceBuild = "212.4746.92"
+    version.set(project.version)
+    sinceBuild.set("212.4746.92")
 }
 
 publishPlugin {
