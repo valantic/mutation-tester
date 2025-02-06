@@ -18,14 +18,11 @@
 package com.valantic.intellij.plugin.mutation.services.impl;
 
 import com.intellij.ide.plugins.IdeaPluginDescriptor;
-import com.intellij.ide.plugins.PluginManagerCore;
+import com.intellij.ide.plugins.PluginManager;
 import com.intellij.openapi.components.Service;
 import com.intellij.openapi.extensions.PluginId;
 
 import java.io.File;
-import java.nio.file.Path;
-import java.util.Arrays;
-import java.util.Optional;
 
 /**
  * created by fabian.huesig on 2023-06-06
@@ -34,24 +31,19 @@ import java.util.Optional;
 public final class DependencyService {
 
     private static final String PLUGIN_ID = "com.valantic.intellij.plugin.mutation";
-    private static final String LIB_PATH = "lib";
 
     /**
-     * get external dependencies which are included with the plugin itself, based on the gradle dependencies.
+     * get external dependencies which are included with the plugin itself.
      *
-     * @param nameExpression regex expression for file name
-     * @return jar file from plugin dependencies
+     * @return plugin jar file from plugin dependencies
      */
-    public File getThirdPartyDependency(final String nameExpression) {
-        return Arrays.stream(Optional.of(PluginId.findId(PLUGIN_ID))
-                        .map(PluginManagerCore::getPlugin)
-                        .map(IdeaPluginDescriptor::getPluginPath)
-                        .map(path -> path.resolve(LIB_PATH))
-                        .map(Path::toFile)
-                        .map(File::listFiles)
-                        .orElseGet(() -> new File[0]))
-                .filter(file -> file.getName().matches(nameExpression))
-                .findAny()
-                .orElse(null);
+    public File getPluginJar() {
+        PluginId pluginId = PluginId.getId(PLUGIN_ID);
+        IdeaPluginDescriptor pluginDescriptor = PluginManager.getPlugin(pluginId);
+        if (pluginDescriptor != null) {
+            File pluginPath = pluginDescriptor.getPath();
+            return pluginPath;
+        }
+        return null;
     }
 }

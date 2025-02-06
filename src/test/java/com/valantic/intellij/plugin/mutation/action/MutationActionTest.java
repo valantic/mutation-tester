@@ -46,7 +46,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.MockedStatic;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -211,7 +210,7 @@ class MutationActionTest {
     }
 
     @Test
-    void testActionPerformed_selectedFile() {
+    void testActionPerformed_selectedFile_withTestSuffix() {
         final AnActionEvent anActionEvent = mock(AnActionEvent.class);
         final Project project = mock(Project.class);
         final DataContext dataContext = mock(DataContext.class);
@@ -246,20 +245,47 @@ class MutationActionTest {
         verify(mutationConfigurationOptions).setTargetClasses("packageName.className");
         assertEquals("packageName.classNameTest", underTest.getTargetTest());
         assertEquals("packageName.className", underTest.getTargetClass());
+        verify(executionManager).restartRunProfile(executionEnvironment);
+    }
 
-        when(psiJavaFile.getPackageName()).thenReturn("packageName.subPackageName");
+    @Test
+    void testActionPerformed_selectedFile_withTestPrefix() {
+        final AnActionEvent anActionEvent = mock(AnActionEvent.class);
+        final Project project = mock(Project.class);
+        final DataContext dataContext = mock(DataContext.class);
+        final PsiElement psiElement = mock(PsiElement.class);
+        final PsiJavaFile psiJavaFile = mock(PsiJavaFile.class);
+        final MutationConfiguration mutationConfiguration = mock(MutationConfiguration.class);
+        final MutationConfigurationOptions mutationConfigurationOptions = mock(MutationConfigurationOptions.class);
+        final Executor executor = mock(Executor.class);
+        final ExecutionEnvironmentBuilder builder = mock(ExecutionEnvironmentBuilder.class);
+        final ExecutionManager executionManager = mock(ExecutionManager.class);
+        final ExecutionEnvironment executionEnvironment = mock(ExecutionEnvironment.class);
+
+        when(anActionEvent.getProject()).thenReturn(project);
+        when(anActionEvent.getDataContext()).thenReturn(dataContext);
+        when(dataContext.getData("psi.Element.array")).thenReturn(new PsiElement[]{psiElement});
+        when(dataContext.getData("psi.File")).thenReturn(psiJavaFile);
+        when(psiJavaFile.getPackageName()).thenReturn("packageName");
         when(psiJavaFile.getName()).thenReturn("TestClassName.java");
-        when(psiService.doesClassExists("packageName.subPackageName.")).thenReturn(false);
-        when(psiService.doesClassExists("packageName.subPackageName.ClassName")).thenReturn(true);
-        when(configurationService.getOrCreateMutationConfiguration(project, "packageName.subPackageName.TestClassName")).thenReturn(mutationConfiguration);
+        when(psiService.doesClassExists("packageName.ClassName")).thenReturn(true);
+        when(psiService.doesClassExists("packageName.")).thenReturn(false);
+        when(configurationService.getOrCreateMutationConfiguration(project, "packageName.TestClassName")).thenReturn(mutationConfiguration);
+        when(mutationConfiguration.getMutationConfigurationOptions()).thenReturn(mutationConfigurationOptions);
+        when(project.getBasePath()).thenReturn("projectBasePath");
+        defaultRunExecutorMockedStatic.when(() -> DefaultRunExecutor.getRunExecutorInstance()).thenReturn(executor);
+        executionEnvironmentBuilderMockedStatic.when(() -> ExecutionEnvironmentBuilder.createOrNull(executor, mutationConfiguration)).thenReturn(builder);
+        executionManagerMockedStatic.when(() -> ExecutionManager.getInstance(project)).thenReturn(executionManager);
+        when(builder.build()).thenReturn(executionEnvironment);
 
         underTest.actionPerformed(anActionEvent);
 
-        verify(mutationConfigurationOptions).setTargetTests("packageName.subPackageName.TestClassName");
-        verify(mutationConfigurationOptions).setTargetClasses("packageName.subPackageName.ClassName");
-        assertEquals("packageName.subPackageName.TestClassName", underTest.getTargetTest());
-        assertEquals("packageName.subPackageName.ClassName", underTest.getTargetClass());
-        verify(executionManager, Mockito.times(2)).restartRunProfile(executionEnvironment);
+        verify(mutationConfigurationOptions).setSourceDirs("projectBasePath");
+        verify(mutationConfigurationOptions).setTargetTests("packageName.TestClassName");
+        verify(mutationConfigurationOptions).setTargetClasses("packageName.ClassName");
+        assertEquals("packageName.TestClassName", underTest.getTargetTest());
+        assertEquals("packageName.ClassName", underTest.getTargetClass());
+        verify(executionManager).restartRunProfile(executionEnvironment);
     }
 
     @AfterEach

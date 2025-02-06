@@ -34,7 +34,6 @@ import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 
@@ -61,14 +60,11 @@ class ClassPathServiceTest {
 
     @Mock
     private ProjectService projectService;
-    @Mock
-    private DependencyService dependencyService;
 
     @BeforeEach
     void setUp() {
         servicesMockedStatic = mockStatic(Services.class);
         servicesMockedStatic.when(() -> Services.getService(ProjectService.class)).thenReturn(projectService);
-        servicesMockedStatic.when(() -> Services.getService(DependencyService.class)).thenReturn(dependencyService);
         moduleRootManagerMockedStatic = mockStatic(ModuleRootManager.class);
         moduleManagerMockedStatic = mockStatic(ModuleManager.class);
         underTest = Mockito.spy(ClassPathService.class);
@@ -112,7 +108,6 @@ class ClassPathServiceTest {
         final Module module2 = mock(Module.class);
         final Module module3 = mock(Module.class);
         final Module[] modules = new Module[]{module1, module2, module3};
-        final File file = mock(File.class);
 
         when(projectService.getCurrentProject()).thenReturn(project);
         moduleManagerMockedStatic.when(() -> ModuleManager.getInstance(project)).thenReturn(moduleManager);
@@ -120,16 +115,13 @@ class ClassPathServiceTest {
         doReturn(Arrays.asList("external/test.jar", "module1/test.jar", "module1/classes")).when(underTest).getClassPathForModule(module1);
         doReturn(Arrays.asList("module2/resources", "module2/classes")).when(underTest).getClassPathForModule(module2);
         doReturn(Arrays.asList("external/test.jar", "module3/another.jar", "module3/classes")).when(underTest).getClassPathForModule(module3);
-        when(dependencyService.getThirdPartyDependency("pitest\\-junit5\\-plugin\\-\\d.*")).thenReturn(file);
-        when(file.getAbsolutePath()).thenReturn("pitest-junit5.jar");
 
         final List<String> result = underTest.getClassPathForModules();
 
         verify(projectService).getCurrentProject();
-        verify(dependencyService).getThirdPartyDependency("pitest\\-junit5\\-plugin\\-\\d.*");
         verify(moduleManager).getModules();
         assertNotNull(result);
-        assertEquals(8, result.size());
+        assertEquals(7, result.size());
         assertTrue(result.contains("external/test.jar"));
         assertTrue(result.contains("module1/test.jar"));
         assertTrue(result.contains("module1/classes"));
@@ -137,7 +129,6 @@ class ClassPathServiceTest {
         assertTrue(result.contains("module2/classes"));
         assertTrue(result.contains("module3/another.jar"));
         assertTrue(result.contains("module3/classes"));
-        assertTrue(result.contains("pitest-junit5.jar"));
     }
 
     @AfterEach

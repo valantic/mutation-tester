@@ -259,33 +259,8 @@ class MutationCommandLineStateTest {
         assertSame(sdk, result.getJdk());
         javaParametersUtilMockedStatic.verify(() ->
                 JavaParametersUtil.createProjectJdk(project, null));
-        assertTrue(result.getProgramParametersList().toString().matches("\\[--targetClasses, targetClasses, --targetTests, targetTests, --reportDir, reportDir\\/\\d\\d\\d\\d-\\d\\d-\\d\\d-\\d\\d-\\d\\d-\\d\\d, --sourceDirs, sourceDirs, --mutators, mutators, --timeoutConst, timeoutConst, --outputFormats, outputFormats, --dependencyDistance, dependencyDistance, --threads, threads, --excludedMethods, excludedMethods, --excludedClasses, excludedClasses, --excludedTests, excludedTests, --avoidCallsTo, avoidCallsTo, --timeoutFactor, timeoutFactor, --maxMutationsPerClass, maxMutationsPerClass, --jvmArgs, jvmArgs, --jvmPath, jvmPath, --mutableCodePaths, mutableCodePaths, --includedGroups, includedGroups, --excludedGroups, excludedGroups, --detectInlinedCode, detectInlinedCode, --mutationThreshold, mutationThreshold, --coverageThreshold, coverageThreshold, --historyInputLocation, historyInputLocation, --historyOutputLocation, historyOutputLocation, --useClasspathJar, true, --skipFailingTests, true, --classPathFile, .*?pitcp.*?.txt, --timestampedReports=true, --includeLaunchClasspath=true, --verbose=verbose, --failWhenNoMutations=true]"));
+        assertTrue(result.getProgramParametersList().toString().matches("\\[--targetClasses, targetClasses, --targetTests, targetTests, --reportDir, reportDir\\/\\d\\d\\d\\d-\\d\\d-\\d\\d-\\d\\d-\\d\\d-\\d\\d, --sourceDirs, sourceDirs, --mutators, mutators, --timeoutConst, timeoutConst, --outputFormats, outputFormats, --dependencyDistance, dependencyDistance, --threads, threads, --excludedMethods, excludedMethods, --excludedClasses, excludedClasses, --excludedTestClasses, excludedTests, --avoidCallsTo, avoidCallsTo, --timeoutFactor, timeoutFactor, --maxMutationsPerClass, maxMutationsPerClass, --jvmArgs, jvmArgs, --jvmPath, jvmPath, --mutableCodePaths, mutableCodePaths, --includedGroups, includedGroups, --excludedGroups, excludedGroups, --detectInlinedCode, detectInlinedCode, --mutationThreshold, mutationThreshold, --coverageThreshold, coverageThreshold, --historyInputLocation, historyInputLocation, --historyOutputLocation, historyOutputLocation, --useClasspathJar, true, --skipFailingTests, true, --classPathFile, .*?pitcp.*?.txt, --timestampedReports=true, --includeLaunchClasspath=true, --verbose=verbose, --failWhenNoMutations=true]"));
         // running pitest inside the plugin would normally add the completed plugin jar to classpath
-    }
-
-    @Test
-    void testAddPitestJars() {
-        final PathsList pathsList = mock(PathsList.class);
-        final File file1 = mock(File.class);
-        final File file2 = mock(File.class);
-        final File file3 = mock(File.class);
-        final File file4 = mock(File.class);
-
-        when(dependencyService.getThirdPartyDependency("pitest\\-\\d.*")).thenReturn(file1);
-        when(dependencyService.getThirdPartyDependency("pitest\\-entry\\-\\d.*")).thenReturn(file2);
-        when(dependencyService.getThirdPartyDependency("pitest\\-command\\-line\\-\\d.*")).thenReturn(file3);
-        when(dependencyService.getThirdPartyDependency("pitest\\-junit5\\-plugin\\-\\d.*")).thenReturn(file4);
-
-        underTest.addPitestJars(pathsList);
-
-        verify(dependencyService).getThirdPartyDependency("pitest\\-\\d.*");
-        verify(dependencyService).getThirdPartyDependency("pitest\\-entry\\-\\d.*");
-        verify(dependencyService).getThirdPartyDependency("pitest\\-command\\-line\\-\\d.*");
-        verify(dependencyService).getThirdPartyDependency("pitest\\-junit5\\-plugin\\-\\d.*");
-        verify(pathsList).add(file1);
-        verify(pathsList).add(file2);
-        verify(pathsList).add(file3);
-        verify(pathsList).add(file4);
     }
 
     @AfterEach

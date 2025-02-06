@@ -132,6 +132,7 @@ Also the Icon (mutation.png) is based on an icon from flaticon by Freepik.
 <a href="https://www.flaticon.com/de/kostenlose-icons/gen" title="gen Icons">Gen Icons erstellt von Freepik - Flaticon</a>
 
 ## Change Notes
+- <b>1.5.0</b> - 2025-02: Updated Pitest to 1.17.4. Fixed Junit5 support. Fixed since-build property. Fixed excludedTestClasses property.
 - <b>1.4.1</b> - 2023-08: Added Junit5 Support. Updated Pitest to 1.14.2. Modified pitest-junit5 dependency to resolve compatibility issue with intellij marketplace. Fixed NullPointerException in ClassPathService.
 - <b>1.4.0</b> - 2023-06: Added Junit5 Support. Updated Pitest to 1.14.1. Updated min. supported IDE version to 2021.2. Updated Tests from Junit4 to Junit5.
 - <b>1.3.0</b> - 2023-05: Adjusted the command line tool to use a generated classpath file to support all OS. Fixed Issue with configuration template. Fixed issue with command line wrapper. Fixed issue with problems of multiple IDE windows. Updated pitest version to 1.13.0

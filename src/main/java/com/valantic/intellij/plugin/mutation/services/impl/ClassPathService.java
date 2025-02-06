@@ -23,10 +23,8 @@ import com.intellij.openapi.module.ModuleManager;
 import com.intellij.openapi.roots.ModuleRootManager;
 import com.valantic.intellij.plugin.mutation.services.Services;
 
-import java.io.File;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -36,10 +34,8 @@ import java.util.stream.Collectors;
 public final class ClassPathService {
     private static final String ECLIPSE_BIN = "/eclipsebin";
     private static final String CLASSES = "/classes";
-    private static final String JUNIT5_PITEST_SUPPORT_PLUGIN_EXPRESSION = "pitest\\-junit5\\-plugin\\-\\d.*";
 
     private ProjectService projectService = Services.getService(ProjectService.class);
-    private DependencyService dependencyService = Services.getService(DependencyService.class);
 
     /**
      * creates the classpath in a List of Strings for all modules of the current project
@@ -52,10 +48,6 @@ public final class ClassPathService {
                 .flatMap(List::stream)
                 .distinct()
                 .collect(Collectors.toList());
-        Optional.of(JUNIT5_PITEST_SUPPORT_PLUGIN_EXPRESSION)
-                .map(dependencyService::getThirdPartyDependency)
-                .map(File::getAbsolutePath)
-                .ifPresent(result::add);
         return result;
     }
 

@@ -150,10 +150,10 @@ public class MutationCommandLineState extends JavaCommandLineState {
     }
 
     protected void addPitestJars(final PathsList pathsList) {
-        pathsList.add(dependencyService.getThirdPartyDependency("pitest\\-\\d.*"));
-        pathsList.add(dependencyService.getThirdPartyDependency("pitest\\-entry\\-\\d.*"));
-        pathsList.add(dependencyService.getThirdPartyDependency("pitest\\-command\\-line\\-\\d.*"));
-        pathsList.add(dependencyService.getThirdPartyDependency("pitest\\-junit5\\-plugin\\-\\d.*"));
+        final File pluginJar = dependencyService.getPluginJar();
+        if (pluginJar != null) {
+            pathsList.add(pluginJar);
+        }
     }
 
 
@@ -175,7 +175,7 @@ public class MutationCommandLineState extends JavaCommandLineState {
         addParameterIfExists(parametersList, "--threads", options.getThreads());
         addParameterIfExists(parametersList, "--excludedMethods", options.getExcludedMethods());
         addParameterIfExists(parametersList, "--excludedClasses", options.getExcludedClasses());
-        addParameterIfExists(parametersList, "--excludedTests", options.getExcludedTests());
+        addParameterIfExists(parametersList, "--excludedTestClasses", options.getExcludedTests());
         addParameterIfExists(parametersList, "--avoidCallsTo", options.getAvoidCallsTo());
         addParameterIfExists(parametersList, "--timeoutFactor", options.getTimeoutFactor());
         addParameterIfExists(parametersList, "--maxMutationsPerClass", options.getMaxMutationsPerClass());
