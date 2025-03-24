@@ -1,0 +1,617 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="com.valantic.ide.plugin.pit.editor.MutationSettingsEditor">
+  <grid id="27dc6" binding="jPanel" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+    <margin top="0" left="0" bottom="0" right="0"/>
+    <constraints>
+      <xy x="0" y="163" width="2274" height="2480"/>
+    </constraints>
+    <properties>
+      <enabled value="true"/>
+    </properties>
+    <border type="none"/>
+    <children>
+      <tabbedpane id="fcb50" class="com.intellij.ui.components.JBTabbedPane">
+        <constraints>
+          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="1" hsize-policy="3" anchor="1" fill="1" indent="0" use-parent-layout="false">
+            <preferred-size width="200" height="200"/>
+          </grid>
+        </constraints>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <grid id="cb58f" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+            <margin top="0" left="0" bottom="0" right="0"/>
+            <constraints>
+              <tabbedpane title-resource-bundle="messages/MessageBundle" title-key="pit.settings.editor.tab.title.settings">
+                <tooltip resource-bundle="messages/MessageBundle" key="pit.settings.editor.tab.tooltip.settings"/>
+              </tabbedpane>
+            </constraints>
+            <properties/>
+            <border type="none">
+              <font/>
+              <title-color color="-16777216"/>
+            </border>
+            <children>
+              <scrollpane id="8228c">
+                <constraints>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="7" anchor="1" fill="1" indent="0" use-parent-layout="false">
+                    <maximum-size width="-1" height="250"/>
+                  </grid>
+                </constraints>
+                <properties/>
+                <border type="none">
+                  <size top="5" left="5" bottom="5" right="5"/>
+                </border>
+                <children>
+                  <grid id="c87a0" layout-manager="GridLayoutManager" row-count="7" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                    <margin top="2" left="2" bottom="2" right="2"/>
+                    <constraints/>
+                    <properties/>
+                    <border type="none"/>
+                    <children>
+                      <component id="55f84" class="javax.swing.JTextPane">
+                        <constraints>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="2" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                            <preferred-size width="150" height="50"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <editable value="false"/>
+                          <enabled value="false"/>
+                          <font swing-font="Label.font"/>
+                          <text resource-bundle="messages/MessageBundle" key="pit.settings.editor.tab.settings.text"/>
+                        </properties>
+                      </component>
+                      <component id="2b825" class="javax.swing.JSeparator">
+                        <constraints>
+                          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                        <properties/>
+                      </component>
+                      <component id="4d78c" class="com.intellij.openapi.ui.LabeledComponent" binding="targetClasses" custom-create="true">
+                        <constraints>
+                          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="1" hsize-policy="1" anchor="1" fill="1" indent="0" use-parent-layout="false">
+                            <preferred-size width="87" height="10"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <labelLocation value="North"/>
+                          <text resource-bundle="messages/MessageBundle" key="pit.settings.editor.component.text.targetclasses"/>
+                          <toolTipText resource-bundle="messages/MessageBundle" key="pit.settings.editor.component.tooltiptext.targetclasses"/>
+                        </properties>
+                      </component>
+                      <component id="899" class="com.intellij.openapi.ui.LabeledComponent" binding="targetTests" custom-create="true">
+                        <constraints>
+                          <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="1" hsize-policy="1" anchor="1" fill="1" indent="0" use-parent-layout="false">
+                            <preferred-size width="87" height="10"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <labelLocation value="North"/>
+                          <text resource-bundle="messages/MessageBundle" key="pit.settings.editor.component.text.targettests"/>
+                          <toolTipText resource-bundle="messages/MessageBundle" key="pit.settings.editor.component.tooltiptext.targettests"/>
+                        </properties>
+                      </component>
+                      <component id="59eab" class="com.intellij.openapi.ui.LabeledComponent" binding="reportDir" custom-create="true">
+                        <constraints>
+                          <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="1" hsize-policy="1" anchor="1" fill="1" indent="0" use-parent-layout="true">
+                            <preferred-size width="-1" height="20"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <labelLocation value="North"/>
+                          <text resource-bundle="messages/MessageBundle" key="pit.settings.editor.component.text.reportdir"/>
+                          <toolTipText resource-bundle="messages/MessageBundle" key="pit.settings.editor.component.tooltiptext.reportdir"/>
+                        </properties>
+                      </component>
+                      <component id="60eab" class="com.intellij.openapi.ui.LabeledComponent" binding="sourceDirs" custom-create="true">
+                        <constraints>
+                          <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="1" hsize-policy="1" anchor="1" fill="1" indent="0" use-parent-layout="true">
+                            <preferred-size width="-1" height="20"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <labelLocation value="North"/>
+                          <text resource-bundle="messages/MessageBundle" key="pit.settings.editor.component.text.sourcedirs"/>
+                          <toolTipText resource-bundle="messages/MessageBundle" key="pit.settings.editor.component.tooltiptext.sourcedirs"/>
+                        </properties>
+                      </component>
+                      <component id="61eab" class="com.intellij.openapi.ui.LabeledComponent" binding="mutators" custom-create="true">
+                        <constraints>
+                          <grid row="6" column="0" row-span="1" col-span="1" vsize-policy="1" hsize-policy="1" anchor="1" fill="1" indent="0" use-parent-layout="true">
+                            <preferred-size width="-1" height="20"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <labelLocation value="North"/>
+                          <text resource-bundle="messages/MessageBundle" key="pit.settings.editor.component.text.mutators"/>
+                          <toolTipText resource-bundle="messages/MessageBundle" key="pit.settings.editor.component.tooltiptext.mutators"/>
+                        </properties>
+                      </component>
+                    </children>
+                  </grid>
+                </children>
+              </scrollpane>
+            </children>
+          </grid>
+          <grid id="736de" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+            <margin top="0" left="0" bottom="0" right="0"/>
+            <constraints>
+              <tabbedpane title-resource-bundle="messages/MessageBundle" title-key="pit.settings.editor.tab.title.advanced">
+                <tooltip resource-bundle="messages/MessageBundle" key="pit.settings.editor.tab.tooltip.advanced"/>
+              </tabbedpane>
+            </constraints>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <scrollpane id="a94f2">
+                <constraints>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties/>
+                <border type="none"/>
+                <children>
+                  <grid id="df09d" layout-manager="GridLayoutManager" row-count="30" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                    <margin top="2" left="2" bottom="2" right="2"/>
+                    <constraints/>
+                    <properties/>
+                    <border type="none"/>
+                    <children>
+                      <component id="865df" class="javax.swing.JTextPane">
+                        <constraints>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="2" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                            <preferred-size width="150" height="50"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <editable value="false"/>
+                          <enabled value="false"/>
+                          <font swing-font="Label.font"/>
+                          <text resource-bundle="messages/MessageBundle" key="pit.settings.editor.tab.advanced.text"/>
+                        </properties>
+                      </component>
+                      <component id="abecd" class="javax.swing.JSeparator">
+                        <constraints>
+                          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                        <properties/>
+                      </component>
+                      <component id="64eab" class="com.intellij.openapi.ui.LabeledComponent" binding="timestampedReports" custom-create="true">
+                        <constraints>
+                          <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                            <preferred-size width="-1" height="20"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <labelLocation value="North"/>
+                          <text resource-bundle="messages/MessageBundle" key="pit.settings.editor.component.text.timestampedreports"/>
+                          <toolTipText resource-bundle="messages/MessageBundle" key="pit.settings.editor.component.tooltiptext.timestampedreports"/>
+                        </properties>
+                      </component>
+                      <component id="62eab" class="com.intellij.openapi.ui.LabeledComponent" binding="timeoutConst" custom-create="true">
+                        <constraints>
+                          <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                            <preferred-size width="-1" height="20"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <labelLocation value="North"/>
+                          <text resource-bundle="messages/MessageBundle" key="pit.settings.editor.component.text.timeoutconst"/>
+                          <toolTipText resource-bundle="messages/MessageBundle" key="pit.settings.editor.component.tooltiptext.timeoutconst"/>
+                        </properties>
+                      </component>
+                      <component id="63eab" class="com.intellij.openapi.ui.LabeledComponent" binding="outputFormats" custom-create="true">
+                        <constraints>
+                          <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                            <preferred-size width="-1" height="20"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <labelLocation value="North"/>
+                          <text resource-bundle="messages/MessageBundle" key="pit.settings.editor.component.text.outputformats"/>
+                          <toolTipText resource-bundle="messages/MessageBundle" key="pit.settings.editor.component.tooltiptext.outputformats"/>
+                        </properties>
+                      </component>
+                      <component id="3bfa5" class="com.intellij.openapi.ui.LabeledComponent" binding="dependencyDistance" custom-create="true">
+                        <constraints>
+                          <grid row="6" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                            <preferred-size width="-1" height="20"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <labelLocation value="North"/>
+                          <text resource-bundle="messages/MessageBundle" key="pit.settings.editor.component.text.dependencydistance"/>
+                          <toolTipText resource-bundle="messages/MessageBundle" key="pit.settings.editor.component.tooltiptext.dependencydistance"/>
+                        </properties>
+                      </component>
+                      <component id="acd65" class="com.intellij.openapi.ui.LabeledComponent" binding="threads" custom-create="true">
+                        <constraints>
+                          <grid row="11" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                            <preferred-size width="-1" height="20"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <labelLocation value="North"/>
+                          <text resource-bundle="messages/MessageBundle" key="pit.settings.editor.component.text.threads"/>
+                          <toolTipText resource-bundle="messages/MessageBundle" key="pit.settings.editor.component.tooltiptext.threads"/>
+                        </properties>
+                      </component>
+                      <component id="9f898" class="com.intellij.openapi.ui.LabeledComponent" binding="excludedMethods" custom-create="true">
+                        <constraints>
+                          <grid row="12" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                            <preferred-size width="-1" height="20"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <labelLocation value="North"/>
+                          <text resource-bundle="messages/MessageBundle" key="pit.settings.editor.component.text.excludedmethods"/>
+                          <toolTipText resource-bundle="messages/MessageBundle" key="pit.settings.editor.component.tooltiptext.excludedmethods"/>
+                        </properties>
+                      </component>
+                      <component id="3a584" class="com.intellij.openapi.ui.LabeledComponent" binding="excludedClasses" custom-create="true">
+                        <constraints>
+                          <grid row="13" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                            <preferred-size width="-1" height="20"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <labelLocation value="North"/>
+                          <text resource-bundle="messages/MessageBundle" key="pit.settings.editor.component.text.excludedclasses"/>
+                          <toolTipText resource-bundle="messages/MessageBundle" key="pit.settings.editor.component.tooltiptext.excludedclasses"/>
+                        </properties>
+                      </component>
+                      <component id="74d25" class="com.intellij.openapi.ui.LabeledComponent" binding="excludedTests" custom-create="true">
+                        <constraints>
+                          <grid row="14" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                            <preferred-size width="-1" height="20"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <labelLocation value="North"/>
+                          <text resource-bundle="messages/MessageBundle" key="pit.settings.editor.component.text.excludedtests"/>
+                          <toolTipText resource-bundle="messages/MessageBundle" key="pit.settings.editor.component.tooltiptext.excludedtests"/>
+                        </properties>
+                      </component>
+                      <component id="44c7e" class="com.intellij.openapi.ui.LabeledComponent" binding="avoidCallsTo" custom-create="true">
+                        <constraints>
+                          <grid row="15" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                            <preferred-size width="-1" height="20"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <labelLocation value="North"/>
+                          <text resource-bundle="messages/MessageBundle" key="pit.settings.editor.component.text.avoidcallsto"/>
+                          <toolTipText resource-bundle="messages/MessageBundle" key="pit.settings.editor.component.tooltiptext.avoidcallsto"/>
+                        </properties>
+                      </component>
+                      <component id="c07a3" class="com.intellij.openapi.ui.LabeledComponent" binding="verbose" custom-create="true">
+                        <constraints>
+                          <grid row="16" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                            <preferred-size width="-1" height="20"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <labelLocation value="North"/>
+                          <text resource-bundle="messages/MessageBundle" key="pit.settings.editor.component.text.verbose"/>
+                          <toolTipText resource-bundle="messages/MessageBundle" key="pit.settings.editor.component.tooltiptext.verbose"/>
+                        </properties>
+                      </component>
+                      <component id="74e90" class="com.intellij.openapi.ui.LabeledComponent" binding="timeoutFactor" custom-create="true">
+                        <constraints>
+                          <grid row="17" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                            <preferred-size width="-1" height="20"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <labelLocation value="North"/>
+                          <text resource-bundle="messages/MessageBundle" key="pit.settings.editor.component.text.timeoutfactor"/>
+                          <toolTipText resource-bundle="messages/MessageBundle" key="pit.settings.editor.component.tooltiptext.timeoutfactor"/>
+                        </properties>
+                      </component>
+                      <component id="55489" class="com.intellij.openapi.ui.LabeledComponent" binding="maxMutationsPerClass" custom-create="true">
+                        <constraints>
+                          <grid row="18" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                            <preferred-size width="-1" height="20"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <labelLocation value="North"/>
+                          <text resource-bundle="messages/MessageBundle" key="pit.settings.editor.component.text.maxmutationsperclass"/>
+                          <toolTipText resource-bundle="messages/MessageBundle" key="pit.settings.editor.component.tooltiptext.maxmutationsperclass"/>
+                        </properties>
+                      </component>
+                      <component id="44f7d" class="com.intellij.openapi.ui.LabeledComponent" binding="jvmArgs" custom-create="true">
+                        <constraints>
+                          <grid row="19" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                            <preferred-size width="-1" height="20"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <labelLocation value="North"/>
+                          <text resource-bundle="messages/MessageBundle" key="pit.settings.editor.component.text.jvmargs"/>
+                          <toolTipText resource-bundle="messages/MessageBundle" key="pit.settings.editor.component.tooltiptext.jvmargs"/>
+                        </properties>
+                      </component>
+                      <component id="ef0a8" class="com.intellij.openapi.ui.LabeledComponent" binding="jvmPath" custom-create="true">
+                        <constraints>
+                          <grid row="20" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                            <preferred-size width="-1" height="20"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <labelLocation value="North"/>
+                          <text resource-bundle="messages/MessageBundle" key="pit.settings.editor.component.text.jvmpath"/>
+                          <toolTipText resource-bundle="messages/MessageBundle" key="pit.settings.editor.component.tooltiptext.jvmpath"/>
+                        </properties>
+                      </component>
+                      <component id="ade4d" class="com.intellij.openapi.ui.LabeledComponent" binding="failWhenNoMutations" custom-create="true">
+                        <constraints>
+                          <grid row="21" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                            <preferred-size width="-1" height="20"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <labelLocation value="North"/>
+                          <text resource-bundle="messages/MessageBundle" key="pit.settings.editor.component.text.failwhennomutations"/>
+                          <toolTipText resource-bundle="messages/MessageBundle" key="pit.settings.editor.component.tooltiptext.failwhennomutations"/>
+                        </properties>
+                      </component>
+                      <component id="ea07c" class="com.intellij.openapi.ui.LabeledComponent" binding="mutableCodePaths" custom-create="true">
+                        <constraints>
+                          <grid row="22" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                            <preferred-size width="-1" height="20"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <labelLocation value="North"/>
+                          <text resource-bundle="messages/MessageBundle" key="pit.settings.editor.component.text.mutablecodepaths"/>
+                          <toolTipText resource-bundle="messages/MessageBundle" key="pit.settings.editor.component.tooltiptext.mutablecodepaths"/>
+                        </properties>
+                      </component>
+                      <component id="de753" class="com.intellij.openapi.ui.LabeledComponent" binding="includedGroups" custom-create="true">
+                        <constraints>
+                          <grid row="23" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                            <preferred-size width="-1" height="20"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <labelLocation value="North"/>
+                          <text resource-bundle="messages/MessageBundle" key="pit.settings.editor.component.text.includedgroups"/>
+                          <toolTipText resource-bundle="messages/MessageBundle" key="pit.settings.editor.component.tooltiptext.includedgroups"/>
+                        </properties>
+                      </component>
+                      <component id="ac451" class="com.intellij.openapi.ui.LabeledComponent" binding="excludedGroups" custom-create="true">
+                        <constraints>
+                          <grid row="24" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                            <preferred-size width="-1" height="20"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <labelLocation value="North"/>
+                          <text resource-bundle="messages/MessageBundle" key="pit.settings.editor.component.text.excludedgroups"/>
+                          <toolTipText resource-bundle="messages/MessageBundle" key="pit.settings.editor.component.tooltiptext.excludedgroups"/>
+                        </properties>
+                      </component>
+                      <component id="4f6ee" class="com.intellij.openapi.ui.LabeledComponent" binding="detectInlinedCode" custom-create="true">
+                        <constraints>
+                          <grid row="25" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                            <preferred-size width="-1" height="20"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <labelLocation value="North"/>
+                          <text resource-bundle="messages/MessageBundle" key="pit.settings.editor.component.text.detectinlinedcode"/>
+                          <toolTipText resource-bundle="messages/MessageBundle" key="pit.settings.editor.component.tooltiptext.detectinlinedcode"/>
+                        </properties>
+                      </component>
+                      <component id="dfc72" class="com.intellij.openapi.ui.LabeledComponent" binding="mutationThreshold" custom-create="true">
+                        <constraints>
+                          <grid row="26" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                            <preferred-size width="-1" height="20"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <labelLocation value="North"/>
+                          <text resource-bundle="messages/MessageBundle" key="pit.settings.editor.component.text.mutationthreshold"/>
+                          <toolTipText resource-bundle="messages/MessageBundle" key="pit.settings.editor.component.tooltiptext.mutationthreshold"/>
+                        </properties>
+                      </component>
+                      <component id="e3350" class="com.intellij.openapi.ui.LabeledComponent" binding="coverageThreshold" custom-create="true">
+                        <constraints>
+                          <grid row="27" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                            <preferred-size width="-1" height="20"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <labelLocation value="North"/>
+                          <text resource-bundle="messages/MessageBundle" key="pit.settings.editor.component.text.coveragethreshold"/>
+                          <toolTipText resource-bundle="messages/MessageBundle" key="pit.settings.editor.component.tooltiptext.coveragethreshold"/>
+                        </properties>
+                      </component>
+                      <component id="eb40b" class="com.intellij.openapi.ui.LabeledComponent" binding="historyInputLocation" custom-create="true">
+                        <constraints>
+                          <grid row="28" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                            <preferred-size width="128" height="19"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <labelLocation value="North"/>
+                          <text resource-bundle="messages/MessageBundle" key="pit.settings.editor.component.text.historyinputlocation"/>
+                          <toolTipText resource-bundle="messages/MessageBundle" key="pit.settings.editor.component.tooltiptext.historyinputlocation"/>
+                        </properties>
+                      </component>
+                      <component id="97d77" class="com.intellij.openapi.ui.LabeledComponent" binding="historyOutputLocation" custom-create="true">
+                        <constraints>
+                          <grid row="29" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                            <preferred-size width="-1" height="20"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <labelLocation value="North"/>
+                          <text resource-bundle="messages/MessageBundle" key="pit.settings.editor.component.text.historyoutputlocation"/>
+                          <toolTipText resource-bundle="messages/MessageBundle" key="pit.settings.editor.component.tooltiptext.historyoutputlocation"/>
+                        </properties>
+                      </component>
+                      <component id="107b" class="com.intellij.openapi.ui.LabeledComponent" binding="includeLaunchClasspath" custom-create="true">
+                        <constraints>
+                          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                            <preferred-size width="-1" height="20"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <labelLocation value="North"/>
+                          <text resource-bundle="messages/MessageBundle" key="pit.settings.editor.component.text.includelaunchclasspath"/>
+                          <toolTipText resource-bundle="messages/MessageBundle" key="pit.settings.editor.component.tooltiptext.includelaunchclasspath"/>
+                        </properties>
+                      </component>
+                      <component id="ccb37" class="com.intellij.openapi.ui.LabeledComponent" binding="skipFailingTests" custom-create="true">
+                        <constraints>
+                          <grid row="10" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                            <preferred-size width="-1" height="20"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <labelLocation value="North"/>
+                          <text resource-bundle="messages/MessageBundle" key="pit.settings.editor.component.text.skipFailingTests"/>
+                          <toolTipText resource-bundle="messages/MessageBundle" key="pit.settings.editor.component.tooltiptext.skipFailingTests"/>
+                        </properties>
+                      </component>
+                      <component id="f0a98" class="com.intellij.openapi.ui.LabeledComponent" binding="useClasspathJar" custom-create="true">
+                        <constraints>
+                          <grid row="9" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                            <preferred-size width="-1" height="20"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <enabled value="false"/>
+                          <labelLocation value="North"/>
+                          <text resource-bundle="messages/MessageBundle" key="pit.settings.editor.component.text.useClasspathJar"/>
+                          <toolTipText resource-bundle="messages/MessageBundle" key="pit.settings.editor.component.tooltiptext.useClasspathJar"/>
+                        </properties>
+                      </component>
+                      <component id="ba439" class="com.intellij.openapi.ui.LabeledComponent" binding="deleteCpFile" custom-create="true">
+                        <constraints>
+                          <grid row="8" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                            <preferred-size width="-1" height="20"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <labelLocation value="North"/>
+                          <text resource-bundle="messages/MessageBundle" key="pit.settings.editor.component.text.deleteCpFile"/>
+                          <toolTipText resource-bundle="messages/MessageBundle" key="pit.settings.editor.component.tooltiptext.deleteCpFile"/>
+                        </properties>
+                      </component>
+                      <component id="f302a" class="com.intellij.openapi.ui.LabeledComponent" binding="classpathFile" custom-create="true">
+                        <constraints>
+                          <grid row="7" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                            <preferred-size width="-1" height="20"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <enabled value="false"/>
+                          <labelLocation value="North"/>
+                          <text resource-bundle="messages/MessageBundle" key="pit.settings.editor.component.text.classpathFile"/>
+                          <toolTipText resource-bundle="messages/MessageBundle" key="pit.settings.editor.component.tooltiptext.classpathFile"/>
+                        </properties>
+                      </component>
+                    </children>
+                  </grid>
+                </children>
+              </scrollpane>
+            </children>
+          </grid>
+          <grid id="26f6c" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+            <margin top="0" left="0" bottom="0" right="0"/>
+            <constraints>
+              <tabbedpane title-resource-bundle="messages/MessageBundle" title-key="pit.settings.editor.tab.pit.text"/>
+            </constraints>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <scrollpane id="49c8">
+                <constraints>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="7" anchor="1" fill="1" indent="0" use-parent-layout="false">
+                    <maximum-size width="-1" height="250"/>
+                  </grid>
+                </constraints>
+                <properties/>
+                <border type="none"/>
+                <children>
+                  <grid id="4626c" layout-manager="GridLayoutManager" row-count="5" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                    <margin top="2" left="2" bottom="2" right="2"/>
+                    <constraints/>
+                    <properties/>
+                    <border type="none"/>
+                    <children>
+                      <component id="f7314" class="javax.swing.JTextPane">
+                        <constraints>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="2" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                            <preferred-size width="150" height="50"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <editable value="false"/>
+                          <enabled value="false"/>
+                          <font swing-font="Label.font"/>
+                          <text resource-bundle="messages/MessageBundle" key="pit.settings.editor.tab.tooltip.pit.text"/>
+                        </properties>
+                      </component>
+                      <component id="df5bb" class="com.intellij.openapi.ui.LabeledComponent" binding="repoUrl" custom-create="true">
+                        <constraints>
+                          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="1" hsize-policy="1" anchor="1" fill="1" indent="0" use-parent-layout="false">
+                            <preferred-size width="87" height="10"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <labelLocation value="North"/>
+                          <text resource-bundle="messages/MessageBundle" key="pit.settings.editor.component.text.repoUrl"/>
+                          <toolTipText resource-bundle="messages/MessageBundle" key="pit.settings.editor.component.tooltip.repoUrl"/>
+                        </properties>
+                      </component>
+                      <component id="f0da0" class="com.intellij.openapi.ui.LabeledComponent" binding="pitestVersion" custom-create="true">
+                        <constraints>
+                          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="1" hsize-policy="1" anchor="1" fill="1" indent="0" use-parent-layout="false">
+                            <preferred-size width="87" height="10"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <labelLocation value="North"/>
+                          <text resource-bundle="messages/MessageBundle" key="pit.settings.editor.component.text.pitestVersion"/>
+                          <toolTipText resource-bundle="messages/MessageBundle" key="pit.settings.editor.component.tooltip.pitestVersion"/>
+                        </properties>
+                      </component>
+                      <component id="e8202" class="com.intellij.openapi.ui.LabeledComponent" binding="pitestJunit5Version" custom-create="true">
+                        <constraints>
+                          <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="1" hsize-policy="1" anchor="1" fill="1" indent="0" use-parent-layout="false">
+                            <preferred-size width="87" height="10"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <labelLocation value="North"/>
+                          <text resource-bundle="messages/MessageBundle" key="pit.settings.editor.component.text.pitestJunit5Version"/>
+                          <toolTipText resource-bundle="messages/MessageBundle" key="pit.settings.editor.component.tooltip.pitestJunit5Version"/>
+                        </properties>
+                      </component>
+                      <component id="8f0c2" class="com.intellij.openapi.ui.LabeledComponent" binding="junitJupiterVersion" custom-create="true">
+                        <constraints>
+                          <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="1" hsize-policy="1" anchor="1" fill="1" indent="0" use-parent-layout="false">
+                            <preferred-size width="87" height="10"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <labelLocation value="North"/>
+                          <text resource-bundle="messages/MessageBundle" key="pit.settings.editor.component.text.junitJupiterVersion"/>
+                          <toolTipText resource-bundle="messages/MessageBundle" key="pit.settings.editor.component.tooltip.junitJupiterVersion"/>
+                        </properties>
+                      </component>
+                    </children>
+                  </grid>
+                </children>
+              </scrollpane>
+            </children>
+          </grid>
+        </children>
+      </tabbedpane>
+    </children>
+  </grid>
+</form>

@@ -1,0 +1,10 @@
+<ivy-module version="2.0">
+  <info organisation="bundledPlugin" module="XPathView" revision="IU-243.22562.145"/>
+  <configurations>
+    <conf name="default" visibility="public"/>
+  </configurations>
+  <publications>
+    <artifact name="xpath" ext="jar" conf="default" url="plugins/xpath/lib"/>
+  </publications>
+  <dependencies/>
+</ivy-module>
