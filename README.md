@@ -1,11 +1,14 @@
 # pit4IntelliJ  (Mutation Tester)
 This Plugin enables mutation testing in your IDE based on <a href="https://pitest.org">pitest.org</a>.
 
-![build workflow](https://github.com/valantic/mutation-tester/actions/workflows/gradle-build.yml/badge.svg)
 [![Software License](https://img.shields.io/badge/license-Apache%202-green.svg?style=flat-square)](LICENSE.md)
 [![MutationReport](https://img.shields.io/badge/line%20coverage-96%25-green94.svg?style=flat-square)](https://htmlpreview.github.io/?https://github.com/valantic/mutation-tester/blob/main/samples/pitreport/index.html)
 [![MutationReport](https://img.shields.io/badge/mutation%20coverage-90%25-green94.svg?style=flat-square)](https://htmlpreview.github.io/?https://github.com/valantic/mutation-tester/blob/main/samples/pitreport/index.html)
 [![MutationReport](https://img.shields.io/badge/test%20strength-94%25-green95.svg?style=flat-square)](https://htmlpreview.github.io/?https://github.com/valantic/mutation-tester/blob/main/samples/pitreport/index.html)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=pit-mutation-tester&metric=bugs)](https://sonarcloud.io/summary/new_code?id=pit-mutation-tester)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=pit-mutation-tester&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=pit-mutation-tester)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=pit-mutation-tester&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=pit-mutation-tester)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=pit-mutation-tester&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=pit-mutation-tester)
 
 This package is developed by [valantic CEC Schweiz](https://www.valantic.com/).
 

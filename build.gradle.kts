@@ -56,8 +56,8 @@ pitest {
 
 sonarqube {
     properties {
-        property("sonar.projectKey", "valantic_mutation-tester")
-        property("sonar.organization", "valantic-cx-ch")
+        property("sonar.projectKey", "pit-mutation-tester")
+        property("sonar.organization", "fhuesig")
         property("sonar.host.url", "https://sonarcloud.io")
         property("sonar.sourceEncoding", "UTF-8")
         property("sonar.tests", "src/test")
