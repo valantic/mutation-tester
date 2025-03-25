@@ -1,17 +1,21 @@
 # pit4IntelliJ  (Mutation Tester)
 This Plugin enables mutation testing in your IDE based on <a href="https://pitest.org">pitest.org</a>.
 
-![build workflow](https://github.com/valantic/mutation-tester/actions/workflows/gradle-build.yml/badge.svg)
 [![Software License](https://img.shields.io/badge/license-Apache%202-green.svg?style=flat-square)](LICENSE.md)
 [![MutationReport](https://img.shields.io/badge/line%20coverage-96%25-green94.svg?style=flat-square)](https://htmlpreview.github.io/?https://github.com/valantic/mutation-tester/blob/main/samples/pitreport/index.html)
 [![MutationReport](https://img.shields.io/badge/mutation%20coverage-90%25-green94.svg?style=flat-square)](https://htmlpreview.github.io/?https://github.com/valantic/mutation-tester/blob/main/samples/pitreport/index.html)
 [![MutationReport](https://img.shields.io/badge/test%20strength-94%25-green95.svg?style=flat-square)](https://htmlpreview.github.io/?https://github.com/valantic/mutation-tester/blob/main/samples/pitreport/index.html)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=pit-mutation-tester&metric=bugs)](https://sonarcloud.io/summary/new_code?id=pit-mutation-tester)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=pit-mutation-tester&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=pit-mutation-tester)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=pit-mutation-tester&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=pit-mutation-tester)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=pit-mutation-tester&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=pit-mutation-tester)
 
 This package is developed by [valantic CEC Schweiz](https://www.valantic.com/).
 
-## Forced to rename
-Due to updates from IntelliJ it is no longer allowed to have the word "intellj" inside the id of the plugin. I can not move the old plugin or push any changes to it. 
-Therefore I had to move the plugin and declare it as new.
+### IntelliJ Marketplace
+Updated 2025-02: Since IntelliJ marketplace updated some publishing restrictions for plugins, the old plugin id could not be used anymore. Therefore I had to rename the plugin and publish it as different plugin.
+
+You can download it here: https://plugins.jetbrains.com/plugin/26911-pit-mutation-tester
 
 ## About
 Mutation Testing is also called Fault-based testing strategy as it involves creating a fault in the program and it is a type of White Box Testing which is mainly used for Unit Testing.
@@ -34,12 +38,6 @@ You can download the plugin from our [github](https://github.com/valantic/mutati
 Next open your IntelliJ and install the plugin from disk, as seen below.
 It is recommended to restart your IDE.
 ![](./samples/screenshots/install-disk.png)
-
-
-### IntelliJ Marketplace
-Updated 2025-02: Since IntelliJ marketplace updated some publishing restrictions for plugins, the old plugin id could not be used anymore. Therefore I had to rename the plugin and publish it as different plugin. 
-
-You can download it [here](https://plugins.jetbrains.com/plugin/19453-mutation-tester)
 
 ## Run the plugin
 You can simply create a new RunConfigurations with mutator
@@ -125,7 +123,7 @@ Also the Icon (mutation.png) is based on an icon from flaticon by Freepik.
 <a href="https://www.flaticon.com/de/kostenlose-icons/gen" title="gen Icons">Gen Icons erstellt von Freepik - Flaticon</a>
 
 ## Change Notes
-- <b>2.0.0</b> - 2025-02: Updated Pitest to 1.18.0 as default version. Upgraded the plugin to fit new intellij standards (had to rename plugin). Enabled configuration to set custom pitest version. Fixed Junit5 support. Fixed since-build property. Fixed excludedTestClasses property.
+- <b>2.0.0</b> - 2025-03: Updated Pitest to 1.18.0 as default version. Upgraded the plugin to fit new intellij standards (had to rename plugin). Enabled configuration to set custom pitest version. Fixed Junit5 support. Fixed since-build property. Fixed excludedTestClasses property.
 - <b>1.4.1</b> - 2023-08: Added Junit5 Support. Updated Pitest to 1.14.2. Modified pitest-junit5 dependency to resolve compatibility issue with intellij marketplace. Fixed NullPointerException in ClassPathService.
 - <b>1.4.0</b> - 2023-06: Added Junit5 Support. Updated Pitest to 1.14.1. Updated min. supported IDE version to 2021.2. Updated Tests from Junit4 to Junit5.
 - <b>1.3.0</b> - 2023-05: Adjusted the command line tool to use a generated classpath file to support all OS. Fixed Issue with configuration template. Fixed issue with command line wrapper. Fixed issue with problems of multiple IDE windows. Updated pitest version to 1.13.0
