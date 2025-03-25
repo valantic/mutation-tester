@@ -1,4 +1,4 @@
-# pit4IntelliJ  (Mutation Tester)
+# PIT Mutation Tester
 This Plugin enables mutation testing in your IDE based on <a href="https://pitest.org">pitest.org</a>.
 
 [![Software License](https://img.shields.io/badge/license-Apache%202-green.svg?style=flat-square)](LICENSE.md)
