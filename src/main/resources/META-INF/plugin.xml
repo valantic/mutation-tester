@@ -20,7 +20,7 @@ Written by Fabian Hüsig, February, 2022
     <id>com.valantic.ide.plugin.pit</id>
 
     <!-- Text to display as name on Preferences/Settings | Plugin page -->
-    <name>Mutator</name>
+    <name>PIT Mutation Tester</name>
 
     <!-- Product and plugin compatibility requirements -->
     <depends>com.intellij.modules.platform</depends>
@@ -56,7 +56,7 @@ Written by Fabian Hüsig, February, 2022
     <change-notes>
         <![CDATA[
 		  <ul>
-		    <li><b>2.0.0</b> - 2025-02: Updated Pitest to 1.18.0 as default version. Upgraded the plugin to fit new intellij standards (had to rename plugin). Enabled configuration to set custom pitest version. Fixed Junit5 support. Fixed since-build property. Fixed excludedTestClasses property.</li>
+		    <li><b>2.0.0</b> - 2025-03: Updated Pitest to 1.18.0 as default version. Upgraded the plugin to fit new intellij standards (had to rename plugin). Enabled configuration to set custom pitest version. Fixed Junit5 support. Fixed since-build property. Fixed excludedTestClasses property.</li>
 		    <li><b>1.4.1</b> - 2023-08: Added Junit5 Support. Updated Pitest to 1.14.2. Modified pitest-junit5 dependency to resolve compatibility issue with intellij marketplace. Fixed NullPointerException in ClassPathService.</li>
 		    <li><b>1.4.0</b> - 2023-06: Added Junit5 Support. Updated Pitest to 1.14.1. Updated min. supported IDE version to 2021.2. Updated Tests from Junit4 to Junit5.</li>
 		    <li><b>1.3.0</b> - 2023-05: Adjusted the command line tool to use a generated classpath file to support all OS. Fixed Issue with configuration template. Fixed issue with command line wrapper. Fixed issue with problems of multiple IDE windows. Updated pitest version to 1.13.0</li>

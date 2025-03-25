@@ -46,12 +46,12 @@ public final class DependencyService {
             try {
                 URI uri = URI.create(jarUrl);
                 if (uri != null) {
-                    InputStream in = uri.toURL().openStream();
-                    HttpURLConnection connection = (HttpURLConnection) new URL(jarUrl).openConnection();
+                    URL url = uri.toURL();
+                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                     connection.setRequestMethod(HTTPMethod.GET.name());
                     if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
                         Files.createDirectories(libPath);
-                        Files.copy(in, artifactPath, StandardCopyOption.REPLACE_EXISTING);
+                        Files.copy(url.openStream(), artifactPath, StandardCopyOption.REPLACE_EXISTING);
                     }
                 }
             } catch (IOException e) {
